@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatRippleModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonToggleModule
   ],
   declarations: [],
   exports: [
@@ -21,7 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatRippleModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonToggleModule
   ],
   entryComponents: []
 })

@@ -8,4 +8,6 @@ export class Const {
 
     public static apiStartBattle = 'start-battle';
     public static apiScenarioTeamSize = 'scenario-team-size';
+
+    public static availableHeroes = ['paragon', 'highlander', 'druid', 'oracle'];
 }

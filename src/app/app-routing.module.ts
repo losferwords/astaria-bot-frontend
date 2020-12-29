@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PageContentGuard } from './guards/page-content.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: 'team-setup',
-    loadChildren: () => import('./pages/team-setup/team-setup.module').then(m => m.TeamSetupPageModule)
+    loadChildren: () => import('./pages/team-setup/team-setup.module').then(m => m.TeamSetupPageModule),
+    canActivate: [PageContentGuard]
   }
 ];
 

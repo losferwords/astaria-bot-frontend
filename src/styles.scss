@@ -6,6 +6,10 @@ $md-width: 992px;
 $sm-width: 768px;
 $xs-width: 576px;
 
+div, img, a, button {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;

@@ -5,6 +5,7 @@ import { OverlayPanelComponent } from './progress-spinner/overlay-panel.componen
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MaterialModule } from '../material.module';
+import { IconComponent } from './icon/icon.component';
 
 @NgModule({
   imports: [
@@ -16,10 +17,12 @@ import { MaterialModule } from '../material.module';
   ],
   declarations: [
     ProgressSpinnerComponent,
-    OverlayPanelComponent
+    OverlayPanelComponent,
+    IconComponent
   ],
   exports: [
     ProgressSpinnerComponent,
+    IconComponent,
     MaterialModule
   ],
   entryComponents: [
