@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+@import "variables.scss";
+
+$page-content-min-height: 690px;
+$lg-width: 1200px;
+$md-width: 992px;
+$sm-width: 768px;
+$xs-width: 576px;
+
+html,
+body {
+  height: 100%;
+  min-height: $page-content-min-height;
+}
+
+body {
+  margin: 0;
+  color: #000000;
+  background: url("./assets/images/bg.jpg");
+  background-repeat: repeat-y;
+  background-size: auto 100%;
+  cursor: default;
+}
+
+.page-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: $page-content-min-height;
+}
+
+/* XL */
+@media (min-width: $lg-width) {
+    .page-content {
+      min-width: $lg-width;
+    }
+  }
+  
+  /* LG */
+  @media (min-width: $md-width) and (max-width: $lg-width) {
+    .page-content {
+      min-width: $md-width;
+    }
+  }
+  
+  /* MD */
+  @media (min-width: $sm-width) and (max-width: $md-width) {
+    .page-content {
+      min-width: $md-width;
+    }
+  }
+  
+  /* SM */
+  @media (min-width: $xs-width) and (max-width: $sm-width) {
+    .page-content {
+      min-width: $md-width;
+    }
+  }
+  
+  /* XS */
+  @media (max-width: $xs-width) {
+    .page-content {
+      min-width: $md-width;
+    }
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,6 @@
+<div class="page-content">
+  <div class="team-wrapper" *ngFor="let team of teamSetupMatrix; index as i">
+    <div class="title">Team {{i}}</div>
+  </div>
+</div>
+<app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>
