@@ -1,13 +1,144 @@
+@import "variables.scss";
+
 :host {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
+    border: 2px solid $color-dark;
+    box-sizing: border-box;
 
-    .icon {
+    .hero-info-wrapper {
+        display: flex;
         width: 100%;
         height: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+        
+        .portrait {
+            width: 64px;
+            height: 64px;
+            border: 4px solid $color-dark;
+            background-color: #ffffff;
+    
+            &.paragon {
+              border-color: $color-paragon;
+            }
+    
+            &.highlander {
+              border-color: $color-highlander;
+            }
+    
+            &.druid {
+              border-color: $color-druid;
+            }
+    
+            &.oracle {
+              border-color: $color-oracle;
+            }
+    
+            &.avatar {
+              border-color: $color-avatar;
+            }
+    
+            &.shadow {
+              border-color: $color-shadow;
+            }
+    
+            &.lightbringer {
+              border-color: $color-lightbringer;
+            }
+    
+            &.avenger {
+              border-color: $color-avenger;
+            }
+        }
+    
+        .hero-info {
+            width: calc(100% - 69px);
+            margin-left: 5px;
+            display: flex;
+            padding: 5px;
+    
+            .attributes {
+                width: 70px;
+                display: flex;
+                flex-direction: column;
+    
+                .name {
+                    font-size: 12px;
+                    font-weight: bold;
+                    text-align: left;
+                    text-transform: capitalize;
+                    margin-bottom: 5px;
+                    height: 16px;
+                }
+    
+                .attribute-wrapper {
+                    display: flex;
+                    width: 100%;
+                    justify-content: left;
+    
+                    .attribute-group {
+                        display: flex;
+                        flex-direction: column;
+                        margin-right: 5px;
+    
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }    
+                }
+            }        
+    
+            .bars-wrapper {
+                display: flex;
+                flex-direction: column;
+                width: calc(100% - 74px);
+                justify-content: space-between;
+                margin-left: 5px;
+    
+                .bar-group {
+                    display: flex;
+                    width: 100%;
+                    margin-bottom: 5px;
+    
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+    
+                    app-icon {
+                        width: 16px;
+                        height: 16px;
+                    }
+    
+                    app-resource-bar {
+                        width: calc(100% - 54px);
+                        margin-left: 5px;
+                        margin-right: 5px;
+                        
+                    }
+                }
+            }
+    
+            .attribute {
+                display: flex;
+                margin-bottom: 5px;
+                align-items: center;
+    
+                &:last-child {
+                    margin-bottom: 0;
+                }
+    
+                app-icon {
+                    width: 16px;
+                    height: 16px;
+                }
+                
+                .value {
+                    margin-left: 5px;
+                    font-size: 12px;
+                    font-weight: bold;
+                }
+            }
+        } 
     }
 }

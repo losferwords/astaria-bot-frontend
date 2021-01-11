@@ -6,6 +6,8 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MaterialModule } from '../material.module';
 import { IconComponent } from './icon/icon.component';
+import { HeroInfoComponent } from './hero-info/hero-info.component';
+import { ResourceBarComponent } from './resource-bar/resource-bar.component';
 
 @NgModule({
   imports: [
@@ -18,12 +20,16 @@ import { IconComponent } from './icon/icon.component';
   declarations: [
     ProgressSpinnerComponent,
     OverlayPanelComponent,
-    IconComponent
+    IconComponent,
+    HeroInfoComponent,
+    ResourceBarComponent
   ],
   exports: [
     ProgressSpinnerComponent,
     IconComponent,
-    MaterialModule
+    HeroInfoComponent,
+    MaterialModule,
+    ResourceBarComponent
   ],
   entryComponents: [
     OverlayPanelComponent

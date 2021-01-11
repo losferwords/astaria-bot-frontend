@@ -1,7 +1,7 @@
-import { IAbility } from "./IAbility";
-import { IEffect } from "./iEffect";
-import { IEquip } from "./iEquip";
-import { IPosition } from "./IPosition";
+import { IAbility } from './IAbility';
+import { IEffect } from './iEffect';
+import { IEquip } from './iEquip';
+import { IPosition } from './IPosition';
 
 export interface IHeroState {
     buffs: IEffect[];

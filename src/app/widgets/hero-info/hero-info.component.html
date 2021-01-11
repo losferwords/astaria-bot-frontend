@@ -1,1 +1,56 @@
-<div class="icon" [ngStyle]="{'background-image': 'url(\'./assets/icons/' + icon + '.png\')'}"></div>
+
+<div class="hero-info-wrapper">
+    <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="hero.id">
+    <div class="hero-info">
+        <div class="attributes">
+            <div class="name">{{hero.id}}</div>
+            <div class="attribute-wrapper">
+                <div class="attribute-group">
+                    <div class="attribute">
+                        <app-icon [icon]="'fist'"></app-icon>
+                        <div class="value">{{hero.state.strength}}</div>
+                    </div>
+                    <div class="attribute">
+                        <app-icon [icon]="'gift-of-knowledge'"></app-icon>
+                        <div class="value">{{hero.state.intellect}}</div>
+                    </div>
+                </div>
+                <div class="attribute-group">
+                    <div class="attribute">
+                        <app-icon [icon]="'rosa-shield'"></app-icon>
+                        <div class="value">{{hero.state.armor}}</div>
+                    </div>
+                    <div class="attribute">
+                        <app-icon [icon]="'eye-shield'"></app-icon>
+                        <div class="value">{{hero.state.will}}</div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="bars-wrapper">
+            <div class="bar-group">
+                <app-icon [icon]="'wingfoot'"></app-icon>
+                <app-resource-bar [value]="hero.state.energy" [maxValue]="hero.maxEnergy" [type]="'energy'"></app-resource-bar>
+            </div>
+            <div class="bar-group">
+                <app-icon [icon]="'hearts'"></app-icon>
+                <app-resource-bar [value]="hero.state.health" [maxValue]="hero.maxHealth" [type]="'health'"></app-resource-bar>
+                <div class="attribute">
+                    <app-icon [icon]="'heart-plus'"></app-icon>
+                    <div class="value">{{hero.state.regeneration}}</div>
+                </div>
+            </div>
+            <div class="bar-group">
+                <app-icon [icon]="'magic-palm'"></app-icon>
+                <app-resource-bar [value]="hero.state.mana" [maxValue]="hero.maxMana" [type]="'mana'"></app-resource-bar>
+                <div class="attribute">
+                    <app-icon [icon]="'meditation'"></app-icon>
+                    <div class="value">{{hero.state.mind}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="action-bar-wrapper">
+    
+</div>

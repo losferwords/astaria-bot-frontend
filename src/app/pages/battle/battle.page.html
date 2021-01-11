@@ -1,11 +1,16 @@
 <div class="page-content">
   <div class="team-wrapper">
-    <div class="hero-wrapper" *ngFor="let hero of battle.teams[0].heroes">
-      <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="hero.id">
-      <div class="hero-info">
-        
-      </div>
-    </div>
+    <ng-container *ngFor="let hero of battle.teams[0].heroes">
+      <app-hero-info [hero]="hero"></app-hero-info>
+    </ng-container>
+  </div>
+  <div class="map-wrapper">
+    
+  </div>
+  <div class="team-wrapper">
+    <ng-container *ngFor="let hero of battle.teams[1].heroes">
+      <app-hero-info [hero]="hero"></app-hero-info>
+    </ng-container>
   </div>
 </div>
 <app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

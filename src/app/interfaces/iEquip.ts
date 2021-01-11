@@ -1,4 +1,4 @@
-import { IEquipState } from "./IEquipState";
+import { IEquipState } from './IEquipState';
 
 export interface IEquip {
     name: string;
