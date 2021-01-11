@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BattleDataProvider } from '../dataproviders/battle.dataprovider';
 import { Observable } from 'rxjs';
 import { IBattle } from '../interfaces/IBattle';
+import { IBattleSetup } from '../interfaces/IBattleSetup';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class BattleService {
     return this.battleDataProvider.getScenarioTeamSize(id);
   }
 
-  startBattle(id: string): Observable<IBattle> {
-    return this.battleDataProvider.startBattle(id);
+  startBattle(battleSetup: IBattleSetup): Observable<IBattle> {
+    return this.battleDataProvider.startBattle(battleSetup);
   }
 }

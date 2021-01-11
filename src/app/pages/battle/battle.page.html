@@ -1,0 +1,11 @@
+<div class="page-content">
+  <div class="team-wrapper">
+    <div class="hero-wrapper" *ngFor="let hero of battle.teams[0].heroes">
+      <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="hero.id">
+      <div class="hero-info">
+        
+      </div>
+    </div>
+  </div>
+</div>
+<app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

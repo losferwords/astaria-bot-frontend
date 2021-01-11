@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { ITeamSetup } from 'src/app/interfaces/ITeamSetup';
@@ -15,9 +15,11 @@ export class TeamSetupPageComponent {
   teamSetupMatrix: number[];
   teamSetup: ITeamSetup[][] = [];
   availableHeroes = [];
+  scenarioId: string;
 
-  constructor(private router: Router, private battleService: BattleService) {
-    this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
+  constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
+    this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state.data.teamSetupMatrix;
+    this.scenarioId = this.router.getCurrentNavigation().extras.state.data.scenarioId;
     for (let i = 0; i < this.teamSetupMatrix.length; i++) {
       this.teamSetup.push([]);
       for (let j = 0; j < this.teamSetupMatrix[i]; j++) {
@@ -45,11 +47,12 @@ export class TeamSetupPageComponent {
     }
   }
 
-  chooseScenario(id: string): void {
+  startBattle(): void {
     this.isLoading = true;
-    this.battleService.getScenarioTeamSize(id).subscribe((res: number[]) => {
+    this.battleService.startBattle({scenarioId: this.scenarioId, teamSetup: this.teamSetup}).subscribe((res: IBattle) => {
       this.isLoading = false;
-      console.log(res);
+      this.cd.detectChanges();
+      this.router.navigate(['/battle'], { state: { data: res } });
     }, (err) => {
       this.isLoading = false;
       console.log(err);

@@ -16,6 +16,11 @@ const routes: Routes = [
     path: 'team-setup',
     loadChildren: () => import('./pages/team-setup/team-setup.module').then(m => m.TeamSetupPageModule),
     canActivate: [PageContentGuard]
+  },
+  {
+    path: 'battle',
+    loadChildren: () => import('./pages/battle/battle.module').then(m => m.BattlePageModule),
+    canActivate: [PageContentGuard]
   }
 ];
 
