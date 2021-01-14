@@ -52,5 +52,91 @@
     </div>
 </div>
 <div class="action-bar-wrapper">
-    
+    <div class="group equip">
+        <div class="buttons">
+            <div class="ability-btn" [ngClass]="hero.id">
+                <app-icon [icon]="hero.id + '/' + hero.state.chestpiece.name"></app-icon>
+            </div>
+            <div class="ability-btn" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && !hero.state.secondaryWeapon.range">
+                <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.name"></app-icon>
+            </div>
+            <div class="ability-btn" [ngClass]="hero.id">
+                <app-icon [icon]="hero.id + '/' + hero.state.primaryWeapon.name"></app-icon>
+            </div>
+            <div class="ability-btn" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && hero.state.secondaryWeapon.range">
+                <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.name"></app-icon>
+            </div>
+        </div>        
+    </div>
+    <div class="group abilities">
+        <div class="buttons">
+            <div class="ability-btn" [ngClass]="hero.id" *ngFor="let ability of hero.state.abilities">
+                <app-icon [icon]="hero.id + '/' + ability.name"></app-icon>
+            </div>
+        </div>        
+    </div>
+    <div class="ability-btn end-turn" [ngClass]="hero.id">
+        <app-icon [icon]="'duration'"></app-icon>
+    </div>
+    <div class="ability-btn upgrade" [ngClass]="hero.id">
+        <app-icon [icon]="'upgrade'"></app-icon>
+    </div>
+</div>
+<div class="action-bar-wrapper" *ngIf="hero.state.buffs.length > 0 || hero.state.debuffs.length > 0">
+    <div class="group">
+        <div class="buttons">
+            <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of hero.state.buffs">
+                <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
+            </div>
+        </div>        
+    </div>
+    <div class="group">
+        <div class="buttons">
+            <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of hero.state.debuffs">
+                <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
+            </div>
+        </div>        
+    </div>
+</div>
+<div class="action-bar-wrapper" *ngFor="let pet of hero.state.pets">
+    <div class="group">
+        <div class="buttons">
+            <app-icon class="portrait" [icon]="hero.id + '/' + pet.name" [ngClass]="hero.id"></app-icon>
+            <div class="pet-info-wrapper">
+                <div class="pet-abilities group">
+                    <div class="group-name">{{pet.id}}</div>
+                    <div class="buttons">
+                        <div class="ability-btn" [ngClass]="hero.id">
+                            <app-icon [icon]="'move'"></app-icon>
+                        </div>
+                        <div class="ability-btn" [ngClass]="hero.id">
+                            <app-icon [icon]="hero.id + '/' + pet.ability.name"></app-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="pet-info">
+                    <div class="bar-group">
+                        <app-icon [icon]="'hearts'"></app-icon>
+                        <app-resource-bar [value]="hero.state.health" [maxValue]="hero.maxHealth" [type]="'health'"></app-resource-bar>
+                    </div>              
+                    <div class="pet-effects" *ngIf="pet.state.buffs.length > 0 || pet.state.debuffs.length > 0">
+                        <div class="group">
+                            <div class="buttons">
+                                <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of pet.state.buffs">
+                                    <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="buttons">
+                                <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of pet.state.debuffs">
+                                    <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
+                                </div>
+                            </div>        
+                        </div>
+                    </div>               
+                </div> 
+            </div>                       
+        </div>        
+    </div>
 </div>
