@@ -8,6 +8,13 @@ import { MaterialModule } from '../material.module';
 import { IconComponent } from './icon/icon.component';
 import { HeroInfoComponent } from './hero-info/hero-info.component';
 import { ResourceBarComponent } from './resource-bar/resource-bar.component';
+import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
+
+export const CustomTooltipOptions: TooltipOptions = {
+  placement: 'bottom',
+  'show-delay': 0,
+  'hide-delay': 0
+};
 
 @NgModule({
   imports: [
@@ -15,7 +22,8 @@ import { ResourceBarComponent } from './resource-bar/resource-bar.component';
     FormsModule,
     OverlayModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    TooltipModule.forRoot(CustomTooltipOptions as TooltipOptions)
   ],
   declarations: [
     ProgressSpinnerComponent,

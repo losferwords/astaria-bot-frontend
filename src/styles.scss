@@ -6,7 +6,7 @@ $md-width: 992px;
 $sm-width: 768px;
 $xs-width: 576px;
 
-div, img, a, button {
+* {
   box-sizing: border-box;
 }
 
@@ -18,11 +18,12 @@ body {
 
 body {
   margin: 0;
-  color: #000000;
+  color: $color-dark;
   background: url("./assets/images/bg.jpg");
   background-repeat: repeat-y;
   background-size: auto 100%;
   cursor: default;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .page-content {
@@ -36,37 +37,71 @@ body {
 
 /* XL */
 @media (min-width: $lg-width) {
-    .page-content {
-      min-width: $lg-width;
+  .page-content {
+    min-width: $lg-width;
+  }
+}
+
+/* LG */
+@media (min-width: $md-width) and (max-width: $lg-width) {
+  .page-content {
+    min-width: $md-width;
+  }
+}
+
+/* MD */
+@media (min-width: $sm-width) and (max-width: $md-width) {
+  .page-content {
+    min-width: $md-width;
+  }
+}
+
+/* SM */
+@media (min-width: $xs-width) and (max-width: $sm-width) {
+  .page-content {
+    min-width: $md-width;
+  }
+}
+
+/* XS */
+@media (max-width: $xs-width) {
+  .page-content {
+    min-width: $md-width;
+  }
+}
+
+// Global styles
+.tooltip.tooltip-show {
+  background: $color-light;
+  color: $color-dark;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid $color-dark;
+    padding: 2px 5px;
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .name,
+    .range {
+      margin-right: 10px;
+      text-transform: capitalize;
     }
   }
-  
-  /* LG */
-  @media (min-width: $md-width) and (max-width: $lg-width) {
-    .page-content {
-      min-width: $md-width;
-    }
+
+  .body {
+    border: 2px solid $color-dark;
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      margin-top: 5px;
   }
-  
-  /* MD */
-  @media (min-width: $sm-width) and (max-width: $md-width) {
-    .page-content {
-      min-width: $md-width;
-    }
-  }
-  
-  /* SM */
-  @media (min-width: $xs-width) and (max-width: $sm-width) {
-    .page-content {
-      min-width: $md-width;
-    }
-  }
-  
-  /* XS */
-  @media (max-width: $xs-width) {
-    .page-content {
-      min-width: $md-width;
-    }
-  }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+}
