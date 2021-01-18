@@ -1,9 +1,9 @@
 <div class="page-content">
   <div class="scenario-choose">
-    <div class="title">Choose scenario:</div>
-    <button mat-raised-button color="primary" (click)="chooseScenario('1')">Scenario 1 - Chthonic Ruins</button>
-    <button mat-raised-button color="primary" (click)="chooseScenario('2')" [disabled]="true">Scenario 2 - Archaean Temple</button>
-    <button mat-raised-button color="primary" (click)="chooseScenario('3')" [disabled]="true">Scenario 3 - Kraken Attack</button>
+    <div class="title">{{'PAGE.HOME.CHOOSE' | translate}}</div>
+    <button mat-raised-button color="primary" (click)="chooseScenario('1')">{{'SCENARIO.1' | translate}}</button>
+    <button mat-raised-button color="primary" (click)="chooseScenario('2')" [disabled]="true">{{'SCENARIO.2' | translate}}</button>
+    <button mat-raised-button color="primary" (click)="chooseScenario('3')" [disabled]="true">{{'SCENARIO.3' | translate}}</button>
   </div>
 </div>
 <app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

@@ -4,7 +4,7 @@
         <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="hero.id">
         <div class="hero-info">
             <div class="attributes">
-                <div class="name">{{hero.id}}</div>
+                <div class="name">{{('HERO.' + hero.id) | translate}}</div>
                 <div class="attribute-wrapper">
                     <div class="attribute-group">
                         <div class="attribute">
@@ -55,20 +55,20 @@
     <div class="action-bar-wrapper">
         <div class="group equip">
             <div class="buttons">
-                <div class="ability-btn passive" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.state.chestpiece)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.chestpiece.name"></app-icon>
+                <div class="ability-btn passive" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.state.chestpiece, hero.id)">
+                    <app-icon [icon]="hero.id + '/' + hero.state.chestpiece.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn passive" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && hero.state.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.state.secondaryWeapon)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.name"></app-icon>
+                <div class="ability-btn passive" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && hero.state.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.state.secondaryWeapon, hero.id)">
+                    <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.state.primaryWeapon)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.primaryWeapon.name"></app-icon>
+                <div class="ability-btn" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.state.primaryWeapon, hero.id)">
+                    <app-icon [icon]="hero.id + '/' + hero.state.primaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && !hero.state.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.state.secondaryWeapon)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.name"></app-icon>
+                <div class="ability-btn" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && !hero.state.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.state.secondaryWeapon, hero.id)">
+                    <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
             </div>        
@@ -114,7 +114,7 @@
                 <app-icon class="portrait" [icon]="hero.id + '/' + pet.name" [ngClass]="hero.id"></app-icon>
                 <div class="pet-info-wrapper">
                     <div class="pet-abilities group">
-                        <div class="group-name">{{pet.id}}</div>
+                        <div class="group-name">{{('PET.' + pet.id) | translate}}</div>
                         <div class="buttons">
                             <div class="ability-btn" [ngClass]="hero.id">
                                 <app-icon [icon]="'move'"></app-icon>

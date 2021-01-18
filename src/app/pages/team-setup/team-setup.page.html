@@ -1,9 +1,9 @@
 <div class="page-content" *ngIf="teamSetupMatrix">
   <div class="team-setup-wrapper">
     <div class="team-wrapper" *ngFor="let team of teamSetup; index as i">
-      <div class="title">Team {{i + 1}}</div>
+      <div class="title">{{'PAGE.TEAM_SETUP.TEAM' | translate}} {{i + 1}}</div>
       <div class="hero-select" *ngFor="let heroSetup of team; index as i">
-        <div class="hero-name">{{heroSetup.hero}}</div>
+        <div class="hero-name">{{('HERO.' + heroSetup.hero) | translate}}</div>
         <div class="gender-selector-wrapper">
           <button mat-raised-button [color]="heroSetup.gender == 'male' ? 'primary' : ''" (click)="heroSetup.gender = 'male'">
             <app-icon [icon]="'male'"></app-icon>
@@ -15,16 +15,16 @@
         <div class="hero-selector-wrapper">
           <div class="hero" [ngClass]="{'active': heroSetup.hero === 'random'}" (click)="selectHero(heroSetup, 'random')">
             <img src="./assets/images/portraits/random.png" class="portrait">
-            <div class="name">Random</div>
+            <div class="name">{{'HERO.random' | translate}}</div>
           </div>
           <div class="hero" *ngFor="let availableHero of availableHeroes" [ngClass]="{'active': heroSetup.hero === availableHero.name, 'disabled': availableHero.name !== heroSetup.hero && !availableHero.isAvailable}" (click)="selectHero(heroSetup, availableHero)">
             <img [src]="'./assets/images/portraits/' + availableHero.name + '_' + heroSetup.gender + '.jpg'" class="portrait" [ngClass]="availableHero.name">
-            <div class="name">{{availableHero.name}}</div>
+            <div class="name">{{('HERO.' + availableHero.name) | translate}}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button mat-raised-button color="primary" (click)="startBattle()">Start Battle</button>
+  <button mat-raised-button color="primary" (click)="startBattle()">{{'PAGE.TEAM_SETUP.START_BATTLE' | translate}}</button>
 </div>
 <app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

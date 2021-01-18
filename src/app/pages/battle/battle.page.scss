@@ -23,10 +23,111 @@
     }
   }
 
-  .map-wrapper {
-    width: calc(33.3% + 20px);
+  .center-wrapper {
+    width: 100%;
     border: 2px solid $color-dark;
     padding: 10px;
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+
+    .map-wrapper {
+      display: flex;
+      justify-content: center;
+
+      .map-container {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid $color-dark;
+        position: relative;
+
+        .row {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          .tile {
+            background-color: $color-light;
+            border: 1px solid $color-dark;
+  
+            &.wall {
+              background-color: $color-gray;
+            }
+          }
+        }
+
+        .hero {
+          position: absolute;
+          border: 2px solid $color-dark;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+
+          &.paragon {
+            border-color: $color-paragon;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-paragon;
+            }
+          }
+
+          &.highlander {
+            border-color: $color-highlander;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-highlander;
+            }
+          }
+
+          &.druid {
+            border-color: $color-druid;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-druid;
+            }
+          }
+
+          &.oracle {
+            border-color: $color-oracle;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-oracle;
+            }
+          }
+
+          &.avatar {
+            border-color: $color-avatar;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-avatar;
+            }
+          }
+
+          &.shadow {
+            border-color: $color-shadow;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-shadow;
+            }
+          }
+
+          &.lightbringer {
+            border-color: $color-lightbringer;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-lightbringer;
+            }
+          }
+
+          &.avenger {
+            border-color: $color-avenger;
+
+            &.active{
+              box-shadow: 0 0 15px 2px $color-avenger;
+            }
+          }
+        }
+      }      
+    }
   }
 }

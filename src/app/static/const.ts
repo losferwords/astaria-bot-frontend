@@ -1,4 +1,5 @@
 export class Const {
+    public static supportedLanguages = ['ru'];
     public static connectionUrl = 'http://localhost:3000/';
 
     public static httpHeaderContentType = 'Content-Type';

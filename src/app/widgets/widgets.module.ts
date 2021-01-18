@@ -9,6 +9,7 @@ import { IconComponent } from './icon/icon.component';
 import { HeroInfoComponent } from './hero-info/hero-info.component';
 import { ResourceBarComponent } from './resource-bar/resource-bar.component';
 import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 export const CustomTooltipOptions: TooltipOptions = {
   placement: 'bottom',
@@ -23,6 +24,7 @@ export const CustomTooltipOptions: TooltipOptions = {
     OverlayModule,
     ReactiveFormsModule,
     MaterialModule,
+    TranslateModule.forChild(),
     TooltipModule.forRoot(CustomTooltipOptions as TooltipOptions)
   ],
   declarations: [

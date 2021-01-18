@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TileType } from 'src/app/enums/tile-type.enum';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { BattleService } from 'src/app/services/battle.service';
 
@@ -15,5 +16,9 @@ export class BattlePageComponent {
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.battle = this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
     console.log(this.battle);
+  }
+
+  get TileType(): typeof TileType {
+    return TileType;
   }
 }

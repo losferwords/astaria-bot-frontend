@@ -4,9 +4,25 @@
       <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]"></app-hero-info>
     </ng-container>
   </div>
-  <div class="map-wrapper">
-    
-  </div>
+  <div class="center-wrapper">
+    <div class="map-wrapper">
+      <div class="map-container">
+        <div class="row" *ngFor="let row of battle.map.tiles; index as i">
+          <div class="tile" *ngFor="let tile of row; index as j" [ngClass]="{'wall': tile.type === TileType.WALL}" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px'}"></div>
+        </div>
+        <ng-container *ngFor="let team of battle.teams">
+          <ng-container *ngFor="let hero of team.heroes">
+            <div class="hero" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px', 'left': (hero.state.position.x * battle.map.tileSize) + 'px', 'top': (hero.state.position.y * battle.map.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}" [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]">
+              <div class="overlay"></div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>      
+    </div>
+    <div class="queue-wrapper">
+      
+    </div>
+  </div>  
   <div class="team-wrapper">
     <ng-container *ngFor="let hero of battle.teams[1].heroes">
       <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]"></app-hero-info>
