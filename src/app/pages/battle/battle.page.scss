@@ -53,81 +53,103 @@
             &.wall {
               background-color: $color-gray;
             }
-          }
-        }
 
-        .hero {
-          position: absolute;
-          border: 2px solid $color-dark;
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: contain;
-
-          &.paragon {
-            border-color: $color-paragon;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-paragon;
-            }
-          }
-
-          &.highlander {
-            border-color: $color-highlander;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-highlander;
-            }
-          }
-
-          &.druid {
-            border-color: $color-druid;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-druid;
-            }
-          }
-
-          &.oracle {
-            border-color: $color-oracle;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-oracle;
-            }
-          }
-
-          &.avatar {
-            border-color: $color-avatar;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-avatar;
-            }
-          }
-
-          &.shadow {
-            border-color: $color-shadow;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-shadow;
-            }
-          }
-
-          &.lightbringer {
-            border-color: $color-lightbringer;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-lightbringer;
-            }
-          }
-
-          &.avenger {
-            border-color: $color-avenger;
-
-            &.active{
-              box-shadow: 0 0 15px 2px $color-avenger;
+            &.move {
+              background-color: $color-energy;
+              cursor: pointer;
             }
           }
         }
       }      
+    }
+
+    .queue-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+
+      .hero {
+        position: relative;
+        margin-right: 5px;
+        width: 48px;
+        height: 48px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .hero {
+      position: absolute;
+      border: 2px solid $color-dark;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+
+      &.paragon {
+        border-color: $color-paragon;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-paragon;
+        }
+      }
+
+      &.highlander {
+        border-color: $color-highlander;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-highlander;
+        }
+      }
+
+      &.druid {
+        border-color: $color-druid;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-druid;
+        }
+      }
+
+      &.oracle {
+        border-color: $color-oracle;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-oracle;
+        }
+      }
+
+      &.avatar {
+        border-color: $color-avatar;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-avatar;
+        }
+      }
+
+      &.shadow {
+        border-color: $color-shadow;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-shadow;
+        }
+      }
+
+      &.lightbringer {
+        border-color: $color-lightbringer;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-lightbringer;
+        }
+      }
+
+      &.avenger {
+        border-color: $color-avenger;
+
+        &.active{
+          box-shadow: 0 0 15px 2px $color-avenger;
+        }
+      }
     }
   }
 }

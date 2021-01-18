@@ -365,3 +365,51 @@
         }
     }    
 }
+
+@media (min-width: $lg-width) {
+    :host {
+        .hero-info-container {  
+            .action-bar-wrapper {  
+                .group {  
+                    &.equip {
+                        width: 120px;
+                    }
+
+                    &.abilities {
+                        width: 157px;
+                        height: 46px;
+                    }
+
+                    .buttons {  
+                        .pet-info-wrapper {
+                            width: calc(100% - 64px);
+
+                            .pet-abilities {
+                                width: 99px;
+                                height: 64px;
+                            }
+
+                            .pet-info {
+                                width: calc(100% - 104px);
+            
+                                .pet-effects {
+                                    height: 43px;
+                                }                    
+                            }
+                        }                
+                    }
+                }    
+                
+                .ability-btn {
+                    width: 32px;
+                    height: 32px;
+
+                    &.btn-small {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+            }
+        } 
+    }
+}
