@@ -1,2 +1,2 @@
-<div class="bar-inner" [ngClass]="type" [ngStyle]="{'right': (1 - value/maxValue) * 100 + '%'}"></div>
+<div class="bar-inner" [ngClass]="type" [ngStyle]="{'width': (value / maxValue * 100) + '%'}"></div>
 <div class="value">{{value + ' / ' + maxValue}}</div>

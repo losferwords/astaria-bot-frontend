@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { IBattle } from 'src/app/interfaces/IBattle';
-import { ITeamSetup } from 'src/app/interfaces/ITeamSetup';
+import { IHeroSetup } from 'src/app/interfaces/IHeroSetup';
 import { BattleService } from 'src/app/services/battle.service';
 import { Const } from 'src/app/static/const';
 
@@ -13,7 +13,7 @@ import { Const } from 'src/app/static/const';
 export class TeamSetupPageComponent {
   isLoading = false;
   teamSetupMatrix: number[];
-  teamSetup: ITeamSetup[][] = [];
+  teamSetup: IHeroSetup[][] = [];
   availableHeroes = [];
   scenarioId: string;
 
@@ -34,7 +34,7 @@ export class TeamSetupPageComponent {
     }
   }
 
-  selectHero(heroSetup: ITeamSetup, availableHero: any | string): void {
+  selectHero(heroSetup: IHeroSetup, availableHero: any | string): void {
     if (heroSetup.hero !== 'random') {
       const previousHero = this.availableHeroes.find(h => {
         return h.name === heroSetup.hero;

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IEffect } from 'src/app/interfaces/IEffect';
 import { IEquip } from 'src/app/interfaces/iEquip';
 import { IHero } from 'src/app/interfaces/IHero';
 import { I18nService } from 'src/app/services/i18n.service';
@@ -9,8 +10,11 @@ import { I18nService } from 'src/app/services/i18n.service';
   styleUrls: ['./hero-info.component.scss']
 })
 export class HeroInfoComponent {
-    @Input() hero: IHero;
-    @Input() isActive: boolean;
+  @Input() hero: IHero;
+  @Input() isActive: boolean;
+  @Input() preparedWeapon: IEquip;
+  @Output() endTurn: EventEmitter<void> = new EventEmitter<void>();
+  @Output() prepareWeapon: EventEmitter<IEquip> = new EventEmitter<IEquip>();
 
   constructor(private i18nService: I18nService) {}
 
@@ -88,5 +92,27 @@ export class HeroInfoComponent {
     resultTooltip += `</div>`;
 
     return resultTooltip;
+  }
+
+  getEffects(effects: IEffect[], isBuff: boolean) {
+    return effects.filter((effect: IEffect) => {
+      return effect.isBuff === isBuff;
+    });
+  }
+
+  endTurnClicked() {
+    if (this.isActive) {
+      this.endTurn.emit();
+    }
+  }
+
+  prepareWeaponClicked(weapon: IEquip) {
+    if (this.isActive) {
+      this.prepareWeapon.emit(weapon);
+    }
+  }
+
+  isWeaponAvailable(weapon: IEquip): boolean {
+    return this.hero.energy - weapon.energyCost >= 0 && !this.hero.isDisarmed && !weapon.isUsed && this.isActive;
   }
 }

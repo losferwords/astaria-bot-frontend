@@ -10,12 +10,8 @@
 
 
     .bar-inner {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        transition: right 500ms linear;
+        width: 100%;
+        transition: width 0.5s;
 
         &.energy {
             background-color: $color-energy;
@@ -31,6 +27,11 @@
     }
 
     .value {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         width: 100%;
         font-size: 12px;
         font-weight: bold;

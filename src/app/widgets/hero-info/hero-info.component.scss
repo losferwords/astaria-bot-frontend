@@ -1,4 +1,38 @@
 @import "variables.scss";
+@mixin hero-color-shadows()
+{
+    &.paragon {
+        box-shadow: 0 0 15px 2px $color-paragon;
+    }
+
+    &.highlander {
+        box-shadow: 0 0 15px 2px $color-highlander;
+    }
+
+    &.druid {
+        box-shadow: 0 0 15px 2px $color-druid;
+    }
+
+    &.oracle {
+        box-shadow: 0 0 15px 2px $color-oracle;
+    }
+
+    &.avatar {
+        box-shadow: 0 0 15px 2px $color-avatar;
+    }
+
+    &.shadow {
+        box-shadow: 0 0 15px 2px $color-shadow;
+    }
+
+    &.lightbringer {
+        box-shadow: 0 0 15px 2px $color-lightbringer;
+    }
+
+    &.avenger {
+        box-shadow: 0 0 15px 2px $color-avenger;
+    }
+}
 
 :host {
     .hero-info-container {
@@ -10,62 +44,20 @@
         box-sizing: border-box;
 
         &.active {
-            &.paragon {
-                box-shadow: 0 0 15px 2px $color-paragon;
-            }
-    
-            &.highlander {
-                box-shadow: 0 0 15px 2px $color-highlander;
-            }
-    
-            &.druid {
-                box-shadow: 0 0 15px 2px $color-druid;
-            }
-    
-            &.oracle {
-                box-shadow: 0 0 15px 2px $color-oracle;
-            }
-    
-            &.avatar {
-                box-shadow: 0 0 15px 2px $color-avatar;
-            }
-    
-            &.shadow {
-                box-shadow: 0 0 15px 2px $color-shadow;
-            }
-    
-            &.lightbringer {
-                box-shadow: 0 0 15px 2px $color-lightbringer;
-            }
-    
-            &.avenger {
-                box-shadow: 0 0 15px 2px $color-avenger;
-            }
+            @include hero-color-shadows();
     
             .action-bar-wrapper {           
                 .ability-btn {
                     &:not(.passive) {
                         cursor: pointer;
-    
-                        &.selected {                        
-                            border: none;
-                            background: linear-gradient(90deg, $color-oracle 50%, transparent 50%), linear-gradient(90deg, $color-oracle 50%, transparent 50%), linear-gradient(0deg, $color-oracle 50%, transparent 50%), linear-gradient(0deg, $color-oracle 50%, transparent 50%);
-                            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-                            background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
-                            background-position: 0px 0px, 38px 38px, 0px 38px, 38px 0px;
-                            padding: 2px;
-                            animation: border-dance 5s infinite linear alternate;
-                            border-image-width: 0;
-                            
-                            @keyframes border-dance {
-                                0% {
-                                    background-position: 0px 0px, 38px 38px, 0px 38px, 38px 0px;
-                                }
-                                100% {
-                                    background-position: 38px 0px, 0px 38px, 0px 0px, 38px 38px;
-                                }
-                            }
-                        }                    
+
+                        &.selected {
+                            @include hero-color-shadows();
+                        }
+
+                        &.disabled {
+                            cursor: default;
+                        }
                     }
     
                     .overlay {
@@ -312,6 +304,14 @@
     
                 &:last-child {
                     margin-right: 0;
+                }
+
+                &.disabled {
+                    cursor: default;
+
+                    .overlay {
+                        background-color: $color-dark-transparent-20;
+                    }
                 }
     
                 .overlay {

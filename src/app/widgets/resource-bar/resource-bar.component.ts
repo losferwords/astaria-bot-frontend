@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-resource-bar',
@@ -6,9 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./resource-bar.component.scss']
 })
 export class ResourceBarComponent {
-    @Input() value = 0;
-    @Input() maxValue = 0;
-    @Input() type = 'health';
+  @Input() value = 0;
+  @Input() maxValue = 0;
+  @Input() type = 'health';
 
   constructor() {}
 }

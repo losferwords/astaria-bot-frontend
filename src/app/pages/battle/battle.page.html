@@ -1,23 +1,32 @@
 <div class="page-content" *ngIf="battle">
   <div class="team-wrapper">
     <ng-container *ngFor="let hero of battle.teams[0].heroes">
-      <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]"></app-hero-info>
+      <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]" [isAllyTarget]="isTarget(hero.id, true)" [isEnemyTarget]="isTarget(hero.id, false)" [preparedWeapon]="preparedWeapon" (endTurn)="endTurn()" (prepareWeapon)="prepareWeapon($event)"></app-hero-info>
     </ng-container>
   </div>
   <div class="center-wrapper">
     <div class="map-wrapper">
-      <div class="map-container">
+      <div class="map-container" (mouseleave)="setArrowTarget(-1, -1)">
         <div class="row" *ngFor="let row of battle.map.tiles; index as i">
-          <div class="tile" *ngFor="let tile of row; index as j" [ngClass]="{'wall': tile.type === TileType.WALL, 'move': isMoveAvailableTile(j, i)}" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px'}">
+          <div class="tile" *ngFor="let tile of row; index as j" [ngClass]="{'wall': tile.type === TileType.WALL}" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px'}" (mouseenter)="setArrowTarget(-1, -1)">
+            <div class="overlay" [ngClass]="{'move': isMoveAvailableTile(j, i)}" (mouseenter)="setArrowTarget(j, i)" (click)="moveHero(j, i)"></div>
           </div>
         </div>
         <ng-container *ngFor="let team of battle.teams">
           <ng-container *ngFor="let hero of team.heroes">
-            <div class="hero" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px', 'left': (hero.state.position.x * battle.map.tileSize) + 'px', 'top': (hero.state.position.y * battle.map.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}" [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]">
-              <div class="overlay" *ngIf="false"></div>
+            <div class="hero" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px', 'left': (hero.position.x * battle.map.tileSize) + 'px', 'top': (hero.position.y * battle.map.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}" [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]" (mouseenter)="setArrowTarget(-1, -1)" (click)="heroTileClicked(hero)">
+              <div class="overlay" *ngIf="isTarget(hero.id)" [ngCLass]="{'ally': isHeroAllyToActive(hero.id)}" (mouseenter)="setArrowTarget(hero.position.x, hero.position.y)"></div>
             </div>
           </ng-container>
         </ng-container>
+        <svg id="connectors" height="100%" width="100%" *ngIf="arrowTarget" [ngClass]="getArrowType()">
+          <defs>
+              <marker id="markerArrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+                <path d="M 0 0 L 6 3 L 0 6 z" />
+              </marker>
+          </defs>
+          <line [attr.x1]="(activeHero.position.x * battle.map.tileSize) + battle.map.tileSize / 2" [attr.y1]="(activeHero.position.y * battle.map.tileSize) + battle.map.tileSize / 2" [attr.x2]="(arrowTarget.x * battle.map.tileSize) + battle.map.tileSize / 2" [attr.y2]="(arrowTarget.y * battle.map.tileSize) + battle.map.tileSize / 2" class="arrow" />
+        </svg>
       </div>      
     </div>
     <div class="queue-wrapper">
@@ -26,8 +35,7 @@
   </div>  
   <div class="team-wrapper">
     <ng-container *ngFor="let hero of battle.teams[1].heroes">
-      <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]"></app-hero-info>
+      <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]" [preparedWeapon]="preparedWeapon" (endTurn)="endTurn()" (prepareWeapon)="prepareWeapon($event)"></app-hero-info>
     </ng-container>
   </div>
 </div>
-<app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

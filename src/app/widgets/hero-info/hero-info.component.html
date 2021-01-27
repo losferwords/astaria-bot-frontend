@@ -9,21 +9,21 @@
                     <div class="attribute-group">
                         <div class="attribute">
                             <app-icon [icon]="'fist'"></app-icon>
-                            <div class="value">{{hero.state.strength}}</div>
+                            <div class="value">{{hero.strength}}</div>
                         </div>
                         <div class="attribute">
                             <app-icon [icon]="'gift-of-knowledge'"></app-icon>
-                            <div class="value">{{hero.state.intellect}}</div>
+                            <div class="value">{{hero.intellect}}</div>
                         </div>
                     </div>
                     <div class="attribute-group">
                         <div class="attribute">
                             <app-icon [icon]="'rosa-shield'"></app-icon>
-                            <div class="value">{{hero.state.armor}}</div>
+                            <div class="value">{{hero.armor}}</div>
                         </div>
                         <div class="attribute">
                             <app-icon [icon]="'eye-shield'"></app-icon>
-                            <div class="value">{{hero.state.will}}</div>
+                            <div class="value">{{hero.will}}</div>
                         </div>
                     </div>
                 </div>
@@ -31,22 +31,22 @@
             <div class="bars-wrapper">
                 <div class="bar-group">
                     <app-icon [icon]="'wingfoot'"></app-icon>
-                    <app-resource-bar [value]="hero.state.energy" [maxValue]="hero.maxEnergy" [type]="'energy'"></app-resource-bar>
+                    <app-resource-bar [value]="hero.energy" [maxValue]="hero.maxEnergy" [type]="'energy'"></app-resource-bar>
                 </div>
                 <div class="bar-group">
                     <app-icon [icon]="'hearts'"></app-icon>
-                    <app-resource-bar [value]="hero.state.health" [maxValue]="hero.maxHealth" [type]="'health'"></app-resource-bar>
+                    <app-resource-bar [value]="hero.health" [maxValue]="hero.maxHealth" [type]="'health'"></app-resource-bar>
                     <div class="attribute">
                         <app-icon [icon]="'heart-plus'"></app-icon>
-                        <div class="value">{{hero.state.regeneration}}</div>
+                        <div class="value">{{hero.regeneration}}</div>
                     </div>
                 </div>
                 <div class="bar-group">
                     <app-icon [icon]="'magic-palm'"></app-icon>
-                    <app-resource-bar [value]="hero.state.mana" [maxValue]="hero.maxMana" [type]="'mana'"></app-resource-bar>
+                    <app-resource-bar [value]="hero.mana" [maxValue]="hero.maxMana" [type]="'mana'"></app-resource-bar>
                     <div class="attribute">
                         <app-icon [icon]="'meditation'"></app-icon>
-                        <div class="value">{{hero.state.mind}}</div>
+                        <div class="value">{{hero.mind}}</div>
                     </div>
                 </div>
             </div>
@@ -55,45 +55,45 @@
     <div class="action-bar-wrapper">
         <div class="group equip">
             <div class="buttons">
-                <div class="ability-btn passive" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.state.chestpiece, hero.id)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.chestpiece.id"></app-icon>
+                <div class="ability-btn passive" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.chestpiece, hero.id)">
+                    <app-icon [icon]="hero.id + '/' + hero.chestpiece.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn passive" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && hero.state.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.state.secondaryWeapon, hero.id)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.id"></app-icon>
+                <div class="ability-btn passive" [ngClass]="hero.id" *ngIf="hero.secondaryWeapon && hero.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)">
+                    <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.state.primaryWeapon, hero.id)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.primaryWeapon.id"></app-icon>
+                <div class="ability-btn" [ngClass]="[hero.id, isWeaponAvailable(hero.primaryWeapon) ? '' : 'disabled', (preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id) ? 'selected' : '']" [tooltip]="getEquipTooltip(hero.primaryWeapon, hero.id)" (click)="prepareWeaponClicked(hero.primaryWeapon)">
+                    <app-icon [icon]="hero.id + '/' + hero.primaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn" [ngClass]="hero.id" *ngIf="hero.state.secondaryWeapon && !hero.state.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.state.secondaryWeapon, hero.id)">
-                    <app-icon [icon]="hero.id + '/' + hero.state.secondaryWeapon.id"></app-icon>
+                <div class="ability-btn" [ngClass]="[hero.id, isWeaponAvailable(hero.secondaryWeapon) ? '' : 'disabled', (preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id) ? 'selected' : '']" *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)" (click)="prepareWeaponClicked(hero.secondaryWeapon)">
+                    <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
             </div>        
         </div>
         <div class="group abilities">
             <div class="buttons">
-                <div class="ability-btn" [ngClass]="hero.id" *ngFor="let ability of hero.state.abilities">
+                <div class="ability-btn" [ngClass]="hero.id" *ngFor="let ability of hero.abilities">
                     <app-icon [icon]="hero.id + '/' + ability.name"></app-icon>
                     <div class="overlay"></div>
                 </div>
             </div>        
         </div>
-        <div class="ability-btn end-turn" [ngClass]="hero.id">
+        <div class="ability-btn end-turn" [ngClass]="hero.id" (click)="endTurnClicked()">
             <app-icon [icon]="'duration'"></app-icon>
             <div class="overlay"></div>
         </div>
-        <div class="ability-btn upgrade" [ngClass]="hero.id">
+        <div class="ability-btn upgrade" [ngClass]="[hero.id, hero.crystals ? '' : 'disabled']">
             <app-icon [icon]="'upgrade'"></app-icon>
             <div class="overlay"></div>
         </div>
     </div>
-    <div class="action-bar-wrapper" *ngIf="hero.state.buffs.length > 0 || hero.state.debuffs.length > 0">
+    <div class="action-bar-wrapper" *ngIf="hero.effects.length > 0">
         <div class="group">
             <div class="buttons">
-                <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of hero.state.buffs">
+                <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of getEffects(hero.effects, true)">
                     <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
                     <div class="overlay"></div>
                 </div>
@@ -101,14 +101,14 @@
         </div>
         <div class="group">
             <div class="buttons">
-                <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of hero.state.debuffs">
+                <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of getEffects(hero.effects, false)">
                     <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
                     <div class="overlay"></div>
                 </div>
             </div>        
         </div>
     </div>
-    <div class="action-bar-wrapper" *ngFor="let pet of hero.state.pets">
+    <div class="action-bar-wrapper" *ngFor="let pet of hero.pets">
         <div class="group">
             <div class="buttons">
                 <app-icon class="portrait" [icon]="hero.id + '/' + pet.name" [ngClass]="hero.id"></app-icon>
@@ -129,12 +129,12 @@
                     <div class="pet-info">
                         <div class="bar-group">
                             <app-icon [icon]="'hearts'"></app-icon>
-                            <app-resource-bar [value]="hero.state.health" [maxValue]="hero.maxHealth" [type]="'health'"></app-resource-bar>
+                            <app-resource-bar [value]="pet.health" [maxValue]="pet.maxHealth" [type]="'health'"></app-resource-bar>
                         </div>              
-                        <div class="pet-effects" *ngIf="pet.state.buffs.length > 0 || pet.state.debuffs.length > 0">
+                        <div class="pet-effects" *ngIf="pet.effects.length > 0">
                             <div class="group">
                                 <div class="buttons">
-                                    <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of pet.state.buffs">
+                                    <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of getEffects(pet.effects, true)">
                                         <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
                                         <div class="overlay"></div>
                                     </div>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="group">
                                 <div class="buttons">
-                                    <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of pet.state.debuffs">
+                                    <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of getEffects(pet.effects, false)">
                                         <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
                                         <div class="overlay"></div>
                                     </div>
