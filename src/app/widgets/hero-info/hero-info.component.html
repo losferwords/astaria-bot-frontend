@@ -1,7 +1,7 @@
 
 <div class="hero-info-container" [ngClass]="[isActive ? 'active' : '', hero.id]">
     <div class="hero-info-wrapper">
-        <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="hero.id">
+        <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="[hero.id, hero.isDead ? 'dead' : '']">
         <div class="hero-info">
             <div class="attributes">
                 <div class="name">{{('HERO.' + hero.id) | translate}}</div>
@@ -63,11 +63,11 @@
                     <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn" [ngClass]="[hero.id, isWeaponAvailable(hero.primaryWeapon) ? '' : 'disabled', (preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id) ? 'selected' : '']" [tooltip]="getEquipTooltip(hero.primaryWeapon, hero.id)" (click)="prepareWeaponClicked(hero.primaryWeapon)">
+                <div class="ability-btn" [ngClass]="[hero.id, canUseWeapon(hero.primaryWeapon) ? '' : 'disabled', (preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id) ? 'selected' : '']" [tooltip]="getEquipTooltip(hero.primaryWeapon, hero.id)" (click)="prepareWeaponClicked(hero.primaryWeapon)">
                     <app-icon [icon]="hero.id + '/' + hero.primaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>
-                <div class="ability-btn" [ngClass]="[hero.id, isWeaponAvailable(hero.secondaryWeapon) ? '' : 'disabled', (preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id) ? 'selected' : '']" *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)" (click)="prepareWeaponClicked(hero.secondaryWeapon)">
+                <div class="ability-btn" [ngClass]="[hero.id, canUseWeapon(hero.secondaryWeapon) ? '' : 'disabled', (preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id) ? 'selected' : '']" *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)" (click)="prepareWeaponClicked(hero.secondaryWeapon)">
                     <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
                     <div class="overlay"></div>
                 </div>

@@ -22,7 +22,17 @@
         "avatar": "Аватар",
         "shadow": "Тень",
         "lightbringer": "Светоносный",
-        "avenger": "Мститель"
+        "avenger": "Мститель",
+        "TO": {
+            "paragon": "Идеалу",
+            "highlander": "Горцу",
+            "druid": "Друиду",
+            "oracle": "Оракулу",
+            "avatar": "Аватару",
+            "shadow": "Тени",
+            "lightbringer": "Светоносному",
+            "avenger": "Мстителю"
+        }
     },
     "EQUIP": {
         "paragon": {
@@ -75,5 +85,13 @@
         "ENERGY": "Энергия",
         "HEALTH": "Здоровье",
         "MANA": "Мана"
+    },
+    "LOG": {
+        "MOVE": "шагнул на {{x}} {{y}}",
+        "TURN_END": "завершил свой ход",
+        "WEAPON_DAMAGE": "нанёс {{value}} ед. урона",
+        "WEAPON_DAMAGE_TYPE": "оружием",
+        "DEATH": "умер",
+        "WIN": "Битва окончена"
     }
 }

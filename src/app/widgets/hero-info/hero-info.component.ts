@@ -107,12 +107,12 @@ export class HeroInfoComponent {
   }
 
   prepareWeaponClicked(weapon: IEquip) {
-    if (this.isActive) {
+    if (this.canUseWeapon(weapon)) {
       this.prepareWeapon.emit(weapon);
     }
   }
 
-  isWeaponAvailable(weapon: IEquip): boolean {
+  canUseWeapon(weapon: IEquip): boolean {
     return this.hero.energy - weapon.energyCost >= 0 && !this.hero.isDisarmed && !weapon.isUsed && this.isActive;
   }
 }

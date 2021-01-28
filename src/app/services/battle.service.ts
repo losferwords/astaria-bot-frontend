@@ -15,6 +15,7 @@ export class BattleService {
   updateBattleState(oldState: IBattle, newState: IBattle) {
     oldState.queue = newState.queue;
     oldState.map = newState.map;
+    oldState.log = newState.log;
     for (let i = 0; i < oldState.teams.length; i++) {
       oldState.teams[i].crystals = newState.teams[i].crystals;
       for (let j = 0; j < oldState.teams[i].heroes.length; j++) {
