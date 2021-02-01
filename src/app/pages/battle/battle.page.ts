@@ -17,9 +17,9 @@ import { BattleService } from 'src/app/services/battle.service';
   styleUrls: ['./battle.page.scss'],
   animations: [
     trigger('battleText', [
-      state('fly', style({left: '({{left}}', top: '{{top}}'}), {params: { left: '*', top: '*' }}),
+      state('fly', style({left: '{{left}}', top: '{{top}}'}), {params: { left: '*', top: '*' }}),
       transition('* => fly', [
-        animate('0.5s')
+        animate('3s')
       ]),
     ]),
   ]
@@ -32,7 +32,7 @@ export class BattlePageComponent {
   arrowTarget: IPosition;
   preparedWeapon: IEquip;
   targets: string[] = [];
-  eventForRender: ILogMessage;
+  eventsForRender: ILogMessage[];
 
   constructor(private router: Router, private battleService: BattleService) {
     this.battle = this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
@@ -72,27 +72,31 @@ export class BattlePageComponent {
   }
 
   private updateBattleState(newState: IBattle) {
-    const newEvents = newState.log.slice(this.battle.log.length - 1).filter((event: ILogMessage) => {
+    const newEvents = newState.log.slice(this.battle.log.length);
+
+    if (newEvents.find((event: ILogMessage) => event.type === LogMessageType.WIN )) {
+      this.battleEnd();
+      return;
+    }
+
+    const battleTextEvents = newEvents.filter((event: ILogMessage) => {
       return event.type === LogMessageType.WEAPON_DAMAGE;
     });
-    if (newEvents.length > 0) {
-      this.renderBattleText([...newEvents]);
+    if (battleTextEvents.length > 0) {
+      this.renderBattleText([...battleTextEvents]);
     }
     this.battleService.updateBattleState(this.battle, newState);
   }
 
   private renderBattleText(events: ILogMessage[]) {
-    this.eventForRender = events[0];
-    events.shift();
+    this.eventsForRender = events;
+    setTimeout(() => {
+      this.eventsForRender = [];
+    }, 3000);
+  }
 
-    const eventRenderInterval =  setInterval(() => {
-      if (events.length > 0) {
-        this.eventForRender = events[0];
-        events.shift();
-      } else {
-        clearInterval(eventRenderInterval);
-      }
-    }, 500);
+  private battleEnd() {
+    this.router.navigate(['/home']);
   }
 
   setArrowTarget(x: number, y: number) {
@@ -120,14 +124,19 @@ export class BattlePageComponent {
     }
   }
 
-  getHeroesfromQueue(): IHero[] {
+  getHeroesfromTeams(): IHero[] {
     const heroes = [];
-    const queueHeroes = [];
     for (let i = 0; i < this.battle.teams.length; i++){
         for (let j = 0; j < this.battle.teams[i].heroes.length; j++) {
             heroes.push(this.battle.teams[i].heroes[j]);
         }
     }
+    return heroes;
+  }
+
+  getHeroesfromQueue(): IHero[] {
+    const queueHeroes = [];
+    const heroes = this.getHeroesfromTeams();
     for (let i = 0; i < this.battle.queue.length; i++) {
       queueHeroes.push(heroes.find((hero: IHero) => {
         return hero.id === this.battle.queue[i];
@@ -238,7 +247,7 @@ export class BattlePageComponent {
   }
 
   getHeroPositionById(heroId: string): IPosition {
-    const heroes = this.getHeroesfromQueue();
+    const heroes = this.getHeroesfromTeams();
     const targetHero: IHero = heroes.find((hero: IHero) => {
       return hero.id === heroId;
     });

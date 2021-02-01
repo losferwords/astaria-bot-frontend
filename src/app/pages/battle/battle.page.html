@@ -27,11 +27,11 @@
           </defs>
           <line [attr.x1]="(activeHero.position.x * battle.map.tileSize) + battle.map.tileSize / 2" [attr.y1]="(activeHero.position.y * battle.map.tileSize) + battle.map.tileSize / 2" [attr.x2]="(arrowTarget.x * battle.map.tileSize) + battle.map.tileSize / 2" [attr.y2]="(arrowTarget.y * battle.map.tileSize) + battle.map.tileSize / 2" class="arrow" />
         </svg>
-        <ng-container *ngIf="eventForRender">
-          <ng-container [ngSwitch]="eventForRender.type">
-            <div class="battle-text-event" *ngSwitchCase="LogMessageType.WEAPON_DAMAGE" [@battleText]="value: 'fly', params: {left: getHeroPositionById(eventForRender.targetId).x * battle.map.tileSize + battle.map.tileSize + 'px', top: getHeroPositionById(eventForRender.targetId).y * battle.map.tileSize + battle.map.tileSize + 'px'}}" [ngStyle]="{'width' : battle.map.tileSize / 2 + 'px', 'height' : battle.map.tileSize / 2 + 'px', 'left': (getHeroPositionById(eventForRender.targetId).x * battle.map.tileSize) + 'px', 'top': (getHeroPositionById(eventForRender.targetId).y * battle.map.tileSize) + 'px'}">
-              <app-icon [icon]="eventForRender.casterId + '/' + eventForRender.id"></app-icon>
-              <div class="value damage">{{eventForRender.value}}</div>
+        <ng-container *ngFor="let event of eventsForRender; index as i">
+          <ng-container [ngSwitch]="event.type">
+            <div class="battle-text-event" *ngSwitchCase="LogMessageType.WEAPON_DAMAGE" [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.map.tileSize + (i % 2 ? -1 : 1) * battle.map.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.map.tileSize + (i > 1 ? 1 : -1) * battle.map.tileSize  + 'px'}}" [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.map.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.map.tileSize + 12) + 'px'}">
+              <app-icon [icon]="event.casterId + '/' + event.id" [ngClass]="event.casterId"></app-icon>
+              <div class="value damage">{{event.value}}</div>
             </div>
           </ng-container>
         </ng-container>
