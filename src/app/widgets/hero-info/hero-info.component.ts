@@ -113,6 +113,6 @@ export class HeroInfoComponent {
   }
 
   canUseWeapon(weapon: IEquip): boolean {
-    return this.hero.energy - weapon.energyCost >= 0 && !this.hero.isDisarmed && !weapon.isUsed && this.isActive;
+    return this.hero.energy - weapon.energyCost >= 0 && !this.hero.isDisarmed && !weapon.isUsed && this.isActive && !weapon.isPassive;
   }
 }

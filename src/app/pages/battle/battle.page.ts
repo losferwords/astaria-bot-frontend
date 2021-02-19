@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { LogMessageType } from 'src/app/enums/log-message-type.enum';
@@ -37,6 +37,11 @@ export class BattlePageComponent {
   constructor(private router: Router, private battleService: BattleService) {
     this.battle = this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
     this.turnPrepare();
+  }
+
+  @HostListener('window:keydown.space')
+  onSpacePress() {
+    this.endTurn();
   }
 
   get TileType(): typeof TileType {
