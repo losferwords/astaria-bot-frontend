@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
+import { Scenario } from '../enums/scenario.enum';
 import { IBattle } from '../interfaces/IBattle';
 import { IBattleSetup } from '../interfaces/IBattleSetup';
 import { IPosition } from '../interfaces/IPosition';
@@ -20,7 +21,17 @@ export class BattleDataProvider extends BaseDataProvider {
     super();
   }
 
-  getScenarioTeamSize(id: string): Observable<number[]> {
+  getScenarios(): Observable<Scenario[]> {
+    const headers = new HttpHeaders();
+    return this.httpService.get(this.getApiUrl(Const.apiScenarios), {}, headers).do((res: Scenario[]) => {
+    },
+      (err) => {
+        this.handleHttpError(err);
+        throwError(err);
+      });
+  }
+
+  getScenarioTeamSize(id: Scenario): Observable<number[]> {
     const headers = new HttpHeaders();
     return this.httpService.get(this.getApiUrl(Const.apiScenarioTeamSize), {id}, headers).do((res: number[]) => {
     },

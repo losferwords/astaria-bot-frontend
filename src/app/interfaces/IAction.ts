@@ -1,8 +1,8 @@
-import { LogMessageType } from '../enums/log-message-type.enum';
+import { ActionType } from '../enums/action-type.enum';
 import { IPosition } from './IPosition';
 
-export interface ILogMessage {
-  type: LogMessageType;
+export interface IAction {
+  type: ActionType;
   id?: string;
   casterId?: string;
   targetId?: string;

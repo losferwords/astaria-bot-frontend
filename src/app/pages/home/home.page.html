@@ -1,9 +1,7 @@
 <div class="page-content">
   <div class="scenario-choose">
     <div class="title">{{'PAGE.HOME.CHOOSE' | translate}}</div>
-    <button mat-raised-button color="primary" (click)="chooseScenario('1')">{{'SCENARIO.1' | translate}}</button>
-    <button mat-raised-button color="primary" (click)="chooseScenario('2')" [disabled]="true">{{'SCENARIO.2' | translate}}</button>
-    <button mat-raised-button color="primary" (click)="chooseScenario('3')" [disabled]="true">{{'SCENARIO.3' | translate}}</button>
+    <button mat-raised-button color="primary" (click)="chooseScenario(scenario)" *ngFor="let scenario of scenarios">{{'SCENARIO.' + scenario | translate}}</button>
   </div>
 </div>
 <app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

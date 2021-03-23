@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Scenario } from 'src/app/enums/scenario.enum';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { IHeroSetup } from 'src/app/interfaces/IHeroSetup';
 import { BattleService } from 'src/app/services/battle.service';
@@ -15,7 +16,7 @@ export class TeamSetupPageComponent {
   teamSetupMatrix: number[];
   teamSetup: IHeroSetup[][] = [];
   availableHeroes = [];
-  scenarioId: string;
+  scenarioId: Scenario;
 
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state.data.teamSetupMatrix;

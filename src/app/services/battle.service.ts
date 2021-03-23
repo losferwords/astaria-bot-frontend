@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IBattle } from '../interfaces/IBattle';
 import { IBattleSetup } from '../interfaces/IBattleSetup';
 import { IPosition } from '../interfaces/IPosition';
+import { Scenario } from '../enums/scenario.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,11 @@ export class BattleService {
     }
   }
 
-  getScenarioTeamSize(id: string): Observable<number[]> {
+  getScenarios(): Observable<Scenario[]> {
+    return this.battleDataProvider.getScenarios();
+  }
+
+  getScenarioTeamSize(id: Scenario): Observable<number[]> {
     return this.battleDataProvider.getScenarioTeamSize(id);
   }
 
