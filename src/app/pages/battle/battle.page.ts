@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { LogMessageType } from 'src/app/enums/log-message-type.enum';
 import { TileType } from 'src/app/enums/tile-type.enum';
 import { IBattle } from 'src/app/interfaces/IBattle';
-import { IEquip } from 'src/app/interfaces/iEquip';
+import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
 import { ILogMessage } from 'src/app/interfaces/ILogMessage';
 import { IPosition } from 'src/app/interfaces/IPosition';

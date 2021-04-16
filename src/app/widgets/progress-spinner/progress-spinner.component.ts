@@ -26,7 +26,10 @@ export class ProgressSpinnerComponent {
   }
 
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
-    this.overlayRef = this.overlay.create({hasBackdrop: true, backdropClass: ['cdk-overlay-dark-backdrop', 'cdk-overlay-backdrop-showing']});
+    this.overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      backdropClass: ['cdk-overlay-dark-backdrop', 'cdk-overlay-backdrop-showing']
+    });
     this.pagePortal = new ComponentPortal(OverlayPanelComponent, this.viewContainerRef);
   }
 }

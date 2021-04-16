@@ -5,15 +5,27 @@
       <div class="hero-select" *ngFor="let heroSetup of team; index as i">
         <div class="hero-name">{{('HERO.' + heroSetup.hero) | translate}}</div>
         <div class="gender-selector-wrapper">
-          <button mat-raised-button [color]="heroSetup.gender == 'male' ? 'primary' : ''" (click)="heroSetup.gender = 'male'">
+          <button
+            mat-raised-button
+            [color]="heroSetup.gender == 'male' ? 'primary' : ''"
+            (click)="heroSetup.gender = 'male'"
+          >
             <app-icon [icon]="'male'"></app-icon>
           </button>
-          <button mat-raised-button [color]="heroSetup.gender == 'female' ? 'primary' : ''" (click)="heroSetup.gender = 'female'">
+          <button
+            mat-raised-button
+            [color]="heroSetup.gender == 'female' ? 'primary' : ''"
+            (click)="heroSetup.gender = 'female'"
+          >
             <app-icon [icon]="'female'"></app-icon>
           </button>
         </div>
         <div class="hero-selector-wrapper">
-          <div class="hero" [ngClass]="{'active': heroSetup.hero === 'random'}" (click)="selectHero(heroSetup, 'random')">
+          <div
+            class="hero"
+            [ngClass]="{'active': heroSetup.hero === 'random'}"
+            (click)="selectHero(heroSetup, 'random')"
+          >
             <img src="./assets/images/portraits/random.png" class="portrait" />
             <div class="name">{{'HERO.random' | translate}}</div>
           </div>
@@ -23,13 +35,19 @@
             [ngClass]="{'active': heroSetup.hero === availableHero.name, 'disabled': availableHero.name !== heroSetup.hero && !availableHero.isAvailable}"
             (click)="selectHero(heroSetup, availableHero)"
           >
-            <img [src]="'./assets/images/portraits/' + availableHero.name + '_' + heroSetup.gender + '.jpg'" class="portrait" [ngClass]="availableHero.name" />
+            <img
+              [src]="'./assets/images/portraits/' + availableHero.name + '_' + heroSetup.gender + '.jpg'"
+              class="portrait"
+              [ngClass]="availableHero.name"
+            />
             <div class="name">{{('HERO.' + availableHero.name) | translate}}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button mat-raised-button color="primary" (click)="startBattle()">{{'PAGE.TEAM_SETUP.START_BATTLE' | translate}}</button>
+  <button mat-raised-button color="primary" (click)="startBattle()">
+    {{'PAGE.TEAM_SETUP.START_BATTLE' | translate}}
+  </button>
 </div>
 <app-progress-spinner [isLoading]="isLoading"></app-progress-spinner>

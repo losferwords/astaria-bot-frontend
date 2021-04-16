@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
-import { ErrorCode } from '../enums/error-code.enum';
 import { Const } from '../static/const';
 
 @Injectable({
@@ -16,8 +15,8 @@ export class BaseDataProvider {
 
   protected handleHttpError(error: any): void {
     const errResponse: Error = error;
-    if (!errResponse || (errResponse && errResponse.name === ErrorCode.INTERNAL_ERROR)) {
-      console.log('Error Status: ' + ErrorCode.INTERNAL_ERROR);
+    if (!errResponse || (errResponse && errResponse.name === 'INTERNAL_ERROR')) {
+      console.log('Error Status: INTERNAL_ERROR');
     }
   }
 

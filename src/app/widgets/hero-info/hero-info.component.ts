@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IEffect } from 'src/app/interfaces/IEffect';
-import { IEquip } from 'src/app/interfaces/iEquip';
+import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
 import { I18nService } from 'src/app/services/i18n.service';
 
@@ -36,11 +36,15 @@ export class HeroInfoComponent {
       `;
 
       if (equip.physDamage) {
-        resultTooltip += `<div>${this.i18nService.translateInstant('PARAM.PHYS_DAMAGE') + ' ' + equip.physDamage}</div>`;
+        resultTooltip += `<div>${
+          this.i18nService.translateInstant('PARAM.PHYS_DAMAGE') + ' ' + equip.physDamage
+        }</div>`;
       }
 
       if (equip.magicDamage) {
-        resultTooltip += `<div>${this.i18nService.translateInstant('PARAM.MAGIC_DAMAGE') + ' ' + equip.magicDamage}</div>`;
+        resultTooltip += `<div>${
+          this.i18nService.translateInstant('PARAM.MAGIC_DAMAGE') + ' ' + equip.magicDamage
+        }</div>`;
       }
 
       resultTooltip += `</div>`;
@@ -51,22 +55,34 @@ export class HeroInfoComponent {
       <div class="params">
       `;
       if (equip.strength) {
-        resultTooltip += `<div class="param">${this.i18nService.translateInstant('PARAM.STRENGTH') + ' +' + equip.strength}</div>`;
+        resultTooltip += `<div class="param">${
+          this.i18nService.translateInstant('PARAM.STRENGTH') + ' +' + equip.strength
+        }</div>`;
       }
       if (equip.intellect) {
-        resultTooltip += `<div class="param">${this.i18nService.translateInstant('PARAM.INTELLECT') + ' +' + equip.intellect}</div>`;
+        resultTooltip += `<div class="param">${
+          this.i18nService.translateInstant('PARAM.INTELLECT') + ' +' + equip.intellect
+        }</div>`;
       }
       if (equip.armor) {
-        resultTooltip += `<div class="param">${this.i18nService.translateInstant('PARAM.ARMOR') + ' +' + equip.armor}</div>`;
+        resultTooltip += `<div class="param">${
+          this.i18nService.translateInstant('PARAM.ARMOR') + ' +' + equip.armor
+        }</div>`;
       }
       if (equip.will) {
-        resultTooltip += `<div class="param">${this.i18nService.translateInstant('PARAM.WILL') + ' +' + equip.will}</div>`;
+        resultTooltip += `<div class="param">${
+          this.i18nService.translateInstant('PARAM.WILL') + ' +' + equip.will
+        }</div>`;
       }
       if (equip.regeneration) {
-        resultTooltip += `<div class="param">${this.i18nService.translateInstant('PARAM.REGENERATION') + ' +' + equip.regeneration}</div>`;
+        resultTooltip += `<div class="param">${
+          this.i18nService.translateInstant('PARAM.REGENERATION') + ' +' + equip.regeneration
+        }</div>`;
       }
       if (equip.mind) {
-        resultTooltip += `<div class="param">${this.i18nService.translateInstant('PARAM.MIND') + ' +' + equip.mind}</div>`;
+        resultTooltip += `<div class="param">${
+          this.i18nService.translateInstant('PARAM.MIND') + ' +' + equip.mind
+        }</div>`;
       }
 
       resultTooltip += `</div>`;
@@ -113,6 +129,12 @@ export class HeroInfoComponent {
   }
 
   canUseWeapon(weapon: IEquip): boolean {
-    return this.hero.energy - weapon.energyCost >= 0 && !this.hero.isDisarmed && !weapon.isUsed && this.isActive && !weapon.isPassive;
+    return (
+      this.hero.energy - weapon.energyCost >= 0 &&
+      !this.hero.isDisarmed &&
+      !weapon.isUsed &&
+      this.isActive &&
+      !weapon.isPassive
+    );
   }
 }

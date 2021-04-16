@@ -1,6 +1,10 @@
 <div class="hero-info-container" [ngClass]="[isActive ? 'active' : '', hero.id]">
   <div class="hero-info-wrapper">
-    <img [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'" class="portrait" [ngClass]="[hero.id, hero.isDead ? 'dead' : '']" />
+    <img
+      [src]="'./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg'"
+      class="portrait"
+      [ngClass]="[hero.id, hero.isDead ? 'dead' : '']"
+    />
     <div class="hero-info">
       <div class="attributes">
         <div class="name">{{ 'HERO.' + hero.id | translate }}</div>
@@ -58,13 +62,22 @@
           <app-icon [icon]="hero.id + '/' + hero.chestpiece.id"></app-icon>
           <div class="overlay"></div>
         </div>
-        <div class="ability-btn passive" [ngClass]="hero.id" *ngIf="hero.secondaryWeapon && hero.secondaryWeapon.isPassive" [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)">
+        <div
+          class="ability-btn passive"
+          [ngClass]="hero.id"
+          *ngIf="hero.secondaryWeapon && hero.secondaryWeapon.isPassive"
+          [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
+        >
           <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
           <div class="overlay"></div>
         </div>
         <div
           class="ability-btn"
-          [ngClass]="[hero.id, canUseWeapon(hero.primaryWeapon) ? '' : 'disabled', preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id ? 'selected' : '']"
+          [ngClass]="[
+            hero.id,
+            canUseWeapon(hero.primaryWeapon) ? '' : 'disabled',
+            preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id ? 'selected' : ''
+          ]"
           [tooltip]="getEquipTooltip(hero.primaryWeapon, hero.id)"
           (click)="prepareWeaponClicked(hero.primaryWeapon)"
         >
@@ -73,7 +86,11 @@
         </div>
         <div
           class="ability-btn"
-          [ngClass]="[hero.id, canUseWeapon(hero.secondaryWeapon) ? '' : 'disabled', preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id ? 'selected' : '']"
+          [ngClass]="[
+            hero.id,
+            canUseWeapon(hero.secondaryWeapon) ? '' : 'disabled',
+            preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id ? 'selected' : ''
+          ]"
           *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive"
           [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
           (click)="prepareWeaponClicked(hero.secondaryWeapon)"
@@ -144,7 +161,11 @@
             <div class="pet-effects" *ngIf="pet.effects.length > 0">
               <div class="group">
                 <div class="buttons">
-                  <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of getEffects(pet.effects, true)">
+                  <div
+                    class="ability-btn btn-small"
+                    [ngClass]="hero.id"
+                    *ngFor="let buff of getEffects(pet.effects, true)"
+                  >
                     <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
                     <div class="overlay"></div>
                   </div>
@@ -152,7 +173,11 @@
               </div>
               <div class="group">
                 <div class="buttons">
-                  <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of getEffects(pet.effects, false)">
+                  <div
+                    class="ability-btn btn-small"
+                    [ngClass]="hero.id"
+                    *ngFor="let debuff of getEffects(pet.effects, false)"
+                  >
                     <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
                     <div class="overlay"></div>
                   </div>

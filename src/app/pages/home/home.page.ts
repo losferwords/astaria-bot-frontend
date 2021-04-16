@@ -28,6 +28,8 @@ export class HomePageComponent {
   }
 
   chooseScenario(scenario: IScenarioSetupDto): void {
-    this.router.navigate(['/team-setup'], { state: { data: { scenarioId: scenario.id, teamSetupMatrix: scenario.teamSize } } });
+    this.router.navigate(['/team-setup'], {
+      state: { data: { scenarioId: scenario.id, teamSetupMatrix: scenario.teamSize } }
+    });
   }
 }
