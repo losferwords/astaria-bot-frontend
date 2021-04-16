@@ -8,8 +8,7 @@ import { Const } from '../static/const';
   providedIn: 'root'
 })
 export class BaseDataProvider {
-
-  constructor() { }
+  constructor() {}
 
   protected getApiUrl(path: string): string {
     return Const.connectionUrl + path;
@@ -17,7 +16,7 @@ export class BaseDataProvider {
 
   protected handleHttpError(error: any): void {
     const errResponse: Error = error;
-    if (!errResponse || errResponse && errResponse.name === ErrorCode.INTERNAL_ERROR) {
+    if (!errResponse || (errResponse && errResponse.name === ErrorCode.INTERNAL_ERROR)) {
       console.log('Error Status: ' + ErrorCode.INTERNAL_ERROR);
     }
   }

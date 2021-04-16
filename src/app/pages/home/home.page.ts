@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Scenario } from 'src/app/enums/scenario.enum';
+import { IScenarioSetupDto } from 'src/app/dto/scenario-setup.dto';
 import { BattleService } from 'src/app/services/battle.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { BattleService } from 'src/app/services/battle.service';
 })
 export class HomePageComponent {
   isLoading = false;
-  scenarios: Scenario[] = [];
+  scenarios: IScenarioSetupDto[] = [];
 
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.isLoading = true;
     this.battleService.getScenarios().subscribe({
-      next: (scenarios: Scenario[]) => {
+      next: (scenarios: IScenarioSetupDto[]) => {
         this.isLoading = false;
         this.cd.detectChanges();
         this.scenarios = scenarios;
@@ -27,18 +27,7 @@ export class HomePageComponent {
     });
   }
 
-  chooseScenario(id: Scenario): void {
-    this.isLoading = true;
-    this.battleService.getScenarioTeamSize(id).subscribe(
-      (res: number[]) => {
-        this.isLoading = false;
-        this.cd.detectChanges();
-        this.router.navigate(['/team-setup'], { state: { data: { scenarioId: id, teamSetupMatrix: res } } });
-      },
-      (err) => {
-        this.isLoading = false;
-        console.log(err);
-      }
-    );
+  chooseScenario(scenario: IScenarioSetupDto): void {
+    this.router.navigate(['/team-setup'], { state: { data: { scenarioId: scenario.id, teamSetupMatrix: scenario.teamSize } } });
   }
 }

@@ -27,4 +27,4 @@ import { NgxAutoScrollModule } from 'ngx-auto-scroll';
   declarations: [BattlePageComponent],
   exports: []
 })
-export class BattlePageModule { }
+export class BattlePageModule {}

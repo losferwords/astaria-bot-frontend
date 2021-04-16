@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 import { BattleDataProvider } from '../dataproviders/battle.dataprovider';
 import { Observable } from 'rxjs';
 import { IBattle } from '../interfaces/IBattle';
-import { IBattleSetup } from '../interfaces/IBattleSetup';
 import { IPosition } from '../interfaces/IPosition';
-import { Scenario } from '../enums/scenario.enum';
+import { IScenarioSetupDto } from '../dto/scenario-setup.dto';
+import { IBattleSetupDto } from '../dto/battle-setup.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BattleService {
-
   constructor(private battleDataProvider: BattleDataProvider) {}
 
   updateBattleState(oldState: IBattle, newState: IBattle) {
     oldState.queue = newState.queue;
-    oldState.map = newState.map;
+    oldState.scenario = newState.scenario;
     oldState.log = newState.log;
     for (let i = 0; i < oldState.teams.length; i++) {
       oldState.teams[i].crystals = newState.teams[i].crystals;
       for (let j = 0; j < oldState.teams[i].heroes.length; j++) {
         for (const key in oldState.teams[i].heroes[j]) {
-          if (oldState.teams[i].heroes[j].hasOwnProperty(key)){
+          if (oldState.teams[i].heroes[j].hasOwnProperty(key)) {
             oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
           }
         }
@@ -29,15 +28,11 @@ export class BattleService {
     }
   }
 
-  getScenarios(): Observable<Scenario[]> {
+  getScenarios(): Observable<IScenarioSetupDto[]> {
     return this.battleDataProvider.getScenarios();
   }
 
-  getScenarioTeamSize(id: Scenario): Observable<number[]> {
-    return this.battleDataProvider.getScenarioTeamSize(id);
-  }
-
-  startBattle(battleSetup: IBattleSetup): Observable<IBattle> {
+  startBattle(battleSetup: IBattleSetupDto): Observable<IBattle> {
     return this.battleDataProvider.startBattle(battleSetup);
   }
 

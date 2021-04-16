@@ -14,11 +14,16 @@
         </div>
         <div class="hero-selector-wrapper">
           <div class="hero" [ngClass]="{'active': heroSetup.hero === 'random'}" (click)="selectHero(heroSetup, 'random')">
-            <img src="./assets/images/portraits/random.png" class="portrait">
+            <img src="./assets/images/portraits/random.png" class="portrait" />
             <div class="name">{{'HERO.random' | translate}}</div>
           </div>
-          <div class="hero" *ngFor="let availableHero of availableHeroes" [ngClass]="{'active': heroSetup.hero === availableHero.name, 'disabled': availableHero.name !== heroSetup.hero && !availableHero.isAvailable}" (click)="selectHero(heroSetup, availableHero)">
-            <img [src]="'./assets/images/portraits/' + availableHero.name + '_' + heroSetup.gender + '.jpg'" class="portrait" [ngClass]="availableHero.name">
+          <div
+            class="hero"
+            *ngFor="let availableHero of availableHeroes"
+            [ngClass]="{'active': heroSetup.hero === availableHero.name, 'disabled': availableHero.name !== heroSetup.hero && !availableHero.isAvailable}"
+            (click)="selectHero(heroSetup, availableHero)"
+          >
+            <img [src]="'./assets/images/portraits/' + availableHero.name + '_' + heroSetup.gender + '.jpg'" class="portrait" [ngClass]="availableHero.name" />
             <div class="name">{{('HERO.' + availableHero.name) | translate}}</div>
           </div>
         </div>

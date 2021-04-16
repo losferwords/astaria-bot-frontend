@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./icon.component.scss']
 })
 export class IconComponent {
-    @Input() icon = '';
+  @Input() icon = '';
 
   constructor() {}
 }

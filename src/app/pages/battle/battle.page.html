@@ -1,35 +1,77 @@
 <div class="page-content" *ngIf="battle">
   <div class="team-wrapper">
     <ng-container *ngFor="let hero of battle.teams[0].heroes">
-      <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]" [isAllyTarget]="isTarget(hero.id, true)" [isEnemyTarget]="isTarget(hero.id, false)" [preparedWeapon]="preparedWeapon" (endTurn)="endTurn()" (prepareWeapon)="prepareWeapon($event)"></app-hero-info>
+      <app-hero-info
+        [hero]="hero"
+        [isActive]="hero.id === battle.queue[0]"
+        [isAllyTarget]="isTarget(hero.id, true)"
+        [isEnemyTarget]="isTarget(hero.id, false)"
+        [preparedWeapon]="preparedWeapon"
+        (endTurn)="endTurn()"
+        (prepareWeapon)="prepareWeapon($event)"
+      ></app-hero-info>
     </ng-container>
   </div>
   <div class="center-wrapper">
     <div class="map-wrapper">
       <div class="map-container" (mouseleave)="setArrowTarget(-1, -1)">
-        <div class="row" *ngFor="let row of battle.map.tiles; index as i">
-          <div class="tile" *ngFor="let tile of row; index as j" [ngClass]="{'wall': tile.type === TileType.WALL}" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px'}" (mouseenter)="setArrowTarget(-1, -1)">
-            <div class="overlay" [ngClass]="{'move': isMoveAvailableTile(j, i)}" (mouseenter)="setArrowTarget(j, i)" (click)="moveHero(j, i)"></div>
+        <div class="row" *ngFor="let row of battle.scenario.tiles; index as i">
+          <div
+            class="tile"
+            *ngFor="let tile of row; index as j"
+            [ngClass]="{'wall': tile.type === TileType.WALL}"
+            [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px'}"
+            (mouseenter)="setArrowTarget(-1, -1)"
+          >
+            <div
+              class="overlay"
+              [ngClass]="{'move': isMoveAvailableTile(j, i)}"
+              (mouseenter)="setArrowTarget(j, i)"
+              (click)="moveHero(j, i)"
+            ></div>
           </div>
         </div>
         <ng-container *ngFor="let team of battle.teams">
           <ng-container *ngFor="let hero of team.heroes">
-            <div class="hero" *ngIf="!hero.isDead" [ngStyle]="{'width' : battle.map.tileSize + 'px', 'height' : battle.map.tileSize + 'px', 'left': (hero.position.x * battle.map.tileSize) + 'px', 'top': (hero.position.y * battle.map.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}" [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]" (mouseenter)="setArrowTarget(-1, -1)" (click)="heroTileClicked(hero)">
-              <div class="overlay" *ngIf="isTarget(hero.id)" [ngCLass]="{'ally': isHeroAllyToActive(hero.id)}" (mouseenter)="setArrowTarget(hero.position.x, hero.position.y)"></div>
+            <div
+              class="hero"
+              *ngIf="!hero.isDead"
+              [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px', 'left': (hero.position.x * battle.scenario.tileSize) + 'px', 'top': (hero.position.y * battle.scenario.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}"
+              [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]"
+              (mouseenter)="setArrowTarget(-1, -1)"
+              (click)="heroTileClicked(hero)"
+            >
+              <div
+                class="overlay"
+                *ngIf="isTarget(hero.id)"
+                [ngCLass]="{'ally': isHeroAllyToActive(hero.id)}"
+                (mouseenter)="setArrowTarget(hero.position.x, hero.position.y)"
+              ></div>
             </div>
           </ng-container>
         </ng-container>
         <svg id="connectors" height="100%" width="100%" *ngIf="arrowTarget" [ngClass]="getArrowType()">
           <defs>
-              <marker id="markerArrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
-                <path d="M 0 0 L 6 3 L 0 6 z" />
-              </marker>
+            <marker id="markerArrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+              <path d="M 0 0 L 6 3 L 0 6 z" />
+            </marker>
           </defs>
-          <line [attr.x1]="(activeHero.position.x * battle.map.tileSize) + battle.map.tileSize / 2" [attr.y1]="(activeHero.position.y * battle.map.tileSize) + battle.map.tileSize / 2" [attr.x2]="(arrowTarget.x * battle.map.tileSize) + battle.map.tileSize / 2" [attr.y2]="(arrowTarget.y * battle.map.tileSize) + battle.map.tileSize / 2" class="arrow" />
+          <line
+            [attr.x1]="(activeHero.position.x * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
+            [attr.y1]="(activeHero.position.y * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
+            [attr.x2]="(arrowTarget.x * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
+            [attr.y2]="(arrowTarget.y * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
+            class="arrow"
+          />
         </svg>
         <ng-container *ngFor="let event of eventsForRender; index as i">
           <ng-container [ngSwitch]="event.type">
-            <div class="battle-text-event" *ngSwitchCase="LogMessageType.WEAPON_DAMAGE" [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.map.tileSize + (i % 2 ? -1 : 1) * battle.map.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.map.tileSize + (i > 1 ? 1 : -1) * battle.map.tileSize  + 'px'}}" [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.map.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.map.tileSize + 12) + 'px'}">
+            <div
+              class="battle-text-event"
+              *ngSwitchCase="LogMessageType.WEAPON_DAMAGE"
+              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+            >
               <app-icon [icon]="event.casterId + '/' + event.id" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
             </div>
@@ -38,33 +80,51 @@
       </div>
     </div>
     <div class="queue-wrapper">
-      <div class="hero" *ngFor="let hero of getHeroesfromQueue()" [ngStyle]="{'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}" [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]"></div>
+      <div
+        class="hero"
+        *ngFor="let hero of getHeroesfromQueue()"
+        [ngStyle]="{'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}"
+        [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]"
+      ></div>
     </div>
-    <div class="log-wrapper" [ngStyle]="{'width' : (battle.map.tileSize * battle.map.tiles[0].length) + 'px', 'height' : (battle.map.tileSize * battle.map.tiles[0].length) + 'px'}" ngx-auto-scroll lock-y-offset="5">
+    <div
+      class="log-wrapper"
+      [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px', 'height' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
+      ngx-auto-scroll
+      lock-y-offset="5"
+    >
       <div class="log-message" *ngFor="let message of battle.log">
         <ng-container [ngSwitch]="message.type">
-          <div class='text' *ngSwitchCase="LogMessageType.MOVE">
-            <span [ngClass]='message.id'>{{"HERO." + message.id | translate}}</span> {{'LOG.MOVE' | translate: {"x": message.position.x, "y": message.position.y} }}
+          <div class="text" *ngSwitchCase="LogMessageType.MOVE">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.MOVE' | translate: {"x":
+            message.position.x, "y": message.position.y} }}
           </div>
-          <div class='text' *ngSwitchCase="LogMessageType.TURN_END">
-            <span [ngClass]='message.id'>{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_END' | translate}}
+          <div class="text" *ngSwitchCase="LogMessageType.TURN_END">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_END' | translate}}
           </div>
-          <div class='text' *ngSwitchCase="LogMessageType.WEAPON_DAMAGE">
-            <span [ngClass]='message.casterId'>{{"HERO." + message.casterId | translate}}</span> {{'LOG.WEAPON_DAMAGE' | translate: {"value": message.value} }} <span [ngClass]='message.targetId'>{{"HERO.TO." + message.targetId | translate}}</span> {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.id) | translate}}'
+          <div class="text" *ngSwitchCase="LogMessageType.WEAPON_DAMAGE">
+            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.WEAPON_DAMAGE' |
+            translate: {"value": message.value} }}
+            <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
+            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.id) | translate}}'
           </div>
-          <div class='text' *ngSwitchCase="LogMessageType.DEATH">
-            <span [ngClass]='message.id'>{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
+          <div class="text" *ngSwitchCase="LogMessageType.DEATH">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
           </div>
-          <div class='text' *ngSwitchCase="LogMessageType.WIN">
-            {{'LOG.WIN' | translate}}
-          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.WIN">{{'LOG.WIN' | translate}}</div>
         </ng-container>
       </div>
     </div>
-  </div>  
+  </div>
   <div class="team-wrapper">
     <ng-container *ngFor="let hero of battle.teams[1].heroes">
-      <app-hero-info [hero]="hero" [isActive]="hero.id === battle.queue[0]" [preparedWeapon]="preparedWeapon" (endTurn)="endTurn()" (prepareWeapon)="prepareWeapon($event)"></app-hero-info>
+      <app-hero-info
+        [hero]="hero"
+        [isActive]="hero.id === battle.queue[0]"
+        [preparedWeapon]="preparedWeapon"
+        (endTurn)="endTurn()"
+        (prepareWeapon)="prepareWeapon($event)"
+      ></app-hero-info>
     </ng-container>
   </div>
 </div>

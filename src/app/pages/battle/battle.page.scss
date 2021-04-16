@@ -1,4 +1,4 @@
-@import "variables.scss";
+@import 'variables.scss';
 
 .page-content {
   display: flex;
@@ -46,12 +46,12 @@
           display: flex;
           justify-content: center;
           align-items: center;
-  
+
           .tile {
             background-color: $color-light;
             border: 1px solid $color-dark;
             position: relative;
-  
+
             &.wall {
               background-color: $color-gray;
             }
@@ -82,11 +82,11 @@
 
           .arrow {
             stroke: $color-energy;
-            stroke-width: 2; 
+            stroke-width: 2;
             marker-end: url(#markerArrow);
             z-index: 100;
           }
-          
+
           #markerArrow {
             fill: $color-energy;
             z-index: 101;
@@ -111,8 +111,8 @@
               fill: $color-health;
             }
           }
-        }    
-        
+        }
+
         .battle-text-event {
           position: absolute;
           display: flex;
@@ -126,33 +126,33 @@
             &.paragon {
               border-color: $color-paragon;
             }
-    
+
             &.highlander {
-                border-color: $color-highlander;
+              border-color: $color-highlander;
             }
-    
+
             &.druid {
-                border-color: $color-druid;
+              border-color: $color-druid;
             }
-    
+
             &.oracle {
-                border-color: $color-oracle;
+              border-color: $color-oracle;
             }
-    
+
             &.avatar {
-                border-color: $color-avatar;
+              border-color: $color-avatar;
             }
-    
+
             &.shadow {
-                border-color: $color-shadow;
+              border-color: $color-shadow;
             }
-    
+
             &.lightbringer {
-                border-color: $color-lightbringer;
+              border-color: $color-lightbringer;
             }
-    
+
             &.avenger {
-                border-color: $color-avenger;
+              border-color: $color-avenger;
             }
           }
 
@@ -166,7 +166,7 @@
             }
           }
         }
-      }      
+      }
     }
 
     .queue-wrapper {
@@ -205,31 +205,31 @@
             &.paragon {
               color: $color-paragon;
             }
-    
+
             &.highlander {
               color: $color-highlander;
             }
-    
+
             &.druid {
               color: $color-druid;
             }
-    
+
             &.oracle {
               color: $color-oracle;
             }
-    
+
             &.avatar {
               color: $color-avatar;
             }
-    
+
             &.shadow {
               color: $color-shadow;
             }
-    
+
             &.lightbringer {
               color: $color-lightbringer;
             }
-    
+
             &.avenger {
               color: $color-avenger;
             }

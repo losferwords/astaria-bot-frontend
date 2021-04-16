@@ -34,15 +34,7 @@ export const CustomTooltipOptions: TooltipOptions = {
     HeroInfoComponent,
     ResourceBarComponent
   ],
-  exports: [
-    ProgressSpinnerComponent,
-    IconComponent,
-    HeroInfoComponent,
-    MaterialModule,
-    ResourceBarComponent
-  ],
-  entryComponents: [
-    OverlayPanelComponent
-  ]
+  exports: [ProgressSpinnerComponent, IconComponent, HeroInfoComponent, MaterialModule, ResourceBarComponent],
+  entryComponents: [OverlayPanelComponent]
 })
-export class WidgetsModule { }
+export class WidgetsModule {}

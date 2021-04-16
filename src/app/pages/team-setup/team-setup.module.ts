@@ -25,4 +25,4 @@ import { TeamSetupPageComponent } from './team-setup.page';
   declarations: [TeamSetupPageComponent],
   exports: []
 })
-export class TeamSetupPageModule { }
+export class TeamSetupPageModule {}

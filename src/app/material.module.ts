@@ -28,4 +28,4 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   ],
   entryComponents: []
 })
-export class MaterialModule { }
+export class MaterialModule {}

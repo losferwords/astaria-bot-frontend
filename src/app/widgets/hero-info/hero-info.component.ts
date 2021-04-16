@@ -19,7 +19,7 @@ export class HeroInfoComponent {
   constructor(private i18nService: I18nService) {}
 
   getEquipTooltip(equip: IEquip, heroId: string): string {
-    let resultTooltip =  `
+    let resultTooltip = `
       <div class="block">
         <div class="block-element">${this.i18nService.translateInstant('EQUIP.' + heroId + '.' + equip.id)}</div>
         <div class="block-element">

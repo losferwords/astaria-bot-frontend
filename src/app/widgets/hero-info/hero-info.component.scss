@@ -1,417 +1,415 @@
-@import "variables.scss";
-@mixin hero-color-shadows()
-{
-    &.paragon {
-        box-shadow: 0 0 15px 2px $color-paragon;
-    }
+@import 'variables.scss';
+@mixin hero-color-shadows() {
+  &.paragon {
+    box-shadow: 0 0 15px 2px $color-paragon;
+  }
 
-    &.highlander {
-        box-shadow: 0 0 15px 2px $color-highlander;
-    }
+  &.highlander {
+    box-shadow: 0 0 15px 2px $color-highlander;
+  }
 
-    &.druid {
-        box-shadow: 0 0 15px 2px $color-druid;
-    }
+  &.druid {
+    box-shadow: 0 0 15px 2px $color-druid;
+  }
 
-    &.oracle {
-        box-shadow: 0 0 15px 2px $color-oracle;
-    }
+  &.oracle {
+    box-shadow: 0 0 15px 2px $color-oracle;
+  }
 
-    &.avatar {
-        box-shadow: 0 0 15px 2px $color-avatar;
-    }
+  &.avatar {
+    box-shadow: 0 0 15px 2px $color-avatar;
+  }
 
-    &.shadow {
-        box-shadow: 0 0 15px 2px $color-shadow;
-    }
+  &.shadow {
+    box-shadow: 0 0 15px 2px $color-shadow;
+  }
 
-    &.lightbringer {
-        box-shadow: 0 0 15px 2px $color-lightbringer;
-    }
+  &.lightbringer {
+    box-shadow: 0 0 15px 2px $color-lightbringer;
+  }
 
-    &.avenger {
-        box-shadow: 0 0 15px 2px $color-avenger;
-    }
+  &.avenger {
+    box-shadow: 0 0 15px 2px $color-avenger;
+  }
 }
 
 :host {
-    .hero-info-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        border: 2px solid $color-dark;
-        box-sizing: border-box;
+  .hero-info-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 2px solid $color-dark;
+    box-sizing: border-box;
 
-        &.active {
-            @include hero-color-shadows();
-    
-            .action-bar-wrapper {           
-                .ability-btn {
-                    &:not(.passive) {
-                        cursor: pointer;
+    &.active {
+      @include hero-color-shadows();
 
-                        &.selected {
-                            @include hero-color-shadows();
-                        }
+      .action-bar-wrapper {
+        .ability-btn {
+          &:not(.passive) {
+            cursor: pointer;
 
-                        &.disabled {
-                            cursor: default;
-                        }
-                    }
-    
-                    .overlay {
-                        background-color: transparent;
-                    }
-                }
-            }        
+            &.selected {
+              @include hero-color-shadows();
+            }
+
+            &.disabled {
+              cursor: default;
+            }
+          }
+
+          .overlay {
+            background-color: transparent;
+          }
         }
-    
-        .hero-info-wrapper {
+      }
+    }
+
+    .hero-info-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+
+      .hero-info {
+        width: calc(100% - 69px);
+        margin-left: 5px;
+        display: flex;
+        padding: 5px;
+
+        .attributes {
+          width: 70px;
+          display: flex;
+          flex-direction: column;
+
+          .name {
+            font-size: 12px;
+            font-weight: bold;
+            text-align: left;
+            text-transform: capitalize;
+            margin-bottom: 5px;
+            height: 16px;
+          }
+
+          .attribute-wrapper {
             display: flex;
             width: 100%;
-            height: 100%;
-        
-            .hero-info {
-                width: calc(100% - 69px);
-                margin-left: 5px;
-                display: flex;
-                padding: 5px;
-        
-                .attributes {
-                    width: 70px;
-                    display: flex;
-                    flex-direction: column;
-        
-                    .name {
-                        font-size: 12px;
-                        font-weight: bold;
-                        text-align: left;
-                        text-transform: capitalize;
-                        margin-bottom: 5px;
-                        height: 16px;
-                    }
-        
-                    .attribute-wrapper {
-                        display: flex;
-                        width: 100%;
-                        justify-content: left;
-        
-                        .attribute-group {
-                            display: flex;
-                            flex-direction: column;
-                            margin-right: 5px;
-        
-                            &:last-child {
-                                margin-right: 0;
-                            }
-                        }    
-                    }
-                }        
-        
-                .bars-wrapper {
-                    display: flex;
-                    flex-direction: column;
-                    width: calc(100% - 74px);
-                    justify-content: space-between;
-                    margin-left: 5px;
-        
-                    .bar-group {
-                        display: flex;
-                        width: 100%;
-                        margin-bottom: 5px;
-        
-                        &:last-child {
-                            margin-bottom: 0;
-                        }
-        
-                        app-icon {
-                            width: 16px;
-                            height: 16px;
-                        }
-        
-                        app-resource-bar {
-                            width: calc(100% - 54px);
-                            margin-left: 5px;
-                            margin-right: 5px;
-                            
-                        }
-                    }
-                }
-        
-                .attribute {
-                    display: flex;
-                    margin-bottom: 5px;
-                    align-items: center;
-        
-                    &:last-child {
-                        margin-bottom: 0;
-                    }
-        
-                    app-icon {
-                        width: 16px;
-                        height: 16px;
-                    }
-                    
-                    .value {
-                        margin-left: 5px;
-                        font-size: 12px;
-                        font-weight: bold;
-                    }
-                }
+            justify-content: left;
+
+            .attribute-group {
+              display: flex;
+              flex-direction: column;
+              margin-right: 5px;
+
+              &:last-child {
+                margin-right: 0;
+              }
             }
+          }
         }
-    
-        .action-bar-wrapper {
+
+        .bars-wrapper {
+          display: flex;
+          flex-direction: column;
+          width: calc(100% - 74px);
+          justify-content: space-between;
+          margin-left: 5px;
+
+          .bar-group {
             display: flex;
-            align-items: center;
-            padding: 0 5px 5px 5px;
-    
-            .group {
+            width: 100%;
+            margin-bottom: 5px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            app-icon {
+              width: 16px;
+              height: 16px;
+            }
+
+            app-resource-bar {
+              width: calc(100% - 54px);
+              margin-left: 5px;
+              margin-right: 5px;
+            }
+          }
+        }
+
+        .attribute {
+          display: flex;
+          margin-bottom: 5px;
+          align-items: center;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          app-icon {
+            width: 16px;
+            height: 16px;
+          }
+
+          .value {
+            margin-left: 5px;
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .action-bar-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 0 5px 5px 5px;
+
+      .group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 5px;
+        border: 2px solid $color-dark;
+        padding: 5px;
+        width: 100%;
+
+        &.equip {
+          width: 144px;
+        }
+
+        &.abilities {
+          width: 190px;
+          height: 54px;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .group-name {
+          width: 100%;
+          font-size: 10px;
+          font-weight: bold;
+          text-align: center;
+          margin-bottom: 2px;
+          margin-top: 2px;
+        }
+
+        .buttons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .pet-info-wrapper {
+            display: flex;
+            width: calc(100% - 64px);
+
+            .pet-abilities {
+              width: 99px;
+              margin-left: 5px;
+              height: 64px;
+              justify-content: center;
+              padding: 0 5px 5px 5px;
+            }
+
+            .pet-info {
+              width: calc(100% - 104px);
+              display: flex;
+              flex-direction: column;
+
+              .bar-group {
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                margin-right: 5px;
-                border: 2px solid $color-dark;
-                padding: 5px;
                 width: 100%;
-    
-                &.equip {
-                    width: 144px;
+                margin-bottom: 5px;
+
+                app-icon {
+                  width: 16px;
+                  height: 16px;
                 }
-    
-                &.abilities {
-                    width: 190px;
-                    height: 54px;
+
+                app-resource-bar {
+                  width: calc(100% - 21px);
+                  margin-left: 5px;
                 }
-    
-                &:last-child {
-                    margin-right: 0;
-                }
-    
-                .group-name {
-                    width: 100%;
-                    font-size: 10px;
-                    font-weight: bold;
-                    text-align: center;
-                    margin-bottom: 2px;
-                    margin-top: 2px;
-                }
-    
-                .buttons {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-    
-                    .pet-info-wrapper {
-                        display: flex;
-                        width: calc(100% - 64px);
-    
-                        .pet-abilities {
-                            width: 99px;
-                            margin-left: 5px;
-                            height: 64px;
-                            justify-content: center;
-                            padding: 0 5px 5px 5px;
-                        }
-    
-                        .pet-info {
-                            width: calc(100% - 104px);
-                            display: flex;
-                            flex-direction: column;
-        
-                            .bar-group {
-                                display: flex;
-                                width: 100%;
-                                margin-bottom: 5px;
-                
-                                app-icon {
-                                    width: 16px;
-                                    height: 16px;
-                                }
-                
-                                app-resource-bar {
-                                    width: calc(100% - 21px);
-                                    margin-left: 5px;
-                                }
-                            }
-        
-                            .pet-effects {
-                                display: flex;
-                                height: 43px;
-    
-                                .group {
-                                    padding: 3px 5px;
-                                }
-                            }                    
-                        }
-                    }                
-                }
-            }    
-            
-            .ability-btn {
+              }
+
+              .pet-effects {
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 40px;
-                height: 40px;
-                border: 2px solid $color-dark;
-                margin-right: 5px;
-                cursor: default;
-                overflow: hidden;
-                position: relative;
-    
-                &.passive {
-                    border-radius: 50%;                
-                }
-    
-                &.btn-small {
-                    width: 32px;
-                    height: 32px;
-                }
-    
-                &.paragon {
-                    border-color: $color-paragon;
-                }
-        
-                &.highlander {
-                    border-color: $color-highlander;
-                }
-        
-                &.druid {
-                    border-color: $color-druid;
-                }
-        
-                &.oracle {
-                    border-color: $color-oracle;
-                }
-        
-                &.avatar {
-                    border-color: $color-avatar;
-                }
-        
-                &.shadow {
-                    border-color: $color-shadow;
-                }
-        
-                &.lightbringer {
-                    border-color: $color-lightbringer;
-                }
-        
-                &.avenger {
-                    border-color: $color-avenger;
-                }
-    
-                &:last-child {
-                    margin-right: 0;
-                }
+                height: 43px;
 
-                &.disabled {
-                    .overlay {
-                        background-color: $color-dark-transparent-20;
-                    }
+                .group {
+                  padding: 3px 5px;
                 }
-    
-                .overlay {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-color: $color-dark-transparent-20;
-                }
+              }
             }
+          }
         }
-    
-        .portrait {
-            width: 64px;
-            height: 64px;
-            border: 4px solid $color-dark;
-            background-color: $color-light;
+      }
 
-            &.dead {
-                filter: grayscale(100%);
-            }
-    
-            &.paragon {
-              border-color: $color-paragon;
-            }
-    
-            &.highlander {
-              border-color: $color-highlander;
-            }
-    
-            &.druid {
-              border-color: $color-druid;
-            }
-    
-            &.oracle {
-              border-color: $color-oracle;
-            }
-    
-            &.avatar {
-              border-color: $color-avatar;
-            }
-    
-            &.shadow {
-              border-color: $color-shadow;
-            }
-    
-            &.lightbringer {
-              border-color: $color-lightbringer;
-            }
-    
-            &.avenger {
-              border-color: $color-avenger;
-            }
+      .ability-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border: 2px solid $color-dark;
+        margin-right: 5px;
+        cursor: default;
+        overflow: hidden;
+        position: relative;
+
+        &.passive {
+          border-radius: 50%;
         }
-    }    
+
+        &.btn-small {
+          width: 32px;
+          height: 32px;
+        }
+
+        &.paragon {
+          border-color: $color-paragon;
+        }
+
+        &.highlander {
+          border-color: $color-highlander;
+        }
+
+        &.druid {
+          border-color: $color-druid;
+        }
+
+        &.oracle {
+          border-color: $color-oracle;
+        }
+
+        &.avatar {
+          border-color: $color-avatar;
+        }
+
+        &.shadow {
+          border-color: $color-shadow;
+        }
+
+        &.lightbringer {
+          border-color: $color-lightbringer;
+        }
+
+        &.avenger {
+          border-color: $color-avenger;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &.disabled {
+          .overlay {
+            background-color: $color-dark-transparent-20;
+          }
+        }
+
+        .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: $color-dark-transparent-20;
+        }
+      }
+    }
+
+    .portrait {
+      width: 64px;
+      height: 64px;
+      border: 4px solid $color-dark;
+      background-color: $color-light;
+
+      &.dead {
+        filter: grayscale(100%);
+      }
+
+      &.paragon {
+        border-color: $color-paragon;
+      }
+
+      &.highlander {
+        border-color: $color-highlander;
+      }
+
+      &.druid {
+        border-color: $color-druid;
+      }
+
+      &.oracle {
+        border-color: $color-oracle;
+      }
+
+      &.avatar {
+        border-color: $color-avatar;
+      }
+
+      &.shadow {
+        border-color: $color-shadow;
+      }
+
+      &.lightbringer {
+        border-color: $color-lightbringer;
+      }
+
+      &.avenger {
+        border-color: $color-avenger;
+      }
+    }
+  }
 }
 
 @media (min-width: $lg-width) {
-    :host {
-        .hero-info-container {  
-            .action-bar-wrapper {  
-                .group {  
-                    &.equip {
-                        width: 120px;
-                    }
+  :host {
+    .hero-info-container {
+      .action-bar-wrapper {
+        .group {
+          &.equip {
+            width: 120px;
+          }
 
-                    &.abilities {
-                        width: 157px;
-                        height: 46px;
-                    }
+          &.abilities {
+            width: 157px;
+            height: 46px;
+          }
 
-                    .buttons {  
-                        .pet-info-wrapper {
-                            width: calc(100% - 64px);
+          .buttons {
+            .pet-info-wrapper {
+              width: calc(100% - 64px);
 
-                            .pet-abilities {
-                                width: 99px;
-                                height: 64px;
-                            }
+              .pet-abilities {
+                width: 99px;
+                height: 64px;
+              }
 
-                            .pet-info {
-                                width: calc(100% - 104px);
-            
-                                .pet-effects {
-                                    height: 43px;
-                                }                    
-                            }
-                        }                
-                    }
-                }    
-                
-                .ability-btn {
-                    width: 32px;
-                    height: 32px;
+              .pet-info {
+                width: calc(100% - 104px);
 
-                    &.btn-small {
-                        width: 24px;
-                        height: 24px;
-                    }
+                .pet-effects {
+                  height: 43px;
                 }
+              }
             }
-        } 
+          }
+        }
+
+        .ability-btn {
+          width: 32px;
+          height: 32px;
+
+          &.btn-small {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
     }
+  }
 }

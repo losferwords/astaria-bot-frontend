@@ -23,25 +23,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "allowedCommonJsDependencies": [
-              "rxjs-compat",
-              "rxjs",
-              "lodash"
-            ],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/assets/styles/material-theme.scss",
-              "src/assets/styles/variables.scss",
-              "src/styles.scss"
-            ],
+            "allowedCommonJsDependencies": ["rxjs-compat", "rxjs", "lodash"],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/assets/styles/material-theme.scss", "src/assets/styles/variables.scss", "src/styles.scss"],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/styles"
-              ]
+              "includePaths": ["src/assets/styles"]
             }
           },
           "configurations": {
@@ -94,13 +81,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["tsconfig.app.json", "e2e/tsconfig.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

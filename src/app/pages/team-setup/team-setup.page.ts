@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Scenario } from 'src/app/enums/scenario.enum';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { IHeroSetup } from 'src/app/interfaces/IHeroSetup';
 import { BattleService } from 'src/app/services/battle.service';
@@ -16,7 +15,7 @@ export class TeamSetupPageComponent {
   teamSetupMatrix: number[];
   teamSetup: IHeroSetup[][] = [];
   availableHeroes = [];
-  scenarioId: Scenario;
+  scenarioId: string;
 
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state.data.teamSetupMatrix;
@@ -31,32 +30,35 @@ export class TeamSetupPageComponent {
       }
     }
     for (let i = 0; i < Const.availableHeroes.length; i++) {
-      this.availableHeroes.push({name: Const.availableHeroes[i], isAvailable: true});
+      this.availableHeroes.push({ name: Const.availableHeroes[i], isAvailable: true });
     }
   }
 
   selectHero(heroSetup: IHeroSetup, availableHero: any | string): void {
     if (heroSetup.hero !== 'random') {
-      const previousHero = this.availableHeroes.find(h => {
+      const previousHero = this.availableHeroes.find((h) => {
         return h.name === heroSetup.hero;
       });
       previousHero.isAvailable = true;
     }
     heroSetup.hero = availableHero.name ? availableHero.name : availableHero;
-    if (availableHero !== 'random'){
+    if (availableHero !== 'random') {
       availableHero.isAvailable = false;
     }
   }
 
   startBattle(): void {
     this.isLoading = true;
-    this.battleService.startBattle({scenarioId: this.scenarioId, teamSetup: this.teamSetup}).subscribe((res: IBattle) => {
-      this.isLoading = false;
-      this.cd.detectChanges();
-      this.router.navigate(['/battle'], { state: { data: res } });
-    }, (err) => {
-      this.isLoading = false;
-      console.log(err);
-    });
+    this.battleService.startBattle({ scenarioId: this.scenarioId, teamSetup: this.teamSetup }).subscribe(
+      (res: IBattle) => {
+        this.isLoading = false;
+        this.cd.detectChanges();
+        this.router.navigate(['/battle'], { state: { data: res } });
+      },
+      (err) => {
+        this.isLoading = false;
+        console.log(err);
+      }
+    );
   }
 }

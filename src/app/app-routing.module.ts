@@ -10,16 +10,16 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then((m) => m.HomePageModule)
   },
   {
     path: 'team-setup',
-    loadChildren: () => import('./pages/team-setup/team-setup.module').then(m => m.TeamSetupPageModule),
+    loadChildren: () => import('./pages/team-setup/team-setup.module').then((m) => m.TeamSetupPageModule),
     canActivate: [PageContentGuard]
   },
   {
     path: 'battle',
-    loadChildren: () => import('./pages/battle/battle.module').then(m => m.BattlePageModule),
+    loadChildren: () => import('./pages/battle/battle.module').then((m) => m.BattlePageModule),
     canActivate: [PageContentGuard]
   }
 ];
@@ -28,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
