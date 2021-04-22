@@ -10,6 +10,7 @@ import { IHero } from 'src/app/interfaces/IHero';
 import { ILogMessage } from 'src/app/interfaces/ILogMessage';
 import { IPosition } from 'src/app/interfaces/IPosition';
 import { BattleService } from 'src/app/services/battle.service';
+import { BotService } from 'src/app/services/bot.service';
 
 @Component({
   selector: 'app-battle-page',
@@ -31,8 +32,9 @@ export class BattlePageComponent {
   preparedWeapon: IEquip;
   targets: string[] = [];
   eventsForRender: ILogMessage[];
+  isAutoBattle: boolean = false;
 
-  constructor(private router: Router, private battleService: BattleService) {
+  constructor(private router: Router, private battleService: BattleService, private botService: BotService) {
     this.battle =
       this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
     this.turnPrepare();
@@ -58,20 +60,25 @@ export class BattlePageComponent {
   private refreshBattle() {
     this.getMovePoints();
     this.activeHero = this.getHeroesfromQueue()[0];
+    if (this.isAutoBattle) {
+      this.botAction();
+    }
   }
 
   private getMovePoints() {
     this.isLoading = true;
-    this.battleService.getMovePoints(this.battle.id).subscribe(
-      (positions: IPosition[]) => {
-        this.isLoading = false;
-        this.movePositions = positions;
-      },
-      (err) => {
-        this.isLoading = false;
-        console.log(err);
-      }
-    );
+    if (this.battle) {
+      this.battleService.getMovePoints(this.battle.id).subscribe(
+        (positions: IPosition[]) => {
+          this.isLoading = false;
+          this.movePositions = positions;
+        },
+        (err) => {
+          this.isLoading = false;
+          console.log(err);
+        }
+      );
+    }
   }
 
   private canMove(hero: IHero): boolean {
@@ -107,6 +114,7 @@ export class BattlePageComponent {
   }
 
   private battleEnd() {
+    delete this.battle;
     this.router.navigate(['/home']);
   }
 
@@ -220,7 +228,9 @@ export class BattlePageComponent {
         this.isLoading = false;
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
           if (!battleIsEnded) {
-            this.refreshBattle();
+            setTimeout(() => {
+              this.refreshBattle();
+            }, 500);
           }
         });
       },
@@ -273,7 +283,6 @@ export class BattlePageComponent {
                 setTimeout(() => {
                   this.refreshBattle();
                 }, 500);
-              } else {
               }
             });
           },
@@ -292,5 +301,38 @@ export class BattlePageComponent {
       return hero.id === heroId;
     });
     return targetHero.position;
+  }
+
+  botAction() {
+    this.isLoading = true;
+    this.botService.botAction(this.battle.id).subscribe(
+      (battle: IBattle) => {
+        this.isLoading = false;
+        this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+          this.preparedWeapon = undefined;
+          this.targets = [];
+          this.movePositions = [];
+
+          if (!battleIsEnded) {
+            setTimeout(() => {
+              this.refreshBattle();
+            }, 500);
+          }
+        });
+      },
+      (err) => {
+        this.isLoading = false;
+        console.log(err);
+      }
+    );
+  }
+
+  toggleAutoBattle() {
+    if (this.isAutoBattle) {
+      this.isAutoBattle = false;
+    } else {
+      this.isAutoBattle = true;
+      this.botAction();
+    }
   }
 }

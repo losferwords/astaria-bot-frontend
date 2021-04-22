@@ -115,6 +115,14 @@
         </ng-container>
       </div>
     </div>
+    <div class="bot-control-wrapper">
+      <div class="control-btn" (click)="botAction()">
+        <app-icon [icon]="'next-button'"></app-icon>
+      </div>
+      <div class="control-btn" (click)="toggleAutoBattle()">
+        <app-icon [icon]="isAutoBattle ? 'pause-button' : 'play-button'"></app-icon>
+      </div>
+    </div>
   </div>
   <div class="team-wrapper">
     <ng-container *ngFor="let hero of battle.teams[1].heroes">

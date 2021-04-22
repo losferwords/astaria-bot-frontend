@@ -15,6 +15,7 @@ export class Const {
   public static apiEndTurn = 'end-turn';
   public static apiFindEnemies = 'find-enemies';
   public static apiUseWeapon = 'use-weapon';
+  public static apiBotAction = 'bot-action';
 
   public static availableHeroes = ['paragon', 'highlander', 'druid', 'oracle'];
 }
