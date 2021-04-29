@@ -11,6 +11,7 @@ import { ILogMessage } from 'src/app/interfaces/ILogMessage';
 import { IPosition } from 'src/app/interfaces/IPosition';
 import { BattleService } from 'src/app/services/battle.service';
 import { BotService } from 'src/app/services/bot.service';
+import { Const } from 'src/app/static/const';
 
 @Component({
   selector: 'app-battle-page',
@@ -33,11 +34,14 @@ export class BattlePageComponent {
   targets: string[] = [];
   eventsForRender: ILogMessage[];
   isAutoBattle: boolean = false;
+  timer: number = 0;
+  botThinkTime: number = 0;
 
   constructor(private router: Router, private battleService: BattleService, private botService: BotService) {
     this.battle =
       this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
     this.turnPrepare();
+    this.botThinkTime = Const.botThinkTime;
   }
 
   @HostListener('window:keydown.space')
@@ -114,8 +118,8 @@ export class BattlePageComponent {
   }
 
   private battleEnd() {
-    delete this.battle;
-    this.router.navigate(['/home']);
+    // delete this.battle;
+    // this.router.navigate(['/home']);
   }
 
   setArrowTarget(x: number, y: number) {
@@ -283,6 +287,8 @@ export class BattlePageComponent {
                 setTimeout(() => {
                   this.refreshBattle();
                 }, 500);
+              } else {
+                console.log('Battle is over');
               }
             });
           },
@@ -305,9 +311,20 @@ export class BattlePageComponent {
 
   botAction() {
     this.isLoading = true;
+    this.timer = Const.botThinkTime;
+    var thinkInterval = setInterval(() => {
+      if(this.timer - 100 > 0) {
+        this.timer -= 100;
+      } else {
+        this.timer = 0;
+        clearInterval(thinkInterval);
+      }
+    }, 100);
     this.botService.botAction(this.battle.id).subscribe(
       (battle: IBattle) => {
         this.isLoading = false;
+        this.timer = 0;
+        clearInterval(thinkInterval);
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
           this.preparedWeapon = undefined;
           this.targets = [];

@@ -72,7 +72,7 @@
               [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
               [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
             >
-              <app-icon [icon]="event.casterId + '/' + event.id" [ngClass]="event.casterId"></app-icon>
+              <app-icon [icon]="event.casterId + '/' + event.weaponId" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
             </div>
           </ng-container>
@@ -106,7 +106,7 @@
             <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.WEAPON_DAMAGE' |
             translate: {"value": message.value} }}
             <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
-            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.id) | translate}}'
+            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.weaponId) | translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.DEATH">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
@@ -115,13 +115,19 @@
         </ng-container>
       </div>
     </div>
-    <div class="bot-control-wrapper">
-      <div class="control-btn" (click)="botAction()">
-        <app-icon [icon]="'next-button'"></app-icon>
+    <div
+      class="bot-control-wrapper"
+      [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px', 'height' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
+    >
+      <div class="control-btn-wrapper">
+        <div class="control-btn" (click)="botAction()">
+          <app-icon [icon]="'next-button'"></app-icon>
+        </div>
+        <div class="control-btn" (click)="toggleAutoBattle()">
+          <app-icon [icon]="isAutoBattle ? 'pause-button' : 'play-button'"></app-icon>
+        </div>
       </div>
-      <div class="control-btn" (click)="toggleAutoBattle()">
-        <app-icon [icon]="isAutoBattle ? 'pause-button' : 'play-button'"></app-icon>
-      </div>
+      <app-resource-bar [value]="timer" [maxValue]="botThinkTime" [type]="'energy'"></app-resource-bar>
     </div>
   </div>
   <div class="team-wrapper">

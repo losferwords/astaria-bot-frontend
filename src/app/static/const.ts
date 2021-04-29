@@ -18,4 +18,5 @@ export class Const {
   public static apiBotAction = 'bot-action';
 
   public static availableHeroes = ['paragon', 'highlander', 'druid', 'oracle'];
+  public static botThinkTime = 120000;
 }

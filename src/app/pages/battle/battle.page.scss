@@ -239,23 +239,27 @@
     }
 
     .bot-control-wrapper {
-      display: flex;
-      justify-content: center;
       padding: 5px;
       margin-top: 10px;
 
-      .control-btn {
+      .control-btn-wrapper {
         display: flex;
         justify-content: center;
-        align-items: center;
-        border: 2px solid $color-dark;
-        margin-right: 5px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
+        margin-bottom: 5px;
 
-        &:last-child {
-          margin-right: 0;
+        .control-btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 2px solid $color-dark;
+          margin-right: 5px;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
     }
