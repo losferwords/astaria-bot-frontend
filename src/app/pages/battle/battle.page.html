@@ -1,5 +1,9 @@
 <div class="page-content" *ngIf="battle">
   <div class="team-wrapper">
+    <div class="crystals">
+      <app-icon [icon]="'cut-diamond-transparent'"></app-icon>
+      <div class="value">{{battle.teams[0].crystals}}</div>
+    </div>
     <ng-container *ngFor="let hero of battle.teams[0].heroes">
       <app-hero-info
         [hero]="hero"
@@ -7,8 +11,10 @@
         [isAllyTarget]="isTarget(hero.id, true)"
         [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
+        [teamCrystals]="battle.teams[0].crystals"
         (endTurn)="endTurn()"
         (prepareWeapon)="prepareWeapon($event)"
+        (openUpgradeModal)="openUpgradeModal($event)"
       ></app-hero-info>
     </ng-container>
   </div>
@@ -19,7 +25,7 @@
           <div
             class="tile"
             *ngFor="let tile of row; index as j"
-            [ngClass]="{'wall': tile.type === TileType.WALL}"
+            [ngClass]="{'wall': tile.type === TileType.WALL, 'crystal': tileHasCrystal(j, i)}"
             [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px'}"
             (mouseenter)="setArrowTarget(-1, -1)"
           >
@@ -106,7 +112,8 @@
             <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.WEAPON_DAMAGE' |
             translate: {"value": message.value} }}
             <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
-            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.weaponId) | translate}}'
+            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.weaponId) |
+            translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.DEATH">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
@@ -117,7 +124,7 @@
     </div>
     <div
       class="bot-control-wrapper"
-      [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px', 'height' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
+      [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
     >
       <div class="control-btn-wrapper">
         <div class="control-btn" (click)="botAction()">
@@ -131,13 +138,21 @@
     </div>
   </div>
   <div class="team-wrapper">
+    <div class="crystals">
+      <app-icon [icon]="'cut-diamond-transparent'"></app-icon>
+      <div class="value">{{battle.teams[1].crystals}}</div>
+    </div>
     <ng-container *ngFor="let hero of battle.teams[1].heroes">
       <app-hero-info
         [hero]="hero"
         [isActive]="hero.id === battle.queue[0]"
+        [isAllyTarget]="isTarget(hero.id, true)"
+        [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
+        [teamCrystals]="battle.teams[1].crystals"
         (endTurn)="endTurn()"
         (prepareWeapon)="prepareWeapon($event)"
+        (openUpgradeModal)="openUpgradeModal($event)"
       ></app-hero-info>
     </ng-container>
   </div>

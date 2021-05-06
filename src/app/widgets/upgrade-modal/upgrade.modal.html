@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{hero.id | translate}}</h1>
+<div mat-dialog-content class="content">
+  <div class="equip-wrapper">
+    <div class="tree-column">
+      <div class="tree-item" *ngFor="let chestpiece of heroData.chestpieces">
+        <app-ability-btn
+          [icon]="hero.id + '/' + chestpiece.id"
+          [classes]="[hero.id, 'active-hero', 'passive']"
+          [tooltipText]="getEquipTooltip(hero.chestpiece, hero.id)"
+        ></app-ability-btn>
+      </div>
+    </div>
+  </div>
+  <div class="abilities-wrapper"></div>
+</div>
+<mat-dialog-actions align="middle">
+  <button mat-button mat-dialog-close>{{'MODAL.CLOSE' | translate}}</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'MODAL.OK' | translate}}</button>
+</mat-dialog-actions>

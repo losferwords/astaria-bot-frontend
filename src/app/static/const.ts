@@ -10,6 +10,7 @@ export class Const {
   public static apiScenarios = 'scenarios';
   public static apiStartBattle = 'start-battle';
   public static apiScenarioTeamSize = 'scenario-team-size';
+  public static apiHeroData = 'hero-data';
   public static apiMovePoints = 'move-points';
   public static apiMoveHero = 'move-hero';
   public static apiEndTurn = 'end-turn';

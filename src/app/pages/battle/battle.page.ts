@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { LogMessageType } from 'src/app/enums/log-message-type.enum';
@@ -7,11 +8,14 @@ import { TileType } from 'src/app/enums/tile-type.enum';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
+import { IHeroData } from 'src/app/interfaces/IHeroData';
 import { ILogMessage } from 'src/app/interfaces/ILogMessage';
 import { IPosition } from 'src/app/interfaces/IPosition';
+import { ITeam } from 'src/app/interfaces/ITeam';
 import { BattleService } from 'src/app/services/battle.service';
 import { BotService } from 'src/app/services/bot.service';
 import { Const } from 'src/app/static/const';
+import { UpgradeModalComponent } from 'src/app/widgets/upgrade-modal/upgrade.modal';
 
 @Component({
   selector: 'app-battle-page',
@@ -37,7 +41,12 @@ export class BattlePageComponent {
   timer: number = 0;
   botThinkTime: number = 0;
 
-  constructor(private router: Router, private battleService: BattleService, private botService: BotService) {
+  constructor(
+    private router: Router,
+    private battleService: BattleService,
+    private botService: BotService,
+    private dialog: MatDialog
+  ) {
     this.battle =
       this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
     this.turnPrepare();
@@ -89,7 +98,7 @@ export class BattlePageComponent {
     return hero.energy - hero.moveEnergyCost >= 0 && !hero.isImmobilized;
   }
 
-  // Promise returns 'true' is battle is over to prevent map updates
+  // Promise returns 'true' if battle is over to prevent map updates
   private updateBattleState(newState: IBattle): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       const newEvents = newState.log.slice(this.battle.log.length);
@@ -120,6 +129,14 @@ export class BattlePageComponent {
   private battleEnd() {
     // delete this.battle;
     // this.router.navigate(['/home']);
+  }
+
+  private getTeamByHeroId(heroId: string, teams: ITeam[]): ITeam {
+    return teams.find((team: ITeam) => {
+      return team.heroes.find((hero: IHero) => {
+        return hero.id === heroId;
+      });
+    });
   }
 
   setArrowTarget(x: number, y: number) {
@@ -275,6 +292,7 @@ export class BattlePageComponent {
   heroTileClicked(hero: IHero) {
     if (this.isTarget(hero.id)) {
       if (this.preparedWeapon) {
+        this.isLoading = true;
         this.battleService.useWeapon(this.battle.id, hero.id, this.preparedWeapon.id).subscribe(
           (battle: IBattle) => {
             this.isLoading = false;
@@ -287,8 +305,6 @@ export class BattlePageComponent {
                 setTimeout(() => {
                   this.refreshBattle();
                 }, 500);
-              } else {
-                console.log('Battle is over');
               }
             });
           },
@@ -313,7 +329,7 @@ export class BattlePageComponent {
     this.isLoading = true;
     this.timer = Const.botThinkTime;
     var thinkInterval = setInterval(() => {
-      if(this.timer - 100 > 0) {
+      if (this.timer - 100 > 0) {
         this.timer -= 100;
       } else {
         this.timer = 0;
@@ -326,6 +342,7 @@ export class BattlePageComponent {
         this.timer = 0;
         clearInterval(thinkInterval);
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+          console.log(battleIsEnded);
           this.preparedWeapon = undefined;
           this.targets = [];
           this.movePositions = [];
@@ -334,6 +351,8 @@ export class BattlePageComponent {
             setTimeout(() => {
               this.refreshBattle();
             }, 500);
+          } else {
+            debugger;
           }
         });
       },
@@ -351,5 +370,31 @@ export class BattlePageComponent {
       this.isAutoBattle = true;
       this.botAction();
     }
+  }
+
+  tileHasCrystal(x: number, y: number): boolean {
+    return !!this.battle.crystalPositions.find((cp) => {
+      return x === cp.x && y === cp.y;
+    });
+  }
+
+  openUpgradeModal(hero: IHero) {
+    this.isLoading = true;
+    this.battleService.getHeroData(hero.id).subscribe(
+      (heroData: IHeroData) => {
+        this.isLoading = false;
+        this.dialog.open(UpgradeModalComponent, {
+          data: {
+            hero: hero,
+            heroData: heroData,
+            crystals: this.getTeamByHeroId(hero.id, this.battle.teams).crystals
+          }
+        });
+      },
+      (err) => {
+        this.isLoading = false;
+        console.log(err);
+      }
+    );    
   }
 }

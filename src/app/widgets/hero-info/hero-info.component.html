@@ -58,80 +58,84 @@
   <div class="action-bar-wrapper">
     <div class="group equip">
       <div class="buttons">
-        <div class="ability-btn passive" [ngClass]="hero.id" [tooltip]="getEquipTooltip(hero.chestpiece, hero.id)">
-          <app-icon [icon]="hero.id + '/' + hero.chestpiece.id"></app-icon>
-          <div class="overlay"></div>
-        </div>
-        <div
-          class="ability-btn passive"
-          [ngClass]="hero.id"
+        <app-ability-btn
+          [icon]="hero.id + '/' + hero.chestpiece.id"
+          [classes]="[hero.id, isActive ? 'active-hero' : '', 'passive']"
+          [tooltipText]="getEquipTooltip(hero.chestpiece, hero.id)"
+        ></app-ability-btn>
+        <app-ability-btn
           *ngIf="hero.secondaryWeapon && hero.secondaryWeapon.isPassive"
-          [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
-        >
-          <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
-          <div class="overlay"></div>
-        </div>
-        <div
-          class="ability-btn"
-          [ngClass]="[
+          [icon]="hero.id + '/' + hero.secondaryWeapon.id"
+          [classes]="[hero.id, isActive ? 'active-hero' : '', 'passive']"
+          [tooltipText]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
+        ></app-ability-btn>
+        <app-ability-btn
+          [icon]="hero.id + '/' + hero.primaryWeapon.id"
+          [classes]="[
             hero.id,
             canUseWeapon(hero.primaryWeapon) ? '' : 'disabled',
-            preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id ? 'selected' : ''
+            preparedWeapon && preparedWeapon.id === hero.primaryWeapon.id ? 'selected' : '',
+            isActive ? 'active-hero' : ''
           ]"
-          [tooltip]="getEquipTooltip(hero.primaryWeapon, hero.id)"
-          (click)="prepareWeaponClicked(hero.primaryWeapon)"
-        >
-          <app-icon [icon]="hero.id + '/' + hero.primaryWeapon.id"></app-icon>
-          <div class="overlay"></div>
-        </div>
-        <div
-          class="ability-btn"
-          [ngClass]="[
+          [tooltipText]="getEquipTooltip(hero.primaryWeapon, hero.id)"
+          (clicked)="prepareWeaponClicked(hero.primaryWeapon)"
+        ></app-ability-btn>
+        <app-ability-btn
+          [icon]="hero.id + '/' + hero.secondaryWeapon.id"
+          [classes]="[
             hero.id,
             canUseWeapon(hero.secondaryWeapon) ? '' : 'disabled',
-            preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id ? 'selected' : ''
+            preparedWeapon && preparedWeapon.id === hero.secondaryWeapon.id ? 'selected' : '',
+            isActive ? 'active-hero' : ''
           ]"
           *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive"
-          [tooltip]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
-          (click)="prepareWeaponClicked(hero.secondaryWeapon)"
-        >
-          <app-icon [icon]="hero.id + '/' + hero.secondaryWeapon.id"></app-icon>
-          <div class="overlay"></div>
-        </div>
+          [tooltipText]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
+          (clicked)="prepareWeaponClicked(hero.secondaryWeapon)"
+        ></app-ability-btn>
       </div>
     </div>
     <div class="group abilities">
       <div class="buttons">
-        <div class="ability-btn" [ngClass]="hero.id" *ngFor="let ability of hero.abilities">
-          <app-icon [icon]="hero.id + '/' + ability.name"></app-icon>
-          <div class="overlay"></div>
-        </div>
+        <app-ability-btn
+          *ngFor="let ability of hero.abilities"
+          [icon]="hero.id + '/' + ability.name"
+          [classes]="[hero.id, isActive ? 'active-hero' : '', ability.isPassive ? 'passive' : '']"
+        ></app-ability-btn>
       </div>
     </div>
-    <div class="ability-btn end-turn" [ngClass]="hero.id" (click)="endTurnClicked()">
-      <app-icon [icon]="'duration'"></app-icon>
-      <div class="overlay"></div>
-    </div>
-    <div class="ability-btn upgrade" [ngClass]="[hero.id, hero.crystals ? '' : 'disabled']">
-      <app-icon [icon]="'upgrade'"></app-icon>
-      <div class="overlay"></div>
-    </div>
+    <app-ability-btn
+      [icon]="'duration'"
+      [classes]="[hero.id, isActive ? 'active-hero' : '', 'end-turn']"
+      (clicked)="endTurnClicked()"
+    ></app-ability-btn>
+    <app-ability-btn
+      [icon]="'upgrade'"
+      [classes]="[
+        hero.id,
+        isActive ? 'active-hero' : '',
+        'upgrade',
+        teamCrystals > 0 || hero.crystals > 0 ? '' : 'disabled'
+      ]"
+      (clicked)="showUpgradePopup()"
+    ></app-ability-btn>
   </div>
   <div class="action-bar-wrapper" *ngIf="hero.effects.length > 0">
     <div class="group">
       <div class="buttons">
-        <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let buff of getEffects(hero.effects, true)">
-          <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
-          <div class="overlay"></div>
-        </div>
+        <app-ability-btn
+          *ngFor="let buff of getEffects(hero.effects, true)"
+          [icon]="hero.id + '/' + buff.name"
+          [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+        ></app-ability-btn>
       </div>
     </div>
     <div class="group">
       <div class="buttons">
-        <div class="ability-btn btn-small" [ngClass]="hero.id" *ngFor="let debuff of getEffects(hero.effects, false)">
-          <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
-          <div class="overlay"></div>
-        </div>
+        <app-ability-btn
+          *ngFor="let debuff of getEffects(hero.effects, false)"
+          [icon]="hero.id + '/' + debuff.name"
+          [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+        ></app-ability-btn>
       </div>
     </div>
   </div>
@@ -143,14 +147,11 @@
           <div class="pet-abilities group">
             <div class="group-name">{{ 'PET.' + pet.id | translate }}</div>
             <div class="buttons">
-              <div class="ability-btn" [ngClass]="hero.id">
-                <app-icon [icon]="'move'"></app-icon>
-                <div class="overlay"></div>
-              </div>
-              <div class="ability-btn" [ngClass]="hero.id">
-                <app-icon [icon]="hero.id + '/' + pet.ability.name"></app-icon>
-                <div class="overlay"></div>
-              </div>
+              <app-ability-btn [icon]="'move'" [classes]="[hero.id, isActive ? 'active-hero' : '']"></app-ability-btn>
+              <app-ability-btn
+                [icon]="hero.id + '/' + pet.ability.name"
+                [classes]="[hero.id, isActive ? 'active-hero' : '']"
+              ></app-ability-btn>
             </div>
           </div>
           <div class="pet-info">
@@ -161,26 +162,20 @@
             <div class="pet-effects" *ngIf="pet.effects.length > 0">
               <div class="group">
                 <div class="buttons">
-                  <div
-                    class="ability-btn btn-small"
-                    [ngClass]="hero.id"
+                  <app-ability-btn
                     *ngFor="let buff of getEffects(pet.effects, true)"
-                  >
-                    <app-icon [icon]="hero.id + '/' + buff.name"></app-icon>
-                    <div class="overlay"></div>
-                  </div>
+                    [icon]="hero.id + '/' + buff.name"
+                    [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+                  ></app-ability-btn>
                 </div>
               </div>
               <div class="group">
                 <div class="buttons">
-                  <div
-                    class="ability-btn btn-small"
-                    [ngClass]="hero.id"
+                  <app-ability-btn
                     *ngFor="let debuff of getEffects(pet.effects, false)"
-                  >
-                    <app-icon [icon]="hero.id + '/' + debuff.name"></app-icon>
-                    <div class="overlay"></div>
-                  </div>
+                    [icon]="hero.id + '/' + debuff.name"
+                    [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+                  ></app-ability-btn>
                 </div>
               </div>
             </div>

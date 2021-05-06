@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { IBattleSetupDto } from '../dto/battle-setup.dto';
 import { IScenarioSetupDto } from '../dto/scenario-setup.dto';
 import { IBattle } from '../interfaces/IBattle';
+import { IHeroData } from '../interfaces/IHeroData';
 import { IPosition } from '../interfaces/IPosition';
 import { HttpService } from '../services/http.service';
 import { Const } from '../static/const';
@@ -34,6 +35,17 @@ export class BattleDataProvider extends BaseDataProvider {
     const headers = new HttpHeaders();
     return this.httpService.post(this.getApiUrl(Const.apiStartBattle), battleSetup, headers).do(
       (res: IBattle) => {},
+      (err) => {
+        this.handleHttpError(err);
+        throwError(err);
+      }
+    );
+  }
+
+  getHeroData(heroId: string): Observable<IHeroData> {
+    const headers = new HttpHeaders();
+    return this.httpService.get(this.getApiUrl(Const.apiHeroData), { heroId }, headers).do(
+      (res: IHeroData) => {},
       (err) => {
         this.handleHttpError(err);
         throwError(err);

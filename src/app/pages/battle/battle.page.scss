@@ -10,9 +10,26 @@
   .team-wrapper {
     width: 470px;
     border: 2px solid $color-dark;
-    padding: 10px;
+    padding: 5px 10px;
     display: flex;
     flex-direction: column;
+
+    .crystals {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+
+      app-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .value {
+        margin-left: 5px;
+        font-weight: bold;
+      }
+    }
 
     app-hero-info {
       margin-bottom: 10px;
@@ -54,6 +71,13 @@
 
             &.wall {
               background-color: $color-gray;
+            }
+
+            &.crystal {
+              background: url('../../../assets/icons/cut-diamond.png');
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: cover;
             }
 
             .overlay {
@@ -194,12 +218,11 @@
       margin-top: 10px;
       overflow-y: auto;
 
-      .log-message {
-        margin-bottom: 5px;
-
+      .log-message {       
         .text {
           font-size: 12px;
           font-weight: bold;
+          margin-bottom: 5px;
 
           span {
             &.paragon {

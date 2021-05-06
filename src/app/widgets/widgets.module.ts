@@ -10,6 +10,8 @@ import { HeroInfoComponent } from './hero-info/hero-info.component';
 import { ResourceBarComponent } from './resource-bar/resource-bar.component';
 import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { UpgradeModalComponent } from './upgrade-modal/upgrade.modal';
+import { AbilityBtnComponent } from './ability-btn/ability-btn.component';
 
 export const CustomTooltipOptions: TooltipOptions = {
   placement: 'bottom',
@@ -32,9 +34,19 @@ export const CustomTooltipOptions: TooltipOptions = {
     OverlayPanelComponent,
     IconComponent,
     HeroInfoComponent,
-    ResourceBarComponent
+    ResourceBarComponent,
+    UpgradeModalComponent,
+    AbilityBtnComponent
   ],
-  exports: [ProgressSpinnerComponent, IconComponent, HeroInfoComponent, MaterialModule, ResourceBarComponent],
-  entryComponents: [OverlayPanelComponent]
+  exports: [
+    ProgressSpinnerComponent,
+    IconComponent,
+    HeroInfoComponent,
+    MaterialModule,
+    ResourceBarComponent,
+    UpgradeModalComponent,
+    AbilityBtnComponent
+  ],
+  entryComponents: [OverlayPanelComponent, UpgradeModalComponent]
 })
 export class WidgetsModule {}
