@@ -16,8 +16,9 @@ export class Const {
   public static apiEndTurn = 'end-turn';
   public static apiFindEnemies = 'find-enemies';
   public static apiUseWeapon = 'use-weapon';
+  public static apiUpgradeEquip = 'upgrade-equip';
   public static apiBotAction = 'bot-action';
 
   public static availableHeroes = ['paragon', 'highlander', 'druid', 'oracle'];
-  public static botThinkTime = 120000;
+  public static botThinkTime = 300000;
 }

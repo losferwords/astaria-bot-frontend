@@ -98,8 +98,9 @@
       <div class="buttons">
         <app-ability-btn
           *ngFor="let ability of hero.abilities"
-          [icon]="hero.id + '/' + ability.name"
+          [icon]="hero.id + '/' + ability.id"
           [classes]="[hero.id, isActive ? 'active-hero' : '', ability.isPassive ? 'passive' : '']"
+          [tooltipText]="getAbilityTooltip(ability, hero.id)"
         ></app-ability-btn>
       </div>
     </div>
@@ -113,8 +114,7 @@
       [classes]="[
         hero.id,
         isActive ? 'active-hero' : '',
-        'upgrade',
-        teamCrystals > 0 || hero.crystals > 0 ? '' : 'disabled'
+        'upgrade'
       ]"
       (clicked)="showUpgradePopup()"
     ></app-ability-btn>

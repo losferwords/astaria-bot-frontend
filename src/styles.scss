@@ -29,6 +29,16 @@ body {
   min-height: $page-content-min-height;
 }
 
+.hero-upgrade-modal .mat-dialog-container {
+  color: $color-dark;
+  background: url('./assets/images/bg.jpg');
+  background-repeat: repeat-y;
+  background-size: auto 100%;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  border: 2px solid $color-dark;
+  border-radius: 0;
+}
+
 /* XL */
 @media (min-width: $lg-width) {
   .page-content {
@@ -82,27 +92,41 @@ tooltip.tooltip {
     border: 2px solid $color-dark;
     padding: 2px 5px;
     margin-bottom: 5px;
+    width: 100%;
+    position: relative;
+
+    &:last-child {
+      margin-bottom: 0;
+      margin-top: 5px;
+    }
+
+    &.footer {
+      background-color: $color-light-gray;
+    }
 
     .block-element {
       display: flex;
       align-items: center;
       margin-right: 5px;
       white-space: nowrap;
+      position: relative;
 
       &:last-child {
         margin-right: 0;
       }
-
-      img {
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
-      }
     }
 
-    &:last-child {
-      margin-bottom: 0;
-      margin-top: 5px;
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+
+      &.center {
+        position: absolute;
+        top: calc(50% - 8px);
+        left: calc(50% - 8px);
+        margin-right: 0;
+      }
     }
   }
 

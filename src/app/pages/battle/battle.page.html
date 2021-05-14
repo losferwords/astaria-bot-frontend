@@ -78,7 +78,7 @@
               [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
               [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
             >
-              <app-icon [icon]="event.casterId + '/' + event.weaponId" [ngClass]="event.casterId"></app-icon>
+              <app-icon [icon]="event.casterId + '/' + event.equipId" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
             </div>
           </ng-container>
@@ -112,9 +112,15 @@
             <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.WEAPON_DAMAGE' |
             translate: {"value": message.value} }}
             <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
-            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.weaponId) |
+            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.equipId) |
             translate}}'
           </div>
+          <div class="text" *ngSwitchCase="LogMessageType.UPGRADE_EQUIP">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.UPGRADE_EQUIP' | translate}} '{{('EQUIP.' + message.id + '.' + message.equipId) |
+            translate}}' ({{message.equipId.split('-').pop()}})
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.TAKE_CRYSTAL">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_CRYSTAL' | translate}}</div>
           <div class="text" *ngSwitchCase="LogMessageType.DEATH">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
           </div>

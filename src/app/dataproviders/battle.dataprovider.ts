@@ -107,4 +107,15 @@ export class BattleDataProvider extends BaseDataProvider {
       }
     );
   }
+
+  upgradeEquip(battleId: string, equipId: string): Observable<IBattle> {
+    const headers = new HttpHeaders();
+    return this.httpService.post(this.getApiUrl(Const.apiUpgradeEquip), { battleId, equipId }, headers).do(
+      (res: IBattle) => {},
+      (err) => {
+        this.handleHttpError(err);
+        throwError(err);
+      }
+    );
+  }
 }

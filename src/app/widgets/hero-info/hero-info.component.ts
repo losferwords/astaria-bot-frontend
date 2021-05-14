@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IAbility } from 'src/app/interfaces/IAbility';
 import { IEffect } from 'src/app/interfaces/IEffect';
 import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
@@ -23,6 +24,10 @@ export class HeroInfoComponent {
 
   getEquipTooltip(equip: IEquip, heroId: string): string {
     return this.battleService.getEquipTooltip(equip, heroId);
+  }
+
+  getAbilityTooltip(ability: IAbility, heroId: string): string {
+    return this.battleService.getAbilityTooltip(ability, heroId);
   }
 
   getEffects(effects: IEffect[], isBuff: boolean) {
@@ -54,6 +59,8 @@ export class HeroInfoComponent {
   }
 
   showUpgradePopup() {
-    this.openUpgradeModal.next(this.hero);
+    if (this.isActive) {
+      this.openUpgradeModal.next(this.hero);
+    }
   }
 }

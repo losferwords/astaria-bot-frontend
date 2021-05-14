@@ -11,9 +11,13 @@ import { I18nService } from 'src/app/services/i18n.service';
 })
 export class AbilityBtnComponent {
   @Input() classes: string[];
-  @Input() tooltipText: string;
+  @Input() tooltipText: string = '';
   @Input() icon: string;
   @Output() clicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
+
+  btnClicked() {
+    this.clicked.next();
+  }
 }

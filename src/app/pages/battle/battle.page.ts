@@ -383,11 +383,39 @@ export class BattlePageComponent {
     this.battleService.getHeroData(hero.id).subscribe(
       (heroData: IHeroData) => {
         this.isLoading = false;
-        this.dialog.open(UpgradeModalComponent, {
+        const dialogRef = this.dialog.open(UpgradeModalComponent, {
           data: {
             hero: hero,
             heroData: heroData,
-            crystals: this.getTeamByHeroId(hero.id, this.battle.teams).crystals
+            crystals: this.getTeamByHeroId(hero.id, this.battle.teams).crystals,
+            battle: this.battle
+          },
+          panelClass: 'hero-upgrade-modal'
+        });
+
+        dialogRef.afterClosed().subscribe((equipId: string) => {
+          if (equipId) {
+            this.isLoading = true;
+            this.battleService.upgradeEquip(this.battle.id, equipId).subscribe(
+              (battle: IBattle) => {
+                this.isLoading = false;
+                this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+                  this.preparedWeapon = undefined;
+                  this.targets = [];
+                  this.movePositions = [];
+
+                  if (!battleIsEnded) {
+                    setTimeout(() => {
+                      this.refreshBattle();
+                    }, 500);
+                  }
+                });
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           }
         });
       },
@@ -395,6 +423,6 @@ export class BattlePageComponent {
         this.isLoading = false;
         console.log(err);
       }
-    );    
+    );
   }
 }

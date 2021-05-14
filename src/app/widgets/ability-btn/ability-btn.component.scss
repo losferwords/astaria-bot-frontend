@@ -1,6 +1,12 @@
 @import 'variables.scss';
 
 :host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+
   .ability-btn {
     display: flex;
     justify-content: center;
@@ -8,7 +14,6 @@
     width: 40px;
     height: 40px;
     border: 2px solid $color-dark;
-    margin-right: 5px;
     cursor: default;
     overflow: hidden;
     position: relative;
@@ -54,11 +59,9 @@
       border-color: $color-avenger;
     }
 
-    &:last-child {
-      margin-right: 0;
-    }
-
     &.disabled {
+      cursor: default;
+
       .overlay {
         background-color: $color-dark-transparent-20;
       }
@@ -73,21 +76,47 @@
       background-color: $color-dark-transparent-20;
     }
 
-    .active-hero {
+    &.active-hero {
       &:not(.passive) {
         cursor: pointer;
+      }
 
-        &.selected {
-          @include hero-color-shadows();
-        }
+      &.always-clickable {
+        cursor: pointer;
+      }
 
-        &.disabled {
-          cursor: default;
+      &.always-not-clickable {
+        cursor: default;
+      }
+
+      &.selected {
+        @include hero-color-shadows();
+      }
+
+      &.disabled {
+        cursor: default;
+
+        .overlay {
+          background-color: $color-dark-transparent-20;
         }
       }
 
       .overlay {
         background-color: transparent;
+      }
+    }
+  }
+}
+
+@media (max-width: $lg-width) {
+  :host {
+    .ability-btn {
+      width: 32px;
+      height: 32px;
+
+      &.btn-small {
+        width: 24px;
+        height: 24px;
       }
     }
   }

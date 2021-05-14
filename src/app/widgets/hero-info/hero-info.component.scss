@@ -112,6 +112,14 @@
       align-items: center;
       padding: 0 5px 5px 5px;
 
+      app-ability-btn {
+        margin-right: 5px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
       .group {
         display: flex;
         flex-direction: column;
@@ -128,6 +136,10 @@
         &.abilities {
           width: 190px;
           height: 54px;
+
+          .buttons {
+            justify-content: left;
+          }
         }
 
         &:last-child {
@@ -240,7 +252,7 @@
   }
 }
 
-@media (min-width: $lg-width) {
+@media (max-width: $lg-width) {
   :host {
     .hero-info-container {
       .action-bar-wrapper {
@@ -271,16 +283,6 @@
                 }
               }
             }
-          }
-        }
-
-        .ability-btn {
-          width: 32px;
-          height: 32px;
-
-          &.btn-small {
-            width: 24px;
-            height: 24px;
           }
         }
       }

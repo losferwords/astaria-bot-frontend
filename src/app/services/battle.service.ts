@@ -8,6 +8,7 @@ import { IBattleSetupDto } from '../dto/battle-setup.dto';
 import { IHeroData } from '../interfaces/IHeroData';
 import { IEquip } from '../interfaces/IEquip';
 import { I18nService } from './i18n.service';
+import { IAbility } from '../interfaces/IAbility';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,10 @@ export class BattleService {
 
   useWeapon(battleId: string, targetId: string, weaponId: string): Observable<IBattle> {
     return this.battleDataProvider.useWeapon(battleId, targetId, weaponId);
+  }
+
+  upgradeEquip(battleId: string, equipId: string): Observable<IBattle> {
+    return this.battleDataProvider.upgradeEquip(battleId, equipId);
   }
 
   getEquipTooltip(equip: IEquip, heroId: string): string {
@@ -135,10 +140,15 @@ export class BattleService {
     }
 
     if (equip.cost || equip.energyCost) {
-      resultTooltip += `
-        <div class="block">
-          <div class="block-element">${this.i18nService.translateInstant('PARAM.ENERGY') + ' ' + equip.energyCost}</div>
-      `;
+      resultTooltip += `<div class="block">`;
+
+      if (equip.energyCost > 0) {
+        resultTooltip += `<div class="block-element">${
+          this.i18nService.translateInstant('PARAM.ENERGY') + ' ' + equip.energyCost
+        }</div>`;
+      } else {
+        resultTooltip += `<div class="block-element"></div>`;
+      }
 
       if (equip.cost > 0) {
         resultTooltip += `<div class="block-element">`;
@@ -152,7 +162,88 @@ export class BattleService {
     }
 
     resultTooltip += `</div>`;
+    return resultTooltip;
+  }
 
+  getAbilityTooltip(ability: IAbility, heroId: string): string {
+    let resultTooltip = `
+      <div class="block">
+        <div class="block-element">${this.i18nService.translateInstant(
+          'ABILITY.' + heroId + '.' + ability.id + '.NAME'
+        )}</div>
+        <div class="block-element">
+          <img src="./assets/icons/upgrade.png">
+          <div class="value">${ability.level}</div>
+        </div>
+      </div>
+    `;
+
+    if (ability.isPassive) {
+      resultTooltip += `
+      <div class="block">
+        <div class="block-element">${this.i18nService.translateInstant('ABILITY.PASSIVE')}</div>
+    `;
+    } else {
+      if (ability.range > 0) {
+        resultTooltip += `
+          <div class="block">
+            <div class="block-element">${this.i18nService.translateInstant('PARAM.RANGE') + ' ' + ability.range}</div>
+        `;
+      } else {
+        resultTooltip += `
+          <div class="block">
+            <div class="block-element">${this.i18nService.translateInstant('PARAM.ON_SELF')}</div>
+        `;
+      }
+
+      resultTooltip += `<div>${this.i18nService.translateInstant('PARAM.CD') + ' ' + ability.cd}</div>`;
+
+      resultTooltip += `</div>`;
+    }
+
+    resultTooltip += `
+      <div class="params">
+        <div class="param">${this.i18nService.translateInstant('ABILITY.' + heroId + '.' + ability.id + '.DESC')}</div>
+      </div>
+      `;
+
+    if (ability.isPassive) {
+      if (ability.needWeapon || ability.isSpell) {
+        resultTooltip += `<div class="block footer">`;
+
+        if (ability.needWeapon) {
+          resultTooltip += `<img class="center" src="./assets/icons/crossed-swords.png">`;
+        }
+
+        if (ability.isSpell) {
+          resultTooltip += `<img class="center" src="./assets/icons/magic-swirl.png">`;
+        }
+
+        resultTooltip += `</div>`;
+      }
+    } else {
+      resultTooltip += `<div class="block footer">`;
+
+      if (ability.needWeapon) {
+        resultTooltip += `<img class="center" src="./assets/icons/crossed-swords.png">`;
+      }
+
+      if (ability.isSpell) {
+        resultTooltip += `<img class="center" src="./assets/icons/magic-swirl.png">`;
+      }
+
+      resultTooltip += `<div class="block-element">${
+        this.i18nService.translateInstant('PARAM.ENERGY') + ' ' + ability.energyCost
+      }</div>`;
+
+      resultTooltip += `<div class="block-element">${
+        this.i18nService.translateInstant('PARAM.MANA') + ' ' + ability.manaCost
+      }</div>`;
+
+      resultTooltip += `</div>`;
+    }
+
+    resultTooltip += `</div>`;
     return resultTooltip;
   }
 }

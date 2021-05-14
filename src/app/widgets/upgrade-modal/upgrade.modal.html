@@ -1,19 +1,76 @@
-<h1 mat-dialog-title>{{hero.id | translate}}</h1>
+<div class="title">{{('HERO.' + hero.id) | translate}}</div>
 <div mat-dialog-content class="content">
   <div class="equip-wrapper">
-    <div class="tree-column">
-      <div class="tree-item" *ngFor="let chestpiece of heroData.chestpieces">
+    <div class="tree-title">{{'MODAL.EQUIP' | translate}}</div>
+    <div class="tree">
+      <div class="tree-column">
         <app-ability-btn
+          *ngFor="let chestpiece of heroData.chestpieces"
           [icon]="hero.id + '/' + chestpiece.id"
-          [classes]="[hero.id, 'active-hero', 'passive']"
-          [tooltipText]="getEquipTooltip(hero.chestpiece, hero.id)"
+          [classes]="[
+            hero.id, 
+            'active-hero', 
+            'passive',
+            chestpiece.level - hero.chestpiece.level === 1 ? 'always-clickable' : 'always-not-clickable',
+            chestpiece.id === hero.chestpiece.id ? 'selected' : '', 
+            upgradeIsAvailable('chestpiece', chestpiece) ? '' : 'disabled'
+          ]"
+          [tooltipText]="getEquipTooltip(chestpiece, hero.id)"
+          (click)="upgradeEquip('chestpiece', chestpiece)"
         ></app-ability-btn>
       </div>
-    </div>
+      <div class="tree-column" *ngIf="hero.secondaryWeapon && hero.secondaryWeapon.isPassive">
+        <app-ability-btn
+          *ngFor="let weapon of heroData.secondaryWeapons"
+          [icon]="hero.id + '/' + weapon.id"
+          [classes]="[
+            hero.id, 
+            'active-hero', 
+            weapon.isPassive ? 'passive' : '',
+            weapon.level - hero.secondaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
+            weapon.id === hero.secondaryWeapon.id ? 'selected' : '', 
+            upgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
+          ]"
+          [tooltipText]="getEquipTooltip(weapon, hero.id)"
+          (click)="upgradeEquip('secondaryWeapon', weapon)"
+        ></app-ability-btn>
+      </div>
+      <div class="tree-column">
+        <app-ability-btn
+          *ngFor="let weapon of heroData.primaryWeapons"
+          [icon]="hero.id + '/' + weapon.id"
+          [classes]="[
+            hero.id, 
+            'active-hero', 
+            weapon.isPassive ? 'passive' : '',
+            weapon.level - hero.primaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
+            weapon.id === hero.primaryWeapon.id ? 'selected' : '', 
+            upgradeIsAvailable('primaryWeapon', weapon) ? '' : 'disabled'
+          ]"
+          [tooltipText]="getEquipTooltip(weapon, hero.id)"
+          (click)="upgradeEquip('primaryWeapon', weapon)"
+        ></app-ability-btn>
+      </div>
+      <div class="tree-column" *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive">
+        <app-ability-btn
+          *ngFor="let weapon of heroData.secondaryWeapons"
+          [icon]="hero.id + '/' + weapon.id"
+          [classes]="[
+            hero.id, 
+            'active-hero', 
+            weapon.isPassive ? 'passive' : '',
+            weapon.level - hero.secondaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
+            weapon.id === hero.secondaryWeapon.id ? 'selected' : '', 
+            upgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
+          ]"
+          [tooltipText]="getEquipTooltip(weapon, hero.id)"
+          (click)="upgradeEquip('secondaryWeapon', weapon)"
+        ></app-ability-btn>
+      </div>
+    </div>    
   </div>
   <div class="abilities-wrapper"></div>
 </div>
-<mat-dialog-actions align="middle">
-  <button mat-button mat-dialog-close>{{'MODAL.CLOSE' | translate}}</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'MODAL.OK' | translate}}</button>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" mat-dialog-close>{{'MODAL.CLOSE' | translate}}</button>
 </mat-dialog-actions>
