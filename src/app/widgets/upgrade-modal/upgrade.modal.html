@@ -13,7 +13,7 @@
             'passive',
             chestpiece.level - hero.chestpiece.level === 1 ? 'always-clickable' : 'always-not-clickable',
             chestpiece.id === hero.chestpiece.id ? 'selected' : '', 
-            upgradeIsAvailable('chestpiece', chestpiece) ? '' : 'disabled'
+            equipUpgradeIsAvailable('chestpiece', chestpiece) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(chestpiece, hero.id)"
           (click)="upgradeEquip('chestpiece', chestpiece)"
@@ -29,7 +29,7 @@
             weapon.isPassive ? 'passive' : '',
             weapon.level - hero.secondaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
             weapon.id === hero.secondaryWeapon.id ? 'selected' : '', 
-            upgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
+            equipUpgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(weapon, hero.id)"
           (click)="upgradeEquip('secondaryWeapon', weapon)"
@@ -45,7 +45,7 @@
             weapon.isPassive ? 'passive' : '',
             weapon.level - hero.primaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
             weapon.id === hero.primaryWeapon.id ? 'selected' : '', 
-            upgradeIsAvailable('primaryWeapon', weapon) ? '' : 'disabled'
+            equipUpgradeIsAvailable('primaryWeapon', weapon) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(weapon, hero.id)"
           (click)="upgradeEquip('primaryWeapon', weapon)"
@@ -61,7 +61,7 @@
             weapon.isPassive ? 'passive' : '',
             weapon.level - hero.secondaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
             weapon.id === hero.secondaryWeapon.id ? 'selected' : '', 
-            upgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
+            equipUpgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(weapon, hero.id)"
           (click)="upgradeEquip('secondaryWeapon', weapon)"
@@ -69,7 +69,25 @@
       </div>
     </div>    
   </div>
-  <div class="abilities-wrapper"></div>
+  <div class="abilities-wrapper">
+    <div class="tree-title">{{'MODAL.ABILITIES' | translate}}</div>
+    <div class="tree">
+        <app-ability-btn
+          *ngFor="let ability of heroData.abilities"
+          [icon]="hero.id + '/' + ability.id"
+          [classes]="[
+            hero.id,
+            'active-hero', 
+            ability.isPassive ? 'passive' : '',
+            ability.level - hero.abilities.length === 1 ? 'always-clickable' : 'always-not-clickable',
+            heroHasAbility(ability.id) ? 'selected' : '', 
+            abilityUpgradeIsAvailable('primaryWeapon', weapon) ? '' : 'disabled'
+          ]"
+          [tooltipText]="getAbilityTooltip(ability, hero.id)"
+          (click)="upgradeAbility(ability)"
+        ></app-ability-btn>
+    </div>
+  </div>
 </div>
 <mat-dialog-actions align="center">
   <button mat-raised-button color="primary" mat-dialog-close>{{'MODAL.CLOSE' | translate}}</button>

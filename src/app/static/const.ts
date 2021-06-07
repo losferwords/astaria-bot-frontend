@@ -15,7 +15,10 @@ export class Const {
   public static apiMoveHero = 'move-hero';
   public static apiEndTurn = 'end-turn';
   public static apiFindEnemies = 'find-enemies';
+  public static apiFindAllies = 'find-allies';
+  public static apiFindHeroes = 'find-heroes';
   public static apiUseWeapon = 'use-weapon';
+  public static apiCastAbility = 'cast-ability';  
   public static apiUpgradeEquip = 'upgrade-equip';
   public static apiBotAction = 'bot-action';
 

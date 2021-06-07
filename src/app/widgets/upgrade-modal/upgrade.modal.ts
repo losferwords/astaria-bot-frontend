@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IAbility } from 'src/app/interfaces/IAbility';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
@@ -31,7 +32,11 @@ export class UpgradeModalComponent {
     return this.battleService.getEquipTooltip(equip, heroId);
   }
 
-  upgradeIsAvailable(equipType: string, equip: IEquip): boolean {
+  getAbilityTooltip(ability: IAbility, heroId: string): string {
+    return this.battleService.getAbilityTooltip(ability, heroId);
+  }
+
+  equipUpgradeIsAvailable(equipType: string, equip: IEquip): boolean {
     return (
       equip.level > this.hero[equipType].level &&
       equip.level - this.hero[equipType].level === 1 &&
@@ -40,8 +45,22 @@ export class UpgradeModalComponent {
   }
 
   upgradeEquip(equipType: string, equip: IEquip) {
-    if (this.upgradeIsAvailable(equipType, equip)) {
-      this.dialogRef.close(this.hero[equipType].id);
+    if (this.equipUpgradeIsAvailable(equipType, equip)) {
+      this.dialogRef.close({ equip: this.hero[equipType].id });
     }
+  }
+
+  abilityUpgradeIsAvailable(ability: IAbility): boolean {
+    return ability.level - this.hero.abilities.length === 1 && this.crystals > 0;
+  }
+
+  upgradeAbility(ability: IAbility) {
+    if (this.abilityUpgradeIsAvailable(ability)) {
+      this.dialogRef.close({ ability: ability.id });
+    }
+  }
+
+  heroHasAbility(abilityId: string) {
+    return this.hero.abilities.find((a) => a.id === abilityId);
   }
 }

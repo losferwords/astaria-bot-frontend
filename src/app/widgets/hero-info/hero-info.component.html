@@ -79,6 +79,7 @@
           ]"
           [tooltipText]="getEquipTooltip(hero.primaryWeapon, hero.id)"
           (clicked)="prepareWeaponClicked(hero.primaryWeapon)"
+          [left]="hero.primaryWeapon.isUsed ? '1' : ''"
         ></app-ability-btn>
         <app-ability-btn
           [icon]="hero.id + '/' + hero.secondaryWeapon.id"
@@ -91,6 +92,7 @@
           *ngIf="hero.secondaryWeapon && !hero.secondaryWeapon.isPassive"
           [tooltipText]="getEquipTooltip(hero.secondaryWeapon, hero.id)"
           (clicked)="prepareWeaponClicked(hero.secondaryWeapon)"
+          [left]="hero.secondaryWeapon.isUsed ? '1' : ''"
         ></app-ability-btn>
       </div>
     </div>
@@ -99,8 +101,16 @@
         <app-ability-btn
           *ngFor="let ability of hero.abilities"
           [icon]="hero.id + '/' + ability.id"
-          [classes]="[hero.id, isActive ? 'active-hero' : '', ability.isPassive ? 'passive' : '']"
+          [classes]="[
+            hero.id,
+            isActive ? 'active-hero' : '',
+            ability.isPassive ? 'passive' : '',
+            preparedAbility && preparedAbility.id === ability.id ? 'selected' : '',
+            ability.isPassive || checkAbilityForUse(ability) ? '' : 'disabled'
+          ]"
           [tooltipText]="getAbilityTooltip(ability, hero.id)"
+          [left]="ability.left > 0 ? ability.left : ''"
+          (click)="prepareAbilityClicked(ability)"
         ></app-ability-btn>
       </div>
     </div>
@@ -111,30 +121,30 @@
     ></app-ability-btn>
     <app-ability-btn
       [icon]="'upgrade'"
-      [classes]="[
-        hero.id,
-        isActive ? 'active-hero' : '',
-        'upgrade'
-      ]"
+      [classes]="[hero.id, isActive ? 'active-hero' : '', 'upgrade']"
       (clicked)="showUpgradePopup()"
     ></app-ability-btn>
   </div>
   <div class="action-bar-wrapper" *ngIf="hero.effects.length > 0">
-    <div class="group">
+    <div class="group effects">
       <div class="buttons">
         <app-ability-btn
           *ngFor="let buff of getEffects(hero.effects, true)"
-          [icon]="hero.id + '/' + buff.name"
-          [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+          [icon]="buff.casterId + '/' + buff.id"
+          [classes]="[buff.casterId, isActive ? 'active-hero' : '', 'btn-small', 'passive']"
+          [tooltipText]="getEffectTooltip(buff, buff.casterId)"
+          [left]="buff.left"
         ></app-ability-btn>
       </div>
     </div>
-    <div class="group">
+    <div class="group effects">
       <div class="buttons">
         <app-ability-btn
           *ngFor="let debuff of getEffects(hero.effects, false)"
-          [icon]="hero.id + '/' + debuff.name"
-          [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+          [icon]="debuff.casterId + '/' + debuff.id"
+          [classes]="[debuff.casterId, isActive ? 'active-hero' : '', 'btn-small', 'passive']"
+          [tooltipText]="getEffectTooltip(debuff, debuff.casterId)"
+          [left]="debuff.left"
         ></app-ability-btn>
       </div>
     </div>
@@ -166,6 +176,8 @@
                     *ngFor="let buff of getEffects(pet.effects, true)"
                     [icon]="hero.id + '/' + buff.name"
                     [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+                    [left]="buff.left"
+                    [tooltipText]="getEffectTooltip(buff, buff.casterId)"
                   ></app-ability-btn>
                 </div>
               </div>
@@ -175,6 +187,8 @@
                     *ngFor="let debuff of getEffects(pet.effects, false)"
                     [icon]="hero.id + '/' + debuff.name"
                     [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
+                    [left]="debuff.left"
+                    [tooltipText]="getEffectTooltip(debuff, debuff.casterId)"
                   ></app-ability-btn>
                 </div>
               </div>

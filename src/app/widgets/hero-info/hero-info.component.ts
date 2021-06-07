@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { AbilityTargetType } from 'src/app/enums/ability-target-type.enum';
 import { IAbility } from 'src/app/interfaces/IAbility';
 import { IEffect } from 'src/app/interfaces/IEffect';
 import { IEquip } from 'src/app/interfaces/IEquip';
@@ -16,8 +17,10 @@ export class HeroInfoComponent {
   @Input() teamCrystals: number;
   @Input() isActive: boolean;
   @Input() preparedWeapon: IEquip;
+  @Input() preparedAbility: IAbility;
   @Output() endTurn: EventEmitter<void> = new EventEmitter<void>();
   @Output() prepareWeapon: EventEmitter<IEquip> = new EventEmitter<IEquip>();
+  @Output() prepareAbility: EventEmitter<IAbility> = new EventEmitter<IAbility>();
   @Output() openUpgradeModal: EventEmitter<IHero> = new EventEmitter<IHero>();
 
   constructor(private battleService: BattleService) {}
@@ -28,6 +31,10 @@ export class HeroInfoComponent {
 
   getAbilityTooltip(ability: IAbility, heroId: string): string {
     return this.battleService.getAbilityTooltip(ability, heroId);
+  }
+
+  getEffectTooltip(effect: IEffect, casterId: string): string {
+    return this.battleService.getEffectTooltip(effect, casterId);
   }
 
   getEffects(effects: IEffect[], isBuff: boolean) {
@@ -48,14 +55,37 @@ export class HeroInfoComponent {
     }
   }
 
+  prepareAbilityClicked(ability: IAbility) {
+    if (this.checkAbilityForUse(ability)) {
+      this.prepareAbility.emit(ability);
+    }
+  }
+
   canUseWeapon(weapon: IEquip): boolean {
     return (
       this.hero.energy - weapon.energyCost >= 0 &&
-      !this.hero.isDisarmed &&
+      (!this.hero.isDisarmed || this.hero.isImmuneToDisarm) &&
       !weapon.isUsed &&
       this.isActive &&
       !weapon.isPassive
     );
+  }
+
+  checkAbilityForUse(ability: IAbility): boolean {
+    if (ability.targetType === AbilityTargetType.MOVE && this.hero.isImmobilized) {
+      return false;
+    }
+    if (ability.needWeapon && this.hero.isDisarmed) {
+      return false;
+    }
+    if (ability.isSpell && this.hero.isSilenced) {
+      return false;
+    }
+    if (ability.left === 0 && this.hero.energy - ability.energyCost >= 0 && this.hero.mana - ability.manaCost >= 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   showUpgradePopup() {

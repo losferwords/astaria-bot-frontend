@@ -188,6 +188,10 @@
             &.damage {
               color: $color-health;
             }
+
+            &.heal {
+              color: $color-mana;
+            }
           }
         }
       }

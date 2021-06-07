@@ -111,6 +111,12 @@ tooltip.tooltip {
       white-space: nowrap;
       position: relative;
 
+      &.text-center {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+
       &:last-child {
         margin-right: 0;
       }
@@ -136,5 +142,6 @@ tooltip.tooltip {
     flex-direction: column;
     padding: 5px;
     margin-top: 5px;
+    white-space: pre-line;
   }
 }

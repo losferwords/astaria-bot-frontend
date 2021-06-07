@@ -9,6 +9,7 @@ import { IHeroData } from '../interfaces/IHeroData';
 import { IEquip } from '../interfaces/IEquip';
 import { I18nService } from './i18n.service';
 import { IAbility } from '../interfaces/IAbility';
+import { IEffect } from '../interfaces/IEffect';
 
 @Injectable({
   providedIn: 'root'
@@ -61,8 +62,20 @@ export class BattleService {
     return this.battleDataProvider.findEnemies(battleId, sourceHeroId, radius);
   }
 
+  findAllies(battleId: string, sourceHeroId: string, radius: number, includeSelf: boolean): Observable<string[]> {
+    return this.battleDataProvider.findAllies(battleId, sourceHeroId, radius, includeSelf);
+  }
+
+  findHeroes(battleId: string, sourceHeroId: string, radius: number): Observable<string[]> {
+    return this.battleDataProvider.findHeroes(battleId, sourceHeroId, radius);
+  }
+
   useWeapon(battleId: string, targetId: string, weaponId: string): Observable<IBattle> {
     return this.battleDataProvider.useWeapon(battleId, targetId, weaponId);
+  }
+
+  castAbility(battleId: string, abilityId: string, targetId: string, position: IPosition): Observable<IBattle> {
+    return this.battleDataProvider.castAbility(battleId, abilityId, targetId, position);
   }
 
   upgradeEquip(battleId: string, equipId: string): Observable<IBattle> {
@@ -181,7 +194,8 @@ export class BattleService {
     if (ability.isPassive) {
       resultTooltip += `
       <div class="block">
-        <div class="block-element">${this.i18nService.translateInstant('ABILITY.PASSIVE')}</div>
+        <div class="block-element text-center">${this.i18nService.translateInstant('ABILITY.PASSIVE')}</div>
+      </div>
     `;
     } else {
       if (ability.range > 0) {
@@ -244,6 +258,32 @@ export class BattleService {
     }
 
     resultTooltip += `</div>`;
+    return resultTooltip;
+  }
+
+  getEffectTooltip(effect: IEffect, casterId: string): string {
+    let resultTooltip = `
+      <div class="block">
+        <div class="block-element">${this.i18nService.translateInstant(
+          'EFFECT.' + casterId + '.' + effect.id + '.NAME'
+        )}</div>
+        <div class="block-element">
+        </div>
+      </div>
+    `;
+
+    resultTooltip += `
+      <div class="block">
+        <div class="block-element text-center">${
+          this.i18nService.translateInstant('PARAM.DURATION') + ' ' + effect.duration
+        }</div>
+      </div>`;
+
+    resultTooltip += `
+      <div class="params">
+        <div class="param">${this.i18nService.translateInstant('EFFECT.' + casterId + '.' + effect.id + '.DESC')}</div>
+      </div>
+      `;
     return resultTooltip;
   }
 }

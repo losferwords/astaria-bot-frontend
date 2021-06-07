@@ -3,8 +3,10 @@ import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { AbilityTargetType } from 'src/app/enums/ability-target-type.enum';
 import { LogMessageType } from 'src/app/enums/log-message-type.enum';
 import { TileType } from 'src/app/enums/tile-type.enum';
+import { IAbility } from 'src/app/interfaces/IAbility';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
@@ -35,6 +37,7 @@ export class BattlePageComponent {
   activeHero: IHero;
   arrowTarget: IPosition;
   preparedWeapon: IEquip;
+  preparedAbility: IAbility;
   targets: string[] = [];
   eventsForRender: ILogMessage[];
   isAutoBattle: boolean = false;
@@ -71,8 +74,13 @@ export class BattlePageComponent {
   }
 
   private refreshBattle() {
-    this.getMovePoints();
     this.activeHero = this.getHeroesfromQueue()[0];
+    if (!this.activeHero.abilities.length) {
+      this.openUpgradeModal(this.activeHero);
+    } else {
+      this.getMovePoints();
+    }
+
     if (this.isAutoBattle) {
       this.botAction();
     }
@@ -109,7 +117,12 @@ export class BattlePageComponent {
       }
 
       const battleTextEvents = newEvents.filter((event: ILogMessage) => {
-        return event.type === LogMessageType.WEAPON_DAMAGE;
+        return (
+          event.type === LogMessageType.WEAPON_DAMAGE ||
+          event.type === LogMessageType.ABILITY_DAMAGE ||
+          event.type === LogMessageType.EFFECT_DAMAGE ||
+          event.type === LogMessageType.ABILITY_HEAL
+        );
       });
       if (battleTextEvents.length > 0) {
         this.renderBattleText([...battleTextEvents]);
@@ -140,7 +153,7 @@ export class BattlePageComponent {
   }
 
   setArrowTarget(x: number, y: number) {
-    if (x > -1 && y > -1) {
+    if (x > -1 && y > -1 && !(x === this.activeHero.position.x && y === this.activeHero.position.y)) {
       this.arrowTarget = { x, y };
     } else {
       this.arrowTarget = undefined;
@@ -192,19 +205,15 @@ export class BattlePageComponent {
   }
 
   isHeroAllyToActive(heroId: string): boolean {
-    let heroTeamId;
-    let activeHeroTeamId;
     for (let i = 0; i < this.battle.teams.length; i++) {
-      for (let j = 0; j < this.battle.teams[i].heroes.length; j++) {
-        if (this.battle.teams[i].heroes[j].id === heroId) {
-          heroTeamId = this.battle.teams[i].id;
-        }
-        if (this.battle.teams[i].heroes[j].id === this.activeHero.id) {
-          activeHeroTeamId = this.battle.teams[i].id;
-        }
+      if (
+        this.battle.teams[i].heroes.find((h) => h.id === heroId) &&
+        this.battle.teams[i].heroes.find((h) => h.id === this.activeHero.id)
+      ) {
+        return true;
       }
     }
-    return heroTeamId === activeHeroTeamId;
+    return false;
   }
 
   isMoveAvailableTile(x: number, y: number): boolean {
@@ -221,6 +230,7 @@ export class BattlePageComponent {
     if (this.isMoveAvailableTile(x, y)) {
       this.isLoading = true;
       this.preparedWeapon = undefined;
+      this.preparedAbility = undefined;
       this.targets = [];
       this.battleService.moveHero(this.battle.id, { x, y }).subscribe(
         (battle: IBattle) => {
@@ -263,7 +273,8 @@ export class BattlePageComponent {
   }
 
   prepareWeapon(weapon: IEquip) {
-    if (this.preparedWeapon) {
+    this.preparedAbility = undefined;
+    if (this.preparedWeapon && this.preparedWeapon.id === weapon.id) {
       this.preparedWeapon = undefined;
       this.targets = [];
       this.getMovePoints();
@@ -280,6 +291,101 @@ export class BattlePageComponent {
           console.log(err);
         }
       );
+    }
+  }
+
+  prepareAbility(ability: IAbility) {
+    this.preparedWeapon = undefined;
+    if (this.preparedAbility && this.preparedAbility.id === ability.id) {
+      this.preparedAbility = undefined;
+      this.targets = [];
+      this.getMovePoints();
+    } else {
+      this.isLoading = true;
+      switch (ability.targetType) {
+        case AbilityTargetType.SELF:
+          this.preparedAbility = ability;
+          this.castAbility(this.activeHero.id);
+          break;
+        case AbilityTargetType.ALLY:
+          this.battleService.findAllies(this.battle.id, this.activeHero.id, ability.range, true).subscribe(
+            (allies: string[]) => {
+              this.isLoading = false;
+              this.preparedAbility = ability;
+              this.targets = allies;
+            },
+            (err) => {
+              this.isLoading = false;
+              console.log(err);
+            }
+          );
+          break;
+        case AbilityTargetType.ALLY_NOT_ME:
+          this.battleService.findAllies(this.battle.id, this.activeHero.id, ability.range, false).subscribe(
+            (allies: string[]) => {
+              this.isLoading = false;
+              this.preparedAbility = ability;
+              this.targets = allies;
+            },
+            (err) => {
+              this.isLoading = false;
+              console.log(err);
+            }
+          );
+          break;
+        case AbilityTargetType.ALLY_OR_ENEMY:
+          this.battleService.findHeroes(this.battle.id, this.activeHero.id, ability.range).subscribe(
+            (heroes: string[]) => {
+              this.isLoading = false;
+              this.preparedAbility = ability;
+              this.targets = heroes;
+            },
+            (err) => {
+              this.isLoading = false;
+              console.log(err);
+            }
+          );
+          break;
+        case AbilityTargetType.ENEMY:
+          this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
+            (enemies: string[]) => {
+              this.isLoading = false;
+              this.preparedAbility = ability;
+              this.targets = enemies;
+            },
+            (err) => {
+              this.isLoading = false;
+              console.log(err);
+            }
+          );
+          break;
+        // case AbilityTargetType.MAP:
+        //   this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
+        //     (enemies: string[]) => {
+        //       this.isLoading = false;
+        //       this.preparedAbility = ability;
+        //       this.targets = enemies;
+        //     },
+        //     (err) => {
+        //       this.isLoading = false;
+        //       console.log(err);
+        //     }
+        //   );
+        //   break;
+        // case AbilityTargetType.MOVE:
+        //   this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
+        //     (enemies: string[]) => {
+        //       this.isLoading = false;
+        //       this.preparedAbility = ability;
+        //       this.targets = enemies;
+        //     },
+        //     (err) => {
+        //       this.isLoading = false;
+        //       console.log(err);
+        //     }
+        //   );
+        //   break;
+      }
     }
   }
 
@@ -314,7 +420,34 @@ export class BattlePageComponent {
           }
         );
       }
+      if (this.preparedAbility) {
+        this.castAbility(hero.id);
+      }
     }
+  }
+
+  castAbility(targetId?: string, position?: IPosition) {
+    this.isLoading = true;
+    this.battleService.castAbility(this.battle.id, this.preparedAbility.id, targetId, position).subscribe(
+      (battle: IBattle) => {
+        this.isLoading = false;
+        this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+          this.preparedAbility = undefined;
+          this.targets = [];
+          this.movePositions = [];
+
+          if (!battleIsEnded) {
+            setTimeout(() => {
+              this.refreshBattle();
+            }, 500);
+          }
+        });
+      },
+      (err) => {
+        this.isLoading = false;
+        console.log(err);
+      }
+    );
   }
 
   getHeroPositionById(heroId: string): IPosition {
@@ -342,8 +475,8 @@ export class BattlePageComponent {
         this.timer = 0;
         clearInterval(thinkInterval);
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
-          console.log(battleIsEnded);
           this.preparedWeapon = undefined;
+          this.preparedAbility = undefined;
           this.targets = [];
           this.movePositions = [];
 
@@ -351,8 +484,6 @@ export class BattlePageComponent {
             setTimeout(() => {
               this.refreshBattle();
             }, 500);
-          } else {
-            debugger;
           }
         });
       },
@@ -393,14 +524,15 @@ export class BattlePageComponent {
           panelClass: 'hero-upgrade-modal'
         });
 
-        dialogRef.afterClosed().subscribe((equipId: string) => {
-          if (equipId) {
+        dialogRef.afterClosed().subscribe((upgradeResult: {equipId: string, abilityId: string}) => {
+          if (upgradeResult.equipId) {
             this.isLoading = true;
-            this.battleService.upgradeEquip(this.battle.id, equipId).subscribe(
+            this.battleService.upgradeEquip(this.battle.id, upgradeResult.equipId).subscribe(
               (battle: IBattle) => {
                 this.isLoading = false;
                 this.updateBattleState(battle).then((battleIsEnded: boolean) => {
                   this.preparedWeapon = undefined;
+                  this.preparedAbility = undefined;
                   this.targets = [];
                   this.movePositions = [];
 
@@ -416,6 +548,29 @@ export class BattlePageComponent {
                 console.log(err);
               }
             );
+          } else if (upgradeResult.abilityId) {
+            this.isLoading = true;
+            // this.battleService.upgradeEquip(this.battle.id, equipId).subscribe(
+            //   (battle: IBattle) => {
+            //     this.isLoading = false;
+            //     this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+            //       this.preparedWeapon = undefined;
+            //       this.preparedAbility = undefined;
+            //       this.targets = [];
+            //       this.movePositions = [];
+
+            //       if (!battleIsEnded) {
+            //         setTimeout(() => {
+            //           this.refreshBattle();
+            //         }, 500);
+            //       }
+            //     });
+            //   },
+            //   (err) => {
+            //     this.isLoading = false;
+            //     console.log(err);
+            //   }
+            // );
           }
         });
       },

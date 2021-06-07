@@ -11,9 +11,11 @@
         [isAllyTarget]="isTarget(hero.id, true)"
         [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
+        [preparedAbility]="preparedAbility"
         [teamCrystals]="battle.teams[0].crystals"
         (endTurn)="endTurn()"
         (prepareWeapon)="prepareWeapon($event)"
+        (prepareAbility)="prepareAbility($event)"
         (openUpgradeModal)="openUpgradeModal($event)"
       ></app-hero-info>
     </ng-container>
@@ -50,7 +52,7 @@
               <div
                 class="overlay"
                 *ngIf="isTarget(hero.id)"
-                [ngCLass]="{'ally': isHeroAllyToActive(hero.id)}"
+                [ngClass]="{'ally' : isHeroAllyToActive(hero.id)}"
                 (mouseenter)="setArrowTarget(hero.position.x, hero.position.y)"
               ></div>
             </div>
@@ -80,6 +82,33 @@
             >
               <app-icon [icon]="event.casterId + '/' + event.equipId" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
+            </div>
+            <div
+              class="battle-text-event"
+              *ngSwitchCase="LogMessageType.ABILITY_DAMAGE"
+              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+            >
+              <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
+              <div class="value damage">{{event.value}}</div>
+            </div>
+            <div
+              class="battle-text-event"
+              *ngSwitchCase="LogMessageType.EFFECT_DAMAGE"
+              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+            >
+              <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
+              <div class="value damage">{{event.value}}</div>
+            </div>
+            <div
+              class="battle-text-event"
+              *ngSwitchCase="LogMessageType.ABILITY_HEAL"
+              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+            >
+              <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
+              <div class="value heal">{{event.value}}</div>
             </div>
           </ng-container>
         </ng-container>
@@ -115,12 +144,47 @@
             {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.equipId) |
             translate}}'
           </div>
+          <div class="text" *ngSwitchCase="LogMessageType.ABILITY_DAMAGE">
+            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_DAMAGE'
+            | translate: {"value": message.value} }}
+            <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
+            {{'LOG.WITH_ABILITY' | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') |
+            translate}}'
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.EFFECT_DAMAGE">
+            <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
+            {{'LOG.EFFECT_DAMAGE' | translate: {"value": message.value} }} '{{('ABILITY.' + message.casterId + '.' +
+            message.abilityId + '.NAME') | translate}}' {{'LOG.EFFECT_OF' | translate}}
+            <span [ngClass]="message.casterId">{{"HERO.BY." + message.casterId | translate}}</span>
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.ABILITY_HEAL">
+            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_HEAL' |
+            translate: {"value": message.value} }}
+            <span [ngClass]="message.targetId">{{"HERO.OF." + message.targetId | translate}}</span>
+            {{'LOG.WITH_ABILITY' | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') |
+            translate}}'
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.ABILITY_CAST">
+            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_CAST' |
+            translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') | translate}}'
+            {{'LOG.ABILITY_ON' | translate}}
+            <span [ngClass]="message.targetId">{{"HERO.OF." + message.targetId | translate}}</span>
+          </div>
           <div class="text" *ngSwitchCase="LogMessageType.UPGRADE_EQUIP">
-            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.UPGRADE_EQUIP' | translate}} '{{('EQUIP.' + message.id + '.' + message.equipId) |
-            translate}}' ({{message.equipId.split('-').pop()}})
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.UPGRADE_EQUIP' | translate}}
+            '{{('EQUIP.' + message.id + '.' + message.equipId) | translate}}' ({{message.equipId.split('-').pop()}})
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TAKE_CRYSTAL">
-            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_CRYSTAL' | translate}}</div>
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_CRYSTAL' | translate}}
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.TAKE_MANA">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_MANA' | translate:
+            {"value": message.value} }}
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.TAKE_ENERGY">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_ENERGY' | translate:
+            {"value": message.value} }}
+          </div>
           <div class="text" *ngSwitchCase="LogMessageType.DEATH">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
           </div>
@@ -155,9 +219,11 @@
         [isAllyTarget]="isTarget(hero.id, true)"
         [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
+        [preparedAbility]="preparedAbility"
         [teamCrystals]="battle.teams[1].crystals"
         (endTurn)="endTurn()"
         (prepareWeapon)="prepareWeapon($event)"
+        (prepareAbility)="prepareAbility($event)"
         (openUpgradeModal)="openUpgradeModal($event)"
       ></app-hero-info>
     </ng-container>
