@@ -521,7 +521,8 @@ export class BattlePageComponent {
             crystals: this.getTeamByHeroId(hero.id, this.battle.teams).crystals,
             battle: this.battle
           },
-          panelClass: 'hero-upgrade-modal'
+          panelClass: 'hero-upgrade-modal',
+          disableClose: true
         });
 
         dialogRef.afterClosed().subscribe((upgradeResult: {equipId: string, abilityId: string}) => {
@@ -550,27 +551,27 @@ export class BattlePageComponent {
             );
           } else if (upgradeResult.abilityId) {
             this.isLoading = true;
-            // this.battleService.upgradeEquip(this.battle.id, equipId).subscribe(
-            //   (battle: IBattle) => {
-            //     this.isLoading = false;
-            //     this.updateBattleState(battle).then((battleIsEnded: boolean) => {
-            //       this.preparedWeapon = undefined;
-            //       this.preparedAbility = undefined;
-            //       this.targets = [];
-            //       this.movePositions = [];
+            this.battleService.learnAbility(this.battle.id, upgradeResult.abilityId).subscribe(
+              (battle: IBattle) => {
+                this.isLoading = false;
+                this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+                  this.preparedWeapon = undefined;
+                  this.preparedAbility = undefined;
+                  this.targets = [];
+                  this.movePositions = [];
 
-            //       if (!battleIsEnded) {
-            //         setTimeout(() => {
-            //           this.refreshBattle();
-            //         }, 500);
-            //       }
-            //     });
-            //   },
-            //   (err) => {
-            //     this.isLoading = false;
-            //     console.log(err);
-            //   }
-            // );
+                  if (!battleIsEnded) {
+                    setTimeout(() => {
+                      this.refreshBattle();
+                    }, 500);
+                  }
+                });
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           }
         });
       },

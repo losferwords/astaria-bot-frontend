@@ -81,7 +81,7 @@
             ability.isPassive ? 'passive' : '',
             ability.level - hero.abilities.length === 1 ? 'always-clickable' : 'always-not-clickable',
             heroHasAbility(ability.id) ? 'selected' : '', 
-            abilityUpgradeIsAvailable('primaryWeapon', weapon) ? '' : 'disabled'
+            abilityUpgradeIsAvailable(ability) ? '' : 'disabled'
           ]"
           [tooltipText]="getAbilityTooltip(ability, hero.id)"
           (click)="upgradeAbility(ability)"
@@ -90,5 +90,5 @@
   </div>
 </div>
 <mat-dialog-actions align="center">
-  <button mat-raised-button color="primary" mat-dialog-close>{{'MODAL.CLOSE' | translate}}</button>
+  <button mat-raised-button color="primary" mat-dialog-close [disabled]="hero.abilities.length === 0">{{'MODAL.CLOSE' | translate}}</button>
 </mat-dialog-actions>

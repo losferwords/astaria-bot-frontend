@@ -19,7 +19,8 @@ export class Const {
   public static apiFindHeroes = 'find-heroes';
   public static apiUseWeapon = 'use-weapon';
   public static apiCastAbility = 'cast-ability';  
-  public static apiUpgradeEquip = 'upgrade-equip';
+  public static apiUpgradeEquip = 'upgrade-equip';  
+  public static apiLearnAbility = 'learn-ability';
   public static apiBotAction = 'bot-action';
 
   public static availableHeroes = ['paragon', 'highlander', 'druid', 'oracle'];

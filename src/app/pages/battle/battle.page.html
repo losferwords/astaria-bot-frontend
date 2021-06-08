@@ -174,6 +174,10 @@
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.UPGRADE_EQUIP' | translate}}
             '{{('EQUIP.' + message.id + '.' + message.equipId) | translate}}' ({{message.equipId.split('-').pop()}})
           </div>
+          <div class="text" *ngSwitchCase="LogMessageType.LEARN_ABILITY">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.LEARN_ABILITY' | translate}}
+            '{{('ABILITY.' + message.id + '.' + message.abilityId + '.NAME') | translate}}'
+          </div>
           <div class="text" *ngSwitchCase="LogMessageType.TAKE_CRYSTAL">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_CRYSTAL' | translate}}
           </div>

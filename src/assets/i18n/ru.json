@@ -220,6 +220,7 @@
     "WITH_ABILITY": "способностью",
     "ABILITY_ON": "на",
     "UPGRADE_EQUIP": "улучшил своё снаряжение до",
+    "LEARN_ABILITY": "изучил способность",
     "TAKE_CRYSTAL": "подобрал кристалл",
     "TAKE_MANA": "восполнил {{value}} ед. маны",
     "TAKE_ENERGY": "восполнил {{value}} ед. энергии",

@@ -151,4 +151,15 @@ export class BattleDataProvider extends BaseDataProvider {
       }
     );
   }
+
+  learnAbility(battleId: string, abilityId: string): Observable<IBattle> {
+    const headers = new HttpHeaders();
+    return this.httpService.post(this.getApiUrl(Const.apiLearnAbility), { battleId, abilityId }, headers).do(
+      (res: IBattle) => {},
+      (err) => {
+        this.handleHttpError(err);
+        throwError(err);
+      }
+    );
+  }
 }

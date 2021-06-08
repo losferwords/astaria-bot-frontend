@@ -82,6 +82,10 @@ export class BattleService {
     return this.battleDataProvider.upgradeEquip(battleId, equipId);
   }
 
+  learnAbility(battleId: string, abilityId: string): Observable<IBattle> {
+    return this.battleDataProvider.learnAbility(battleId, abilityId);
+  }
+
   getEquipTooltip(equip: IEquip, heroId: string): string {
     let resultTooltip = `
       <div class="block">

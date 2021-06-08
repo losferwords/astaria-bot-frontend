@@ -46,17 +46,17 @@ export class UpgradeModalComponent {
 
   upgradeEquip(equipType: string, equip: IEquip) {
     if (this.equipUpgradeIsAvailable(equipType, equip)) {
-      this.dialogRef.close({ equip: this.hero[equipType].id });
+      this.dialogRef.close({ equipId: this.hero[equipType].id });
     }
   }
 
   abilityUpgradeIsAvailable(ability: IAbility): boolean {
-    return ability.level - this.hero.abilities.length === 1 && this.crystals > 0;
+    return this.hero.abilities.length === 0 || (ability.level - this.hero.abilities.length === 1 && this.crystals > 0);
   }
 
   upgradeAbility(ability: IAbility) {
     if (this.abilityUpgradeIsAvailable(ability)) {
-      this.dialogRef.close({ ability: ability.id });
+      this.dialogRef.close({ abilityId: ability.id });
     }
   }
 
