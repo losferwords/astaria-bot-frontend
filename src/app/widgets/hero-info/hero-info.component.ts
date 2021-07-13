@@ -72,6 +72,9 @@ export class HeroInfoComponent {
   }
 
   checkAbilityForUse(ability: IAbility): boolean {
+    if (ability.isPassive) {
+      return false;
+    }
     if (ability.targetType === AbilityTargetType.MOVE && this.hero.isImmobilized) {
       return false;
     }

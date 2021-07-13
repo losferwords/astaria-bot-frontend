@@ -95,4 +95,15 @@
       }
     }
   }
+
+  .control-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid $color-dark;
+    margin-right: 5px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
 }

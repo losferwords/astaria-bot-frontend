@@ -67,15 +67,15 @@
           (click)="upgradeEquip('secondaryWeapon', weapon)"
         ></app-ability-btn>
       </div>
-    </div>    
+    </div>
   </div>
   <div class="abilities-wrapper">
     <div class="tree-title">{{'MODAL.ABILITIES' | translate}}</div>
     <div class="tree">
-        <app-ability-btn
-          *ngFor="let ability of heroData.abilities"
-          [icon]="hero.id + '/' + ability.id"
-          [classes]="[
+      <app-ability-btn
+        *ngFor="let ability of heroData.abilities"
+        [icon]="hero.id + '/' + ability.id"
+        [classes]="[
             hero.id,
             'active-hero', 
             ability.isPassive ? 'passive' : '',
@@ -83,12 +83,20 @@
             heroHasAbility(ability.id) ? 'selected' : '', 
             abilityUpgradeIsAvailable(ability) ? '' : 'disabled'
           ]"
-          [tooltipText]="getAbilityTooltip(ability, hero.id)"
-          (click)="upgradeAbility(ability)"
-        ></app-ability-btn>
+        [tooltipText]="getAbilityTooltip(ability, hero.id)"
+        (click)="upgradeAbility(ability)"
+      ></app-ability-btn>
     </div>
   </div>
 </div>
 <mat-dialog-actions align="center">
-  <button mat-raised-button color="primary" mat-dialog-close [disabled]="hero.abilities.length === 0">{{'MODAL.CLOSE' | translate}}</button>
+  <div class="control-btn" *ngIf="hero.abilities.length === 0" (click)="autoChoose(false)">
+    <app-icon [icon]="'next-button'"></app-icon>
+  </div>
+  <div mat-raised-button color="primary" class="control-btn" *ngIf="hero.abilities.length === 0" (click)="autoChoose(true)">
+    <app-icon [icon]="'play-button'"></app-icon>
+  </div>
+  <button mat-raised-button color="primary" mat-dialog-close [disabled]="hero.abilities.length === 0">
+    {{'MODAL.CLOSE' | translate}}
+  </button>
 </mat-dialog-actions>

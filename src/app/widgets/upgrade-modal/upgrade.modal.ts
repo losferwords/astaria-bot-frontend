@@ -51,7 +51,7 @@ export class UpgradeModalComponent {
   }
 
   abilityUpgradeIsAvailable(ability: IAbility): boolean {
-    return this.hero.abilities.length === 0 || (ability.level - this.hero.abilities.length === 1 && this.crystals > 0);
+    return ability.level - this.hero.abilities.length === 1 && (ability.level === 1 || this.crystals > 0);
   }
 
   upgradeAbility(ability: IAbility) {
@@ -62,5 +62,9 @@ export class UpgradeModalComponent {
 
   heroHasAbility(abilityId: string) {
     return this.hero.abilities.find((a) => a.id === abilityId);
+  }
+
+  autoChoose(isAutoBattle: boolean) {
+    this.dialogRef.close({ auto: { isAutoBattle } });
   }
 }

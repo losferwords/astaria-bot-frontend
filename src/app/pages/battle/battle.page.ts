@@ -75,7 +75,7 @@ export class BattlePageComponent {
 
   private refreshBattle() {
     this.activeHero = this.getHeroesfromQueue()[0];
-    if (!this.activeHero.abilities.length) {
+    if (!this.activeHero.abilities.length && !this.isAutoBattle) {
       this.openUpgradeModal(this.activeHero);
     } else {
       this.getMovePoints();
@@ -525,55 +525,62 @@ export class BattlePageComponent {
           disableClose: true
         });
 
-        dialogRef.afterClosed().subscribe((upgradeResult: {equipId: string, abilityId: string}) => {
-          if (upgradeResult.equipId) {
-            this.isLoading = true;
-            this.battleService.upgradeEquip(this.battle.id, upgradeResult.equipId).subscribe(
-              (battle: IBattle) => {
-                this.isLoading = false;
-                this.updateBattleState(battle).then((battleIsEnded: boolean) => {
-                  this.preparedWeapon = undefined;
-                  this.preparedAbility = undefined;
-                  this.targets = [];
-                  this.movePositions = [];
+        dialogRef
+          .afterClosed()
+          .subscribe((upgradeResult: { equipId: string; abilityId: string; auto: { isAutoBattle: boolean } }) => {
+            if (upgradeResult.equipId) {
+              this.isLoading = true;
+              this.battleService.upgradeEquip(this.battle.id, upgradeResult.equipId).subscribe(
+                (battle: IBattle) => {
+                  this.isLoading = false;
+                  this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+                    this.preparedWeapon = undefined;
+                    this.preparedAbility = undefined;
+                    this.targets = [];
+                    this.movePositions = [];
 
-                  if (!battleIsEnded) {
-                    setTimeout(() => {
-                      this.refreshBattle();
-                    }, 500);
-                  }
-                });
-              },
-              (err) => {
-                this.isLoading = false;
-                console.log(err);
-              }
-            );
-          } else if (upgradeResult.abilityId) {
-            this.isLoading = true;
-            this.battleService.learnAbility(this.battle.id, upgradeResult.abilityId).subscribe(
-              (battle: IBattle) => {
-                this.isLoading = false;
-                this.updateBattleState(battle).then((battleIsEnded: boolean) => {
-                  this.preparedWeapon = undefined;
-                  this.preparedAbility = undefined;
-                  this.targets = [];
-                  this.movePositions = [];
+                    if (!battleIsEnded) {
+                      setTimeout(() => {
+                        this.refreshBattle();
+                      }, 500);
+                    }
+                  });
+                },
+                (err) => {
+                  this.isLoading = false;
+                  console.log(err);
+                }
+              );
+            } else if (upgradeResult.abilityId) {
+              this.isLoading = true;
+              this.battleService.learnAbility(this.battle.id, upgradeResult.abilityId).subscribe(
+                (battle: IBattle) => {
+                  this.isLoading = false;
+                  this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+                    this.preparedWeapon = undefined;
+                    this.preparedAbility = undefined;
+                    this.targets = [];
+                    this.movePositions = [];
 
-                  if (!battleIsEnded) {
-                    setTimeout(() => {
-                      this.refreshBattle();
-                    }, 500);
-                  }
-                });
-              },
-              (err) => {
-                this.isLoading = false;
-                console.log(err);
+                    if (!battleIsEnded) {
+                      setTimeout(() => {
+                        this.refreshBattle();
+                      }, 500);
+                    }
+                  });
+                },
+                (err) => {
+                  this.isLoading = false;
+                  console.log(err);
+                }
+              );
+            } else if (upgradeResult.auto) {
+              if (upgradeResult.auto.isAutoBattle) {
+                this.isAutoBattle = true;
               }
-            );
-          }
-        });
+              this.botAction();
+            }
+          });
       },
       (err) => {
         this.isLoading = false;
