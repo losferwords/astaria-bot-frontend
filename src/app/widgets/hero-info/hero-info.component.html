@@ -152,15 +152,33 @@
   <div class="action-bar-wrapper" *ngFor="let pet of hero.pets">
     <div class="group">
       <div class="buttons">
-        <app-icon class="portrait" [icon]="hero.id + '/' + pet.name" [ngClass]="hero.id"></app-icon>
+        <img [src]="'./assets/images/portraits/' + pet.id + '.png'" class="portrait" [ngClass]="hero.id" />
         <div class="pet-info-wrapper">
           <div class="pet-abilities group">
             <div class="group-name">{{ 'PET.' + pet.id | translate }}</div>
             <div class="buttons">
-              <app-ability-btn [icon]="'move'" [classes]="[hero.id, isActive ? 'active-hero' : '']"></app-ability-btn>
               <app-ability-btn
-                [icon]="hero.id + '/' + pet.ability.name"
-                [classes]="[hero.id, isActive ? 'active-hero' : '']"
+                [icon]="'move'"
+                [classes]="[
+                  hero.id,
+                  isActive ? 'active-hero' : '',
+                  petCanMove(pet) ? '' : 'disabled',
+                  activePet?.id === pet.id && !preparedPetAbility ? 'selected' : ''
+                ]"
+                [tooltipText]="'PET.move' | translate"
+                (click)="petMoveClicked(pet)"
+              ></app-ability-btn>
+              <app-ability-btn
+                [icon]="pet.id + '/' + pet.ability.id"
+                [classes]="[
+                  hero.id,
+                  isActive ? 'active-hero' : '',
+                  preparedPetAbility && preparedPetAbility.id === pet.ability.id ? 'selected' : '',
+                  checkPetAbilityForUse(pet.ability) ? '' : 'disabled'
+                ]"
+                [tooltipText]="getAbilityTooltip(pet.ability, pet.id)"
+                [left]="pet.ability.left > 0 ? pet.ability.left : ''"
+                (click)="preparePetAbilityClicked(pet.ability, pet)"
               ></app-ability-btn>
             </div>
           </div>
@@ -174,10 +192,10 @@
                 <div class="buttons">
                   <app-ability-btn
                     *ngFor="let buff of getEffects(pet.effects, true)"
-                    [icon]="hero.id + '/' + buff.name"
-                    [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
-                    [left]="buff.left"
+                    [icon]="buff.casterId + '/' + buff.id"
+                    [classes]="[buff.casterId, isActive ? 'active-hero' : '', 'btn-small', 'passive']"
                     [tooltipText]="getEffectTooltip(buff, buff.casterId)"
+                    [left]="buff.left"
                   ></app-ability-btn>
                 </div>
               </div>
@@ -185,10 +203,10 @@
                 <div class="buttons">
                   <app-ability-btn
                     *ngFor="let debuff of getEffects(pet.effects, false)"
-                    [icon]="hero.id + '/' + debuff.name"
-                    [classes]="[hero.id, isActive ? 'active-hero' : '', 'btn-small']"
-                    [left]="debuff.left"
+                    [icon]="debuff.casterId + '/' + debuff.id"
+                    [classes]="[debuff.casterId, isActive ? 'active-hero' : '', 'btn-small', 'passive']"
                     [tooltipText]="getEffectTooltip(debuff, debuff.casterId)"
+                    [left]="debuff.left"
                   ></app-ability-btn>
                 </div>
               </div>

@@ -53,9 +53,9 @@ export class BattleDataProvider extends BaseDataProvider {
     );
   }
 
-  getMovePoints(battleId: string): Observable<IPosition[]> {
+  getMovePoints(battleId: string, petId?: string): Observable<IPosition[]> {
     const headers = new HttpHeaders();
-    return this.httpService.get(this.getApiUrl(Const.apiMovePoints), { battleId }, headers).do(
+    return this.httpService.get(this.getApiUrl(Const.apiMovePoints), { battleId, petId: petId || '' }, headers).do(
       (res: IPosition[]) => {},
       (err) => {
         this.handleHttpError(err);
@@ -64,9 +64,9 @@ export class BattleDataProvider extends BaseDataProvider {
     );
   }
 
-  moveHero(battleId: string, position: IPosition): Observable<IBattle> {
+  moveChar(battleId: string, position: IPosition, petId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiMoveHero), { battleId, position }, headers).do(
+    return this.httpService.post(this.getApiUrl(Const.apiMoveChar), { battleId, position, petId: petId || '' }, headers).do(
       (res: IBattle) => {},
       (err) => {
         this.handleHttpError(err);
@@ -86,9 +86,9 @@ export class BattleDataProvider extends BaseDataProvider {
     );
   }
 
-  findEnemies(battleId: string, sourceHeroId: string, radius: number): Observable<string[]> {
+  findEnemies(battleId: string, sourceHeroId: string, radius: number, petId?: string): Observable<string[]> {
     const headers = new HttpHeaders();
-    return this.httpService.get(this.getApiUrl(Const.apiFindEnemies), { battleId, sourceHeroId, radius }, headers).do(
+    return this.httpService.get(this.getApiUrl(Const.apiFindEnemies), { battleId, sourceHeroId, radius, petId: petId || '' }, headers).do(
       (res: string[]) => {},
       (err) => {
         this.handleHttpError(err);
@@ -100,6 +100,17 @@ export class BattleDataProvider extends BaseDataProvider {
   findAllies(battleId: string, sourceHeroId: string, radius: number, includeSelf: boolean): Observable<string[]> {
     const headers = new HttpHeaders();
     return this.httpService.get(this.getApiUrl(Const.apiFindAllies), { battleId, sourceHeroId, radius, includeSelf }, headers).do(
+      (res: string[]) => {},
+      (err) => {
+        this.handleHttpError(err);
+        throwError(err);
+      }
+    );
+  }
+
+  getMapAbilityPositions(battleId: string, abilityId: string,): Observable<IPosition[]> {
+    const headers = new HttpHeaders();
+    return this.httpService.get(this.getApiUrl(Const.apiGetMapAbilityPositions), { battleId, abilityId }, headers).do(
       (res: string[]) => {},
       (err) => {
         this.handleHttpError(err);

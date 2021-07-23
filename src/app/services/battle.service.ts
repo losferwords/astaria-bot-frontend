@@ -10,6 +10,7 @@ import { IEquip } from '../interfaces/IEquip';
 import { I18nService } from './i18n.service';
 import { IAbility } from '../interfaces/IAbility';
 import { IEffect } from '../interfaces/IEffect';
+import { Position } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,32 @@ export class BattleService {
       for (let j = 0; j < oldState.teams[i].heroes.length; j++) {
         for (const key in oldState.teams[i].heroes[j]) {
           if (oldState.teams[i].heroes[j].hasOwnProperty(key)) {
-            oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
+            if (key === 'pets') {
+              if (oldState.teams[i].heroes[j].pets.length === 0 && newState.teams[i].heroes[j].pets.length > 0) {
+                // new Pet summoned
+                oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
+              } else {
+                // pets update
+                for (let k = oldState.teams[i].heroes[j].pets.length - 1; k >= 0; k--) {
+                  let petForUpdate = newState.teams[i].heroes[j].pets.find(
+                    (p) => p.id === oldState.teams[i].heroes[j].pets[k].id
+                  );
+                  if (petForUpdate) {
+                    // update existing pet
+                    for (const petKey in oldState.teams[i].heroes[j].pets[k]) {
+                      if (oldState.teams[i].heroes[j].pets[k].hasOwnProperty(petKey)) {
+                        oldState.teams[i].heroes[j].pets[k][petKey] = petForUpdate[petKey];
+                      }
+                    }
+                  } else {
+                    // old Pet is dead
+                    oldState.teams[i].heroes[j].pets.splice(k, 1);
+                  }
+                }
+              }
+            } else {
+              oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
+            }
           }
         }
       }
@@ -46,20 +72,20 @@ export class BattleService {
     return this.battleDataProvider.getHeroData(heroId);
   }
 
-  getMovePoints(battleId: string): Observable<IPosition[]> {
-    return this.battleDataProvider.getMovePoints(battleId);
+  getMovePoints(battleId: string, petId?: string): Observable<IPosition[]> {
+    return this.battleDataProvider.getMovePoints(battleId, petId);
   }
 
-  moveHero(battleId: string, position: IPosition): Observable<IBattle> {
-    return this.battleDataProvider.moveHero(battleId, position);
+  moveChar(battleId: string, position: IPosition, petId?: string): Observable<IBattle> {
+    return this.battleDataProvider.moveChar(battleId, position, petId);
   }
 
   endTurn(battleId: string): Observable<IBattle> {
     return this.battleDataProvider.endTurn(battleId);
   }
 
-  findEnemies(battleId: string, sourceHeroId: string, radius: number): Observable<string[]> {
-    return this.battleDataProvider.findEnemies(battleId, sourceHeroId, radius);
+  findEnemies(battleId: string, sourceHeroId: string, radius: number, petId?: string): Observable<string[]> {
+    return this.battleDataProvider.findEnemies(battleId, sourceHeroId, radius, petId);
   }
 
   findAllies(battleId: string, sourceHeroId: string, radius: number, includeSelf: boolean): Observable<string[]> {
@@ -68,6 +94,10 @@ export class BattleService {
 
   findHeroes(battleId: string, sourceHeroId: string, radius: number): Observable<string[]> {
     return this.battleDataProvider.findHeroes(battleId, sourceHeroId, radius);
+  }
+
+  getMapAbilityPositions(battleId: string, abilityId: string): Observable<IPosition[]> {
+    return this.battleDataProvider.getMapAbilityPositions(battleId, abilityId);
   }
 
   useWeapon(battleId: string, targetId: string, weaponId: string): Observable<IBattle> {
@@ -188,12 +218,18 @@ export class BattleService {
         <div class="block-element">${this.i18nService.translateInstant(
           'ABILITY.' + heroId + '.' + ability.id + '.NAME'
         )}</div>
-        <div class="block-element">
+    `;
+
+    if (ability.level) {
+      resultTooltip += `
+      <div class="block-element">
           <img src="./assets/icons/upgrade.png">
           <div class="value">${ability.level}</div>
         </div>
-      </div>
-    `;
+      `;
+    }
+
+    resultTooltip += '</div>';
 
     if (ability.isPassive) {
       resultTooltip += `
@@ -239,7 +275,7 @@ export class BattleService {
 
         resultTooltip += `</div>`;
       }
-    } else {
+    } else if (ability.needWeapon || ability.isSpell || ability.energyCost > 0 || ability.manaCost > 0) {
       resultTooltip += `<div class="block footer">`;
 
       if (ability.needWeapon) {

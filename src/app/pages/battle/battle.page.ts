@@ -8,10 +8,12 @@ import { LogMessageType } from 'src/app/enums/log-message-type.enum';
 import { TileType } from 'src/app/enums/tile-type.enum';
 import { IAbility } from 'src/app/interfaces/IAbility';
 import { IBattle } from 'src/app/interfaces/IBattle';
+import { IChar } from 'src/app/interfaces/IChar';
 import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
 import { IHeroData } from 'src/app/interfaces/IHeroData';
 import { ILogMessage } from 'src/app/interfaces/ILogMessage';
+import { IPet } from 'src/app/interfaces/IPet';
 import { IPosition } from 'src/app/interfaces/IPosition';
 import { ITeam } from 'src/app/interfaces/ITeam';
 import { BattleService } from 'src/app/services/battle.service';
@@ -34,10 +36,14 @@ export class BattlePageComponent {
   isLoading = false;
   battle: IBattle;
   movePositions: IPosition[] = [];
+  petMovePositions: IPosition[] = [];
+  mapAbilityPositions: IPosition[] = [];
   activeHero: IHero;
+  activePet: IPet;
   arrowTarget: IPosition;
   preparedWeapon: IEquip;
   preparedAbility: IAbility;
+  preparedPetAbility: IAbility;
   targets: string[] = [];
   eventsForRender: ILogMessage[];
   isAutoBattle: boolean = false;
@@ -92,7 +98,9 @@ export class BattlePageComponent {
       this.battleService.getMovePoints(this.battle.id).subscribe(
         (positions: IPosition[]) => {
           this.isLoading = false;
+          this.mapAbilityPositions = [];
           this.movePositions = positions;
+          this.petMovePositions = [];
         },
         (err) => {
           this.isLoading = false;
@@ -160,8 +168,11 @@ export class BattlePageComponent {
     }
   }
 
-  getArrowType() {
-    let hero;
+  getArrowType(): string {
+    let char;
+    if (this.mapAbilityPositions.length) {
+      return 'ally';
+    }
     for (let i = 0; i < this.battle.teams.length; i++) {
       for (let j = 0; j < this.battle.teams[i].heroes.length; j++) {
         if (
@@ -169,16 +180,29 @@ export class BattlePageComponent {
           this.battle.teams[i].heroes[j].position.y === this.arrowTarget.y &&
           !this.battle.teams[i].heroes[j].isDead
         ) {
-          hero = this.battle.teams[i].heroes[j];
+          char = this.battle.teams[i].heroes[j];
           break;
+        }
+        for (let k = 0; k < this.battle.teams[i].heroes[j].pets.length; k++) {
+          if (
+            this.battle.teams[i].heroes[j].pets[k].position.x === this.arrowTarget.x &&
+            this.battle.teams[i].heroes[j].pets[k].position.y === this.arrowTarget.y
+          ) {
+            char = this.battle.teams[i].heroes[j].pets[k];
+            break;
+          }
         }
       }
     }
-    if (hero) {
-      return this.isHeroAllyToActive(hero.id) ? 'ally' : 'enemy';
+    if (char) {
+      return this.isCharAllyToActive(char.id) ? 'ally' : 'enemy';
     } else {
       return '';
     }
+  }
+
+  get arrowSource(): IChar {
+    return this.activePet ? this.activePet : this.activeHero;
   }
 
   getHeroesfromTeams(): IHero[] {
@@ -204,21 +228,32 @@ export class BattlePageComponent {
     return queueHeroes;
   }
 
-  isHeroAllyToActive(heroId: string): boolean {
+  isCharAllyToActive(charId: string): boolean {
+    let activeHeroTeam: ITeam;
+
     for (let i = 0; i < this.battle.teams.length; i++) {
-      if (
-        this.battle.teams[i].heroes.find((h) => h.id === heroId) &&
-        this.battle.teams[i].heroes.find((h) => h.id === this.activeHero.id)
-      ) {
+      if (this.battle.teams[i].heroes.find((h) => h.id === this.activeHero.id)) {
+        activeHeroTeam = this.battle.teams[i];
+      }
+    }
+
+    for (let j = 0; j < activeHeroTeam.heroes.length; j++) {
+      if (activeHeroTeam.heroes[j].id === charId) {
         return true;
+      }
+      for (let k = 0; k < activeHeroTeam.heroes[j].pets.length; k++) {
+        if (activeHeroTeam.heroes[j].pets[k].id === charId) {
+          return true;
+        }
       }
     }
     return false;
   }
 
   isMoveAvailableTile(x: number, y: number): boolean {
-    if (this.canMove(this.activeHero)) {
-      return !!this.movePositions.find((position: IPosition) => {
+    if (this.petMovePositions || this.canMove(this.activeHero)) {
+      const positions = this.movePositions.length ? this.movePositions : this.petMovePositions;
+      return !!positions.find((position: IPosition) => {
         return position.x === x && position.y === y;
       });
     } else {
@@ -226,23 +261,98 @@ export class BattlePageComponent {
     }
   }
 
-  moveHero(x: number, y: number) {
+  isMapAbilityTile(x: number, y: number): boolean {
+    return !!this.mapAbilityPositions.find((position: IPosition) => {
+      return position.x === x && position.y === y;
+    });
+  }
+
+  mapTileClicked(x: number, y: number) {
+    if (this.mapAbilityPositions.length) {
+      this.castAbility(undefined, { x, y });
+    } else {
+      this.moveChar(x, y);
+    }
+  }
+
+  moveChar(x: number, y: number) {
     if (this.isMoveAvailableTile(x, y)) {
       this.isLoading = true;
       this.preparedWeapon = undefined;
       this.preparedAbility = undefined;
+      this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.moveHero(this.battle.id, { x, y }).subscribe(
+      this.battleService.moveChar(this.battle.id, { x, y }, this.activePet?.id).subscribe(
         (battle: IBattle) => {
           this.isLoading = false;
           this.updateBattleState(battle).then((battleIsEnded: boolean) => {
             this.movePositions = [];
+            this.petMovePositions = [];
+            this.mapAbilityPositions = [];
+            this.activePet = undefined;
             if (!battleIsEnded) {
               setTimeout(() => {
                 this.refreshBattle();
               }, 500);
             }
           });
+        },
+        (err) => {
+          this.isLoading = false;
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  movePet(x: number, y: number) {
+    if (this.isMoveAvailableTile(x, y)) {
+      this.isLoading = true;
+      this.preparedWeapon = undefined;
+      this.preparedAbility = undefined;
+      this.preparedPetAbility = undefined;
+      this.targets = [];
+      this.battleService.moveChar(this.battle.id, { x, y }).subscribe(
+        (battle: IBattle) => {
+          this.isLoading = false;
+          this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+            this.movePositions = [];
+            this.petMovePositions = [];
+            this.mapAbilityPositions = [];
+            this.activePet = undefined;
+            if (!battleIsEnded) {
+              setTimeout(() => {
+                this.refreshBattle();
+              }, 500);
+            }
+          });
+        },
+        (err) => {
+          this.isLoading = false;
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  preparePetMove(pet: IPet) {
+    if (this.petMovePositions.length) {
+      this.petMovePositions = [];
+      this.activePet = undefined;
+      this.getMovePoints();
+    } else if (!pet.isMoved && !pet.isImmobilized) {
+      this.isLoading = true;
+      this.preparedWeapon = undefined;
+      this.preparedAbility = undefined;
+      this.preparedPetAbility = undefined;
+      this.targets = [];
+      this.battleService.getMovePoints(this.battle.id, pet.id).subscribe(
+        (positions: IPosition[]) => {
+          this.isLoading = false;
+          this.mapAbilityPositions = [];
+          this.movePositions = [];
+          this.petMovePositions = positions;
+          this.activePet = pet;
         },
         (err) => {
           this.isLoading = false;
@@ -274,6 +384,7 @@ export class BattlePageComponent {
 
   prepareWeapon(weapon: IEquip) {
     this.preparedAbility = undefined;
+    this.preparedPetAbility = undefined;
     if (this.preparedWeapon && this.preparedWeapon.id === weapon.id) {
       this.preparedWeapon = undefined;
       this.targets = [];
@@ -296,6 +407,7 @@ export class BattlePageComponent {
 
   prepareAbility(ability: IAbility) {
     this.preparedWeapon = undefined;
+    this.preparedPetAbility = undefined;
     if (this.preparedAbility && this.preparedAbility.id === ability.id) {
       this.preparedAbility = undefined;
       this.targets = [];
@@ -359,19 +471,21 @@ export class BattlePageComponent {
             }
           );
           break;
-        // case AbilityTargetType.MAP:
-        //   this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
-        //     (enemies: string[]) => {
-        //       this.isLoading = false;
-        //       this.preparedAbility = ability;
-        //       this.targets = enemies;
-        //     },
-        //     (err) => {
-        //       this.isLoading = false;
-        //       console.log(err);
-        //     }
-        //   );
-        //   break;
+        case AbilityTargetType.MAP:
+          this.battleService.getMapAbilityPositions(this.battle.id, ability.id).subscribe(
+            (positions: IPosition[]) => {
+              this.isLoading = false;
+              this.movePositions = [];
+              this.petMovePositions = [];
+              this.mapAbilityPositions = positions;
+              this.preparedAbility = ability;
+            },
+            (err) => {
+              this.isLoading = false;
+              console.log(err);
+            }
+          );
+          break;
         // case AbilityTargetType.MOVE:
         //   this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
         //     (enemies: string[]) => {
@@ -389,23 +503,58 @@ export class BattlePageComponent {
     }
   }
 
+  preparePetAbility(data: { ability: IAbility; pet: IPet }) {
+    this.preparedWeapon = undefined;
+    this.preparedAbility = undefined;
+    this.movePositions = [];
+    this.mapAbilityPositions = [];
+    this.targets = [];
+    this.petMovePositions = [];
+    if (this.preparedPetAbility && this.preparedPetAbility.id === data.ability.id) {
+      this.preparedPetAbility = undefined;
+      this.activePet = undefined;
+      this.getMovePoints();
+    } else {
+      this.isLoading = true;
+      switch (data.ability.targetType) {
+        default:
+          this.battleService.findEnemies(this.battle.id, this.activeHero.id, data.ability.range, data.pet.id).subscribe(
+            (enemies: string[]) => {
+              this.isLoading = false;
+              this.preparedPetAbility = data.ability;
+              this.targets = enemies;
+              this.activePet = data.pet;
+            },
+            (err) => {
+              this.isLoading = false;
+              console.log(err);
+            }
+          );
+          break;
+      }
+    }
+  }
+
   isTarget(heroId: string): boolean {
     return !!this.targets.find((target: string) => {
       return target === heroId;
     });
   }
 
-  heroTileClicked(hero: IHero) {
-    if (this.isTarget(hero.id)) {
+  charTileClicked(char: IChar) {
+    if (this.isTarget(char.id)) {
       if (this.preparedWeapon) {
         this.isLoading = true;
-        this.battleService.useWeapon(this.battle.id, hero.id, this.preparedWeapon.id).subscribe(
+        this.battleService.useWeapon(this.battle.id, char.id, this.preparedWeapon.id).subscribe(
           (battle: IBattle) => {
             this.isLoading = false;
             this.updateBattleState(battle).then((battleIsEnded: boolean) => {
               this.preparedWeapon = undefined;
               this.targets = [];
               this.movePositions = [];
+              this.petMovePositions = [];
+              this.mapAbilityPositions = [];
+              this.activePet = undefined;
 
               if (!battleIsEnded) {
                 setTimeout(() => {
@@ -419,43 +568,60 @@ export class BattlePageComponent {
             console.log(err);
           }
         );
-      }
-      if (this.preparedAbility) {
-        this.castAbility(hero.id);
+      } else if (this.preparedAbility || this.preparedPetAbility) {
+        this.castAbility(char.id);
       }
     }
   }
 
   castAbility(targetId?: string, position?: IPosition) {
     this.isLoading = true;
-    this.battleService.castAbility(this.battle.id, this.preparedAbility.id, targetId, position).subscribe(
-      (battle: IBattle) => {
-        this.isLoading = false;
-        this.updateBattleState(battle).then((battleIsEnded: boolean) => {
-          this.preparedAbility = undefined;
-          this.targets = [];
-          this.movePositions = [];
+    this.battleService
+      .castAbility(
+        this.battle.id,
+        this.preparedAbility ? this.preparedAbility.id : this.preparedPetAbility.id,
+        targetId,
+        position
+      )
+      .subscribe(
+        (battle: IBattle) => {
+          this.isLoading = false;
+          this.updateBattleState(battle).then((battleIsEnded: boolean) => {
+            this.preparedAbility = undefined;
+            this.preparedPetAbility = undefined;
+            this.targets = [];
+            this.movePositions = [];
+            this.petMovePositions = [];
+            this.mapAbilityPositions = [];
+            this.activePet = undefined;
 
-          if (!battleIsEnded) {
-            setTimeout(() => {
-              this.refreshBattle();
-            }, 500);
-          }
-        });
-      },
-      (err) => {
-        this.isLoading = false;
-        console.log(err);
-      }
-    );
+            if (!battleIsEnded) {
+              setTimeout(() => {
+                this.refreshBattle();
+              }, 500);
+            }
+          });
+        },
+        (err) => {
+          this.isLoading = false;
+          console.log(err);
+        }
+      );
   }
 
-  getHeroPositionById(heroId: string): IPosition {
+  getCharPositionById(charId: string): IPosition {
     const heroes = this.getHeroesfromTeams();
-    const targetHero: IHero = heroes.find((hero: IHero) => {
-      return hero.id === heroId;
-    });
-    return targetHero.position;
+    for (let i = 0; i < heroes.length; i++) {
+      if (heroes[i].id === charId) {
+        return heroes[i].position;
+      }
+      for (let j = 0; j < heroes[i].pets.length; j++) {
+        if (heroes[i].pets[j].id === charId) {
+          return heroes[i].pets[j].position;
+        }
+      }
+    }
+    return undefined;
   }
 
   botAction() {
@@ -477,8 +643,12 @@ export class BattlePageComponent {
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
           this.preparedWeapon = undefined;
           this.preparedAbility = undefined;
+          this.preparedPetAbility = undefined;
           this.targets = [];
           this.movePositions = [];
+          this.petMovePositions = [];
+          this.mapAbilityPositions = [];
+          this.activePet = undefined;
 
           if (!battleIsEnded) {
             setTimeout(() => {
@@ -536,8 +706,12 @@ export class BattlePageComponent {
                   this.updateBattleState(battle).then((battleIsEnded: boolean) => {
                     this.preparedWeapon = undefined;
                     this.preparedAbility = undefined;
+                    this.preparedPetAbility = undefined;
                     this.targets = [];
                     this.movePositions = [];
+                    this.petMovePositions = [];
+                    this.mapAbilityPositions = [];
+                    this.activePet = undefined;
 
                     if (!battleIsEnded) {
                       setTimeout(() => {
@@ -559,8 +733,11 @@ export class BattlePageComponent {
                   this.updateBattleState(battle).then((battleIsEnded: boolean) => {
                     this.preparedWeapon = undefined;
                     this.preparedAbility = undefined;
+                    this.preparedPetAbility = undefined;
                     this.targets = [];
                     this.movePositions = [];
+                    this.mapAbilityPositions = [];
+                    this.activePet = undefined;
 
                     if (!battleIsEnded) {
                       setTimeout(() => {

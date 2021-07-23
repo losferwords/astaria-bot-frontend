@@ -12,10 +12,14 @@
         [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
         [preparedAbility]="preparedAbility"
+        [preparedPetAbility]="preparedPetAbility"
+        [activePet]="activePet"
         [teamCrystals]="battle.teams[0].crystals"
         (endTurn)="endTurn()"
         (prepareWeapon)="prepareWeapon($event)"
         (prepareAbility)="prepareAbility($event)"
+        (preparePetMove)="preparePetMove($event)"
+        (preparePetAbility)="preparePetAbility($event)"
         (openUpgradeModal)="openUpgradeModal($event)"
       ></app-hero-info>
     </ng-container>
@@ -33,9 +37,9 @@
           >
             <div
               class="overlay"
-              [ngClass]="{'move': isMoveAvailableTile(j, i)}"
+              [ngClass]="{'move': isMoveAvailableTile(j, i), 'ability': isMapAbilityTile(j, i)}"
               (mouseenter)="setArrowTarget(j, i)"
-              (click)="moveHero(j, i)"
+              (click)="mapTileClicked(j, i)"
             ></div>
           </div>
         </div>
@@ -47,13 +51,28 @@
               [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px', 'left': (hero.position.x * battle.scenario.tileSize) + 'px', 'top': (hero.position.y * battle.scenario.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}"
               [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]"
               (mouseenter)="setArrowTarget(-1, -1)"
-              (click)="heroTileClicked(hero)"
+              (click)="charTileClicked(hero)"
             >
               <div
                 class="overlay"
                 *ngIf="isTarget(hero.id)"
-                [ngClass]="{'ally' : isHeroAllyToActive(hero.id)}"
+                [ngClass]="{'ally' : isCharAllyToActive(hero.id)}"
                 (mouseenter)="setArrowTarget(hero.position.x, hero.position.y)"
+              ></div>
+            </div>
+            <div
+              class="hero"
+              *ngFor="let pet of hero.pets"
+              [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px', 'left': (pet.position.x * battle.scenario.tileSize) + 'px', 'top': (pet.position.y * battle.scenario.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + pet.id + '.png)'}"
+              [ngClass]="[pet.id === battle.queue[0] ? 'active' : '', hero.id]"
+              (mouseenter)="setArrowTarget(-1, -1)"
+              (click)="charTileClicked(pet)"
+            >
+              <div
+                class="overlay"
+                *ngIf="isTarget(pet.id)"
+                [ngClass]="{'ally' : isCharAllyToActive(pet.id)}"
+                (mouseenter)="setArrowTarget(pet.position.x, pet.position.y)"
               ></div>
             </div>
           </ng-container>
@@ -65,20 +84,20 @@
             </marker>
           </defs>
           <line
-            [attr.x1]="(activeHero.position.x * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
-            [attr.y1]="(activeHero.position.y * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
+            [attr.x1]="(arrowSource.position.x * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
+            [attr.y1]="(arrowSource.position.y * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
             [attr.x2]="(arrowTarget.x * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
             [attr.y2]="(arrowTarget.y * battle.scenario.tileSize) + battle.scenario.tileSize / 2"
             class="arrow"
           />
         </svg>
         <ng-container *ngFor="let event of eventsForRender; index as i">
-          <ng-container [ngSwitch]="event.type">
+          <ng-container [ngSwitch]="event.type" *ngIf="getCharPositionById(event.targetId)">
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.WEAPON_DAMAGE"
-              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
             >
               <app-icon [icon]="event.casterId + '/' + event.equipId" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
@@ -86,8 +105,8 @@
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.ABILITY_DAMAGE"
-              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
             >
               <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
@@ -95,8 +114,8 @@
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.EFFECT_DAMAGE"
-              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
             >
               <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
               <div class="value damage">{{event.value}}</div>
@@ -104,8 +123,8 @@
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.ABILITY_HEAL"
-              [@battleText]="{value: 'fly', params: { left: getHeroPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getHeroPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getHeroPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getHeroPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
             >
               <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
               <div class="value heal">{{event.value}}</div>
@@ -189,6 +208,10 @@
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_ENERGY' | translate:
             {"value": message.value} }}
           </div>
+          <div class="text" *ngSwitchCase="LogMessageType.PET_SUMMON">
+            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.PET_SUMMON' |
+            translate}} <span [ngClass]="message.casterId">{{"HERO.OF." + message.abilityId | translate}}</span>
+          </div>
           <div class="text" *ngSwitchCase="LogMessageType.DEATH">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}
           </div>
@@ -224,10 +247,14 @@
         [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
         [preparedAbility]="preparedAbility"
+        [preparedPetAbility]="preparedPetAbility"
+        [activePet]="activePet"
         [teamCrystals]="battle.teams[1].crystals"
         (endTurn)="endTurn()"
         (prepareWeapon)="prepareWeapon($event)"
         (prepareAbility)="prepareAbility($event)"
+        (preparePetMove)="preparePetMove($event)"
+        (preparePetAbility)="preparePetAbility($event)"
         (openUpgradeModal)="openUpgradeModal($event)"
       ></app-hero-info>
     </ng-container>

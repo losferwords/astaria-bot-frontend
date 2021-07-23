@@ -94,6 +94,11 @@
                 display: block;
                 background-color: $color-energy;
               }
+
+              &.ability {
+                display: block;
+                background-color: $color-mana;
+              }
             }
           }
         }
@@ -155,7 +160,8 @@
               border-color: $color-highlander;
             }
 
-            &.druid {
+            &.druid,
+            &.wolf {
               border-color: $color-druid;
             }
 
@@ -222,7 +228,7 @@
       margin-top: 10px;
       overflow-y: auto;
 
-      .log-message {       
+      .log-message {
         .text {
           font-size: 12px;
           font-weight: bold;
@@ -237,7 +243,8 @@
               color: $color-highlander;
             }
 
-            &.druid {
+            &.druid,
+            &.wolf {
               color: $color-druid;
             }
 
@@ -315,7 +322,8 @@
         }
       }
 
-      &.druid {
+      &.druid,
+      &.wolf {
         border-color: $color-druid;
 
         &.active {
