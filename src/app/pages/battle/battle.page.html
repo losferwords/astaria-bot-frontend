@@ -151,7 +151,7 @@
         <ng-container [ngSwitch]="message.type">
           <div class="text" *ngSwitchCase="LogMessageType.MOVE">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.MOVE' | translate: {"x":
-            message.position.x, "y": message.position.y} }}
+            message.positionX, "y": message.positionY} }}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TURN_END">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_END' | translate}}
@@ -224,7 +224,7 @@
       [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
     >
       <div class="control-btn-wrapper">
-        <div class="control-btn" (click)="botAction()">
+        <div class="control-btn" (click)="botAction()" *ngIf="!isAutoBattle">
           <app-icon [icon]="'next-button'"></app-icon>
         </div>
         <div class="control-btn" (click)="toggleAutoBattle()">

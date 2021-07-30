@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -54,7 +54,8 @@ export class BattlePageComponent {
     private router: Router,
     private battleService: BattleService,
     private botService: BotService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
     this.battle =
       this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
@@ -627,14 +628,14 @@ export class BattlePageComponent {
   botAction() {
     this.isLoading = true;
     this.timer = Const.botThinkTime;
+    const botThinkStartTime = +new Date();
     var thinkInterval = setInterval(() => {
-      if (this.timer - 100 > 0) {
-        this.timer -= 100;
-      } else {
-        this.timer = 0;
+      this.timer = Const.botThinkTime - (+new Date() - botThinkStartTime);
+      if (this.timer <= 0) {
         clearInterval(thinkInterval);
       }
     }, 100);
+    
     this.botService.botAction(this.battle.id).subscribe(
       (battle: IBattle) => {
         this.isLoading = false;
