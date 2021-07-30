@@ -43,6 +43,14 @@
             ></div>
           </div>
         </div>
+        <ng-container *ngFor="let mapEffect of battle.mapEffects">
+          <div
+            *ngFor="let mapEffectTile of getMapEffectTiles(mapEffect)"
+            class="map-effect"
+            [ngClass]="mapEffect.casterId"
+            [ngStyle]="{'width' : (battle.scenario.tileSize / 2) + 'px', 'height' : (battle.scenario.tileSize / 2) + 'px', 'left': (mapEffectTile.x * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'top': (mapEffectTile.y * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'background-image': 'url(./assets/icons/' + mapEffect.casterId + '/' + mapEffect.id + '.png)'}"
+          ></div>
+        </ng-container>
         <ng-container *ngFor="let team of battle.teams">
           <ng-container *ngFor="let hero of team.heroes">
             <div
@@ -211,6 +219,9 @@
           <div class="text" *ngSwitchCase="LogMessageType.PET_SUMMON">
             <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.PET_SUMMON' |
             translate}} <span [ngClass]="message.casterId">{{"HERO.OF." + message.abilityId | translate}}</span>
+          </div>
+          <div class="text" *ngSwitchCase="LogMessageType.TURN_SKIP">
+            <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_SKIP' | translate}}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.DEATH">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.DEATH' | translate}}

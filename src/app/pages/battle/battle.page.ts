@@ -9,6 +9,7 @@ import { TileType } from 'src/app/enums/tile-type.enum';
 import { IAbility } from 'src/app/interfaces/IAbility';
 import { IBattle } from 'src/app/interfaces/IBattle';
 import { IChar } from 'src/app/interfaces/IChar';
+import { IEffect } from 'src/app/interfaces/IEffect';
 import { IEquip } from 'src/app/interfaces/IEquip';
 import { IHero } from 'src/app/interfaces/IHero';
 import { IHeroData } from 'src/app/interfaces/IHeroData';
@@ -227,6 +228,24 @@ export class BattlePageComponent {
       );
     }
     return queueHeroes;
+  }
+
+  getMapEffectTiles(mapEffect: IEffect): IPosition[] {
+    const tiles: IPosition[] = [];
+    for (let x = mapEffect.position.x - mapEffect.range; x <= mapEffect.position.x + mapEffect.range; x++) {
+      for (let y = mapEffect.position.y - mapEffect.range; y <= mapEffect.position.y + mapEffect.range; y++) {
+        if (
+          x >= 0 &&
+          x < this.battle.scenario.tiles[0].length &&
+          y >= 0 &&
+          y < this.battle.scenario.tiles.length &&
+          this.battle.scenario.tiles[y][x].type === TileType.FLOOR
+        ) {
+          tiles.push({ x, y });
+        }
+      }
+    }
+    return tiles;
   }
 
   isCharAllyToActive(charId: string): boolean {
@@ -635,7 +654,7 @@ export class BattlePageComponent {
         clearInterval(thinkInterval);
       }
     }, 100);
-    
+
     this.botService.botAction(this.battle.id).subscribe(
       (battle: IBattle) => {
         this.isLoading = false;

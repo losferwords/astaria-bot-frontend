@@ -22,6 +22,7 @@ export class BattleService {
     oldState.queue = newState.queue;
     oldState.scenario = newState.scenario;
     oldState.crystalPositions = newState.crystalPositions;
+    oldState.mapEffects = newState.mapEffects;
     oldState.log = newState.log;
     for (let i = 0; i < oldState.teams.length; i++) {
       oldState.teams[i].crystals = newState.teams[i].crystals;

@@ -59,3 +59,70 @@ $xs-width: 576px;
       box-shadow: 0 0 15px 2px $color-avenger;
     }
   }
+
+  @mixin hero-border-colors() {
+    &.paragon {
+      border-color: $color-paragon;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-paragon;
+      }
+    }
+
+    &.highlander {
+      border-color: $color-highlander;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-highlander;
+      }
+    }
+
+    &.druid,
+    &.wolf {
+      border-color: $color-druid;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-druid;
+      }
+    }
+
+    &.oracle {
+      border-color: $color-oracle;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-oracle;
+      }
+    }
+
+    &.avatar {
+      border-color: $color-avatar;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-avatar;
+      }
+    }
+
+    &.shadow {
+      border-color: $color-shadow;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-shadow;
+      }
+    }
+
+    &.lightbringer {
+      border-color: $color-lightbringer;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-lightbringer;
+      }
+    }
+
+    &.avenger {
+      border-color: $color-avenger;
+
+      &.active {
+        box-shadow: 0 0 15px 2px $color-avenger;
+      }
+    }
+  }
