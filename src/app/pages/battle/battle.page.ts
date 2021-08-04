@@ -150,6 +150,7 @@ export class BattlePageComponent {
   }
 
   private battleEnd() {
+    this.isAutoBattle = false;
     // delete this.battle;
     // this.router.navigate(['/home']);
   }
@@ -356,7 +357,7 @@ export class BattlePageComponent {
   }
 
   preparePetMove(pet: IPet) {
-    if (this.petMovePositions.length) {
+    if (this.petMovePositions.length && pet.id === this.activePet.id) {
       this.petMovePositions = [];
       this.activePet = undefined;
       this.getMovePoints();
@@ -440,85 +441,75 @@ export class BattlePageComponent {
           this.castAbility(this.activeHero.id);
           break;
         case AbilityTargetType.ALLY:
-          this.battleService.findAllies(this.battle.id, this.activeHero.id, ability.range, true).subscribe(
-            (allies: string[]) => {
-              this.isLoading = false;
-              this.preparedAbility = ability;
-              this.targets = allies;
-            },
-            (err) => {
-              this.isLoading = false;
-              console.log(err);
-            }
-          );
-          break;
         case AbilityTargetType.ALLY_NOT_ME:
-          this.battleService.findAllies(this.battle.id, this.activeHero.id, ability.range, false).subscribe(
-            (allies: string[]) => {
-              this.isLoading = false;
-              this.preparedAbility = ability;
-              this.targets = allies;
-            },
-            (err) => {
-              this.isLoading = false;
-              console.log(err);
-            }
-          );
+          this.battleService
+            .findAllies(
+              this.battle.id,
+              this.activeHero.id,
+              ability.range,
+              ability.targetType !== AbilityTargetType.ALLY_NOT_ME,
+              ability.ignoreRaytrace
+            )
+            .subscribe(
+              (allies: string[]) => {
+                this.isLoading = false;
+                this.preparedAbility = ability;
+                this.targets = allies;
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           break;
         case AbilityTargetType.ALLY_OR_ENEMY:
-          this.battleService.findHeroes(this.battle.id, this.activeHero.id, ability.range).subscribe(
-            (heroes: string[]) => {
-              this.isLoading = false;
-              this.preparedAbility = ability;
-              this.targets = heroes;
-            },
-            (err) => {
-              this.isLoading = false;
-              console.log(err);
-            }
-          );
+          this.battleService
+            .findHeroes(this.battle.id, this.activeHero.id, ability.range, ability.ignoreRaytrace)
+            .subscribe(
+              (heroes: string[]) => {
+                this.isLoading = false;
+                this.preparedAbility = ability;
+                this.targets = heroes;
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           break;
         case AbilityTargetType.ENEMY:
-          this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
-            (enemies: string[]) => {
-              this.isLoading = false;
-              this.preparedAbility = ability;
-              this.targets = enemies;
-            },
-            (err) => {
-              this.isLoading = false;
-              console.log(err);
-            }
-          );
+          this.battleService
+            .findEnemies(this.battle.id, this.activeHero.id, ability.range, ability.ignoreRaytrace)
+            .subscribe(
+              (enemies: string[]) => {
+                this.isLoading = false;
+                this.preparedAbility = ability;
+                this.targets = enemies;
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           break;
         case AbilityTargetType.MAP:
-          this.battleService.getMapAbilityPositions(this.battle.id, ability.id).subscribe(
-            (positions: IPosition[]) => {
-              this.isLoading = false;
-              this.movePositions = [];
-              this.petMovePositions = [];
-              this.mapAbilityPositions = positions;
-              this.preparedAbility = ability;
-            },
-            (err) => {
-              this.isLoading = false;
-              console.log(err);
-            }
-          );
+        case AbilityTargetType.MOVE:
+          this.battleService
+            .getMapAbilityPositions(this.battle.id, ability.id, ability.ignoreRaytrace, ability.ignoreObstacles)
+            .subscribe(
+              (positions: IPosition[]) => {
+                this.isLoading = false;
+                this.movePositions = [];
+                this.petMovePositions = [];
+                this.mapAbilityPositions = positions;
+                this.preparedAbility = ability;
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           break;
-        // case AbilityTargetType.MOVE:
-        //   this.battleService.findEnemies(this.battle.id, this.activeHero.id, ability.range).subscribe(
-        //     (enemies: string[]) => {
-        //       this.isLoading = false;
-        //       this.preparedAbility = ability;
-        //       this.targets = enemies;
-        //     },
-        //     (err) => {
-        //       this.isLoading = false;
-        //       console.log(err);
-        //     }
-        //   );
-        //   break;
       }
     }
   }
@@ -538,7 +529,7 @@ export class BattlePageComponent {
       this.isLoading = true;
       switch (data.ability.targetType) {
         default:
-          this.battleService.findEnemies(this.battle.id, this.activeHero.id, data.ability.range, data.pet.id).subscribe(
+          this.battleService.findEnemies(this.battle.id, data.pet.id, data.ability.range).subscribe(
             (enemies: string[]) => {
               this.isLoading = false;
               this.preparedPetAbility = data.ability;

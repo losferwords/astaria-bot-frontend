@@ -24,7 +24,10 @@ export class HeroInfoComponent {
   @Output() prepareWeapon: EventEmitter<IEquip> = new EventEmitter<IEquip>();
   @Output() prepareAbility: EventEmitter<IAbility> = new EventEmitter<IAbility>();
   @Output() preparePetMove: EventEmitter<IPet> = new EventEmitter<IPet>();
-  @Output() preparePetAbility: EventEmitter<{ability: IAbility, pet: IPet}> = new EventEmitter<{ability: IAbility, pet: IPet}>();
+  @Output() preparePetAbility: EventEmitter<{ ability: IAbility; pet: IPet }> = new EventEmitter<{
+    ability: IAbility;
+    pet: IPet;
+  }>();
   @Output() openUpgradeModal: EventEmitter<IHero> = new EventEmitter<IHero>();
 
   constructor(private battleService: BattleService) {}
@@ -67,19 +70,19 @@ export class HeroInfoComponent {
 
   preparePetAbilityClicked(ability: IAbility, pet: IPet) {
     if (this.checkPetAbilityForUse(ability, pet)) {
-      this.preparePetAbility.emit({ability, pet});
+      this.preparePetAbility.emit({ ability, pet });
     }
   }
 
   petMoveClicked(pet: IPet) {
-    if (this.isActive) {
+    if (this.isActive && this.petCanMove(pet)) {
       this.preparePetMove.emit(pet);
     }
   }
 
   canUseWeapon(weapon: IEquip): boolean {
     return (
-      this.hero.energy - weapon.energyCost >= 0 &&
+      this.hero.energy - (weapon.energyCost + this.hero.extraWeaponEnergyCost) >= 0 &&
       (!this.hero.isDisarmed || this.hero.isImmuneToDisarm) &&
       !weapon.isUsed &&
       this.isActive &&
@@ -94,16 +97,24 @@ export class HeroInfoComponent {
     if (ability.targetType === AbilityTargetType.MOVE && this.hero.isImmobilized) {
       return false;
     }
-    if (ability.targetType === AbilityTargetType.MAP && this.hero.pets.find((pet) => pet.id === ability.id.split('-')[1])) {
+    if (
+      ability.targetType === AbilityTargetType.MAP &&
+      this.hero.pets.find((pet) => pet.id === ability.id.split('-')[1])
+    ) {
       return false;
     }
-    if (ability.needWeapon && this.hero.isDisarmed) {
+    if (ability.needWeapon && !this.hero.isImmuneToDisarm && this.hero.isDisarmed) {
       return false;
     }
     if (ability.isSpell && this.hero.isSilenced) {
       return false;
     }
-    if (ability.left === 0 && this.hero.energy - ability.energyCost >= 0 && this.hero.mana - ability.manaCost >= 0) {
+    if (
+      ability.level <= this.hero.maxAllowedAbilityLevel &&
+      ability.left === 0 &&
+      this.hero.energy - ability.energyCost >= 0 &&
+      this.hero.mana - ability.manaCost >= 0
+    ) {
       return true;
     } else {
       return false;
@@ -111,6 +122,9 @@ export class HeroInfoComponent {
   }
 
   checkPetAbilityForUse(ability: IAbility, pet: IPet): boolean {
+    if (pet.isStunned) {
+      return false;
+    }
     if (ability.needWeapon && pet.isDisarmed) {
       return false;
     }
@@ -125,7 +139,7 @@ export class HeroInfoComponent {
   }
 
   petCanMove(pet: IPet): boolean {
-    return !pet.isMoved && !pet.isImmobilized;
+    return !pet.isMoved && !pet.isImmobilized && !pet.isStunned;
   }
 
   showUpgradePopup() {

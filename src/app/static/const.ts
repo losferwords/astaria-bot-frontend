@@ -17,7 +17,7 @@ export class Const {
   public static apiFindEnemies = 'find-enemies';
   public static apiFindAllies = 'find-allies';
   public static apiFindHeroes = 'find-heroes';
-  public static apiGetMapAbilityPositions = 'get-map-ability-positions';
+  public static apiMapAbilityPositions = 'map-ability-positions';
   public static apiUseWeapon = 'use-weapon';
   public static apiCastAbility = 'cast-ability';  
   public static apiUpgradeEquip = 'upgrade-equip';  
@@ -25,5 +25,5 @@ export class Const {
   public static apiBotAction = 'bot-action';
 
   public static availableHeroes = ['paragon', 'highlander', 'druid', 'oracle'];
-  public static botThinkTime = 120000;
+  public static botThinkTime = 300000;
 }

@@ -57,7 +57,7 @@
               class="hero"
               *ngIf="!hero.isDead"
               [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px', 'left': (hero.position.x * battle.scenario.tileSize) + 'px', 'top': (hero.position.y * battle.scenario.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + hero.id + '_' + hero.gender + '.jpg)'}"
-              [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id]"
+              [ngClass]="[hero.id === battle.queue[0] ? 'active' : '', hero.id, (mapAbilityPositions.length && preparedAbility.ignoreObstacles) ? 'map-effect-transparent' : '']"
               (mouseenter)="setArrowTarget(-1, -1)"
               (click)="charTileClicked(hero)"
             >
@@ -72,7 +72,7 @@
               class="hero"
               *ngFor="let pet of hero.pets"
               [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px', 'left': (pet.position.x * battle.scenario.tileSize) + 'px', 'top': (pet.position.y * battle.scenario.tileSize) + 'px', 'background-image': 'url(./assets/images/portraits/' + pet.id + '.png)'}"
-              [ngClass]="[pet.id === battle.queue[0] ? 'active' : '', hero.id]"
+              [ngClass]="[pet.id === battle.queue[0] ? 'active' : '', hero.id, (mapAbilityPositions.length && preparedAbility.ignoreObstacles) ? 'map-effect-transparent' : '']"
               (mouseenter)="setArrowTarget(-1, -1)"
               (click)="charTileClicked(pet)"
             >
@@ -179,7 +179,7 @@
             translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.EFFECT_DAMAGE">
-            <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
+            <span [ngClass]="message.targetId">{{"HERO." + message.targetId | translate}}</span>
             {{'LOG.EFFECT_DAMAGE' | translate: {"value": message.value} }} '{{('ABILITY.' + message.casterId + '.' +
             message.abilityId + '.NAME') | translate}}' {{'LOG.EFFECT_OF' | translate}}
             <span [ngClass]="message.casterId">{{"HERO.BY." + message.casterId | translate}}</span>
@@ -192,10 +192,17 @@
             translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.ABILITY_CAST">
-            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_CAST' |
-            translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') | translate}}'
-            {{'LOG.ABILITY_ON' | translate}}
-            <span [ngClass]="message.targetId">{{"HERO.OF." + message.targetId | translate}}</span>
+            <ng-container *ngIf="message.positionX">
+              <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_CAST'
+              | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') | translate}}'
+              {{'LOG.ABILITY_MOVE' | translate}} {{message.positionX}} {{message.positionY}}
+            </ng-container>
+            <ng-container *ngIf="message.targetId">
+              <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_CAST'
+              | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') | translate}}'
+              {{'LOG.ABILITY_ON' | translate}}
+              <span [ngClass]="message.targetId">{{"HERO.OF." + message.targetId | translate}}</span>
+            </ng-container>
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.UPGRADE_EQUIP">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.UPGRADE_EQUIP' | translate}}
@@ -218,7 +225,7 @@
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.PET_SUMMON">
             <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.PET_SUMMON' |
-            translate}} <span [ngClass]="message.casterId">{{"HERO.OF." + message.abilityId | translate}}</span>
+            translate}} <span [ngClass]="message.casterId">{{"HERO.WHO." + message.abilityId | translate}}</span>
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TURN_SKIP">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_SKIP' | translate}}

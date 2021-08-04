@@ -174,7 +174,7 @@
                   hero.id,
                   isActive ? 'active-hero' : '',
                   preparedPetAbility && preparedPetAbility.id === pet.ability.id ? 'selected' : '',
-                  checkPetAbilityForUse(pet.ability) ? '' : 'disabled'
+                  checkPetAbilityForUse(pet.ability, pet) ? '' : 'disabled'
                 ]"
                 [tooltipText]="getAbilityTooltip(pet.ability, pet.id)"
                 [left]="pet.ability.left > 0 ? pet.ability.left : ''"

@@ -30,7 +30,7 @@ export class BattleService {
         for (const key in oldState.teams[i].heroes[j]) {
           if (oldState.teams[i].heroes[j].hasOwnProperty(key)) {
             if (key === 'pets') {
-              if (oldState.teams[i].heroes[j].pets.length === 0 && newState.teams[i].heroes[j].pets.length > 0) {
+              if (oldState.teams[i].heroes[j].pets.length < newState.teams[i].heroes[j].pets.length) {
                 // new Pet summoned
                 oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
               } else {
@@ -85,20 +85,36 @@ export class BattleService {
     return this.battleDataProvider.endTurn(battleId);
   }
 
-  findEnemies(battleId: string, sourceHeroId: string, radius: number, petId?: string): Observable<string[]> {
-    return this.battleDataProvider.findEnemies(battleId, sourceHeroId, radius, petId);
+  findEnemies(
+    battleId: string,
+    sourceCharId: string,
+    radius: number,
+    ignoreRaytrace?: boolean
+  ): Observable<string[]> {
+    return this.battleDataProvider.findEnemies(battleId, sourceCharId, radius, ignoreRaytrace);
   }
 
-  findAllies(battleId: string, sourceHeroId: string, radius: number, includeSelf: boolean): Observable<string[]> {
-    return this.battleDataProvider.findAllies(battleId, sourceHeroId, radius, includeSelf);
+  findAllies(
+    battleId: string,
+    sourceCharId: string,
+    radius: number,
+    includeSelf: boolean,
+    ignoreRaytrace?: boolean
+  ): Observable<string[]> {
+    return this.battleDataProvider.findAllies(battleId, sourceCharId, radius, includeSelf, ignoreRaytrace);
   }
 
-  findHeroes(battleId: string, sourceHeroId: string, radius: number): Observable<string[]> {
-    return this.battleDataProvider.findHeroes(battleId, sourceHeroId, radius);
+  findHeroes(battleId: string, sourceCharId: string, radius: number, ignoreRaytrace?: boolean): Observable<string[]> {
+    return this.battleDataProvider.findHeroes(battleId, sourceCharId, radius, ignoreRaytrace);
   }
 
-  getMapAbilityPositions(battleId: string, abilityId: string): Observable<IPosition[]> {
-    return this.battleDataProvider.getMapAbilityPositions(battleId, abilityId);
+  getMapAbilityPositions(
+    battleId: string,
+    abilityId: string,
+    ignoreRaytrace: boolean,
+    ignoreObstacles: boolean
+  ): Observable<IPosition[]> {
+    return this.battleDataProvider.getMapAbilityPositions(battleId, abilityId, ignoreRaytrace, ignoreObstacles);
   }
 
   useWeapon(battleId: string, targetId: string, weaponId: string): Observable<IBattle> {
@@ -239,15 +255,20 @@ export class BattleService {
       </div>
     `;
     } else {
-      if (ability.range > 0) {
-        resultTooltip += `
-          <div class="block">
-            <div class="block-element">${this.i18nService.translateInstant('PARAM.RANGE') + ' ' + ability.range}</div>
-        `;
-      } else {
+      if (ability.range === 0) {
         resultTooltip += `
           <div class="block">
             <div class="block-element">${this.i18nService.translateInstant('PARAM.ON_SELF')}</div>
+        `;
+      } else if (ability.range === 100) {
+        resultTooltip += `
+        <div class="block">
+          <div class="block-element">${this.i18nService.translateInstant('PARAM.ALL_FIELD')}</div>
+      `;
+      } else {
+        resultTooltip += `
+          <div class="block">
+            <div class="block-element">${this.i18nService.translateInstant('PARAM.RANGE') + ' ' + ability.range}</div>
         `;
       }
 

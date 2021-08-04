@@ -78,7 +78,8 @@ $xs-width: 576px;
     }
 
     &.druid,
-    &.wolf {
+    &.wolf,
+    &.dryad {
       border-color: $color-druid;
 
       &.active {

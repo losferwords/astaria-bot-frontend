@@ -161,7 +161,8 @@
             }
 
             &.druid,
-            &.wolf {
+            &.wolf,
+            &.dryad {
               border-color: $color-druid;
             }
 
@@ -244,7 +245,8 @@
             }
 
             &.druid,
-            &.wolf {
+            &.wolf,
+            &.dryad {
               color: $color-druid;
             }
 
@@ -334,6 +336,11 @@
         &.ally {
           background-color: $color-mana;
         }
+      }
+
+      &.map-effect-transparent {
+        opacity: 0.5;
+        pointer-events: none;
       }
     }
   }
