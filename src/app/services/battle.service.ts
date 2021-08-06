@@ -337,7 +337,7 @@ export class BattleService {
     resultTooltip += `
       <div class="block">
         <div class="block-element text-center">${
-          this.i18nService.translateInstant('PARAM.DURATION') + ' ' + effect.duration
+          effect.duration < 100 ? (this.i18nService.translateInstant('PARAM.DURATION') + ' ' + effect.duration) : this.i18nService.translateInstant('PARAM.ENDLESS_DURATION')
         }</div>
       </div>`;
 

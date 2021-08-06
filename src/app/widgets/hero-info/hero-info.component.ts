@@ -99,7 +99,7 @@ export class HeroInfoComponent {
     }
     if (
       ability.targetType === AbilityTargetType.MAP &&
-      this.hero.pets.find((pet) => pet.id === ability.id.split('-')[1])
+      this.hero.pets.find((pet) => pet.id === ability.id.split('-').splice(1).join('-'))
     ) {
       return false;
     }
@@ -109,16 +109,16 @@ export class HeroInfoComponent {
     if (ability.isSpell && this.hero.isSilenced) {
       return false;
     }
-    if (
+    if (ability.id === '32-elements-control' && this.hero.effects.find((e) => e.id === '32-elements-control')) {
+      return false;
+    }
+    return (
       ability.level <= this.hero.maxAllowedAbilityLevel &&
+      ability.range <= this.hero.maxAllowedAbilityRange &&
       ability.left === 0 &&
       this.hero.energy - ability.energyCost >= 0 &&
       this.hero.mana - ability.manaCost >= 0
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    );
   }
 
   checkPetAbilityForUse(ability: IAbility, pet: IPet): boolean {
@@ -131,7 +131,7 @@ export class HeroInfoComponent {
     if (ability.isSpell && pet.isSilenced) {
       return false;
     }
-    if (ability.left === 0) {
+    if (ability.left === 0 && ability.range <= pet.maxAllowedAbilityRange) {
       return true;
     } else {
       return false;
