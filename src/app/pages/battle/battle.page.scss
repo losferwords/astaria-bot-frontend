@@ -175,7 +175,8 @@
               border-color: $color-avatar;
             }
 
-            &.shadow {
+            &.shadow,
+            &.phantom {
               border-color: $color-shadow;
             }
 
@@ -260,16 +261,19 @@
               color: $color-avatar;
             }
 
-            &.shadow {
+            &.shadow,
+            &.phantom {
               color: $color-shadow;
             }
 
             &.lightbringer {
               color: $color-lightbringer;
+              text-shadow: 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark;
             }
 
             &.avenger {
               color: $color-avenger;
+              text-shadow: 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark;
             }
           }
         }
@@ -310,8 +314,13 @@
       background-position: center;
       background-size: contain;
       pointer-events: none;
+      animation-delay: 0;
 
       @include hero-border-colors();
+
+      &.animated {
+        animation: flicker 2s ease alternate infinite;
+      }
     }
 
     .hero {
@@ -345,5 +354,14 @@
         pointer-events: none;
       }
     }
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

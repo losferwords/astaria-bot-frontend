@@ -8,8 +8,6 @@
       <app-hero-info
         [hero]="hero"
         [isActive]="hero.id === battle.queue[0]"
-        [isAllyTarget]="isTarget(hero.id, true)"
-        [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
         [preparedAbility]="preparedAbility"
         [preparedPetAbility]="preparedPetAbility"
@@ -43,12 +41,12 @@
             ></div>
           </div>
         </div>
-        <ng-container *ngFor="let mapEffect of battle.mapEffects">
+        <ng-container *ngFor="let mapEffect of battle.mapEffects; index as k">
           <div
             *ngFor="let mapEffectTile of getMapEffectTiles(mapEffect)"
             class="map-effect"
-            [ngClass]="mapEffect.casterId"
-            [ngStyle]="{'width' : (battle.scenario.tileSize / 2) + 'px', 'height' : (battle.scenario.tileSize / 2) + 'px', 'left': (mapEffectTile.x * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'top': (mapEffectTile.y * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'background-image': 'url(./assets/icons/' + mapEffect.casterId + '/' + mapEffect.id + '.png)'}"
+            [ngClass]="[mapEffect.casterId, battle.mapEffects.length > 1 ? 'animated' : '']"
+            [ngStyle]="{'width' : (battle.scenario.tileSize / 2) + 'px', 'height' : (battle.scenario.tileSize / 2) + 'px', 'left': (mapEffectTile.x * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'top': (mapEffectTile.y * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'background-image': 'url(./assets/icons/' + mapEffect.casterId + '/' + mapEffect.id + '.png)', 'animation-delay': k + 's'}"
           ></div>
         </ng-container>
         <ng-container *ngFor="let team of battle.teams">
@@ -261,8 +259,6 @@
       <app-hero-info
         [hero]="hero"
         [isActive]="hero.id === battle.queue[0]"
-        [isAllyTarget]="isTarget(hero.id, true)"
-        [isEnemyTarget]="isTarget(hero.id, false)"
         [preparedWeapon]="preparedWeapon"
         [preparedAbility]="preparedAbility"
         [preparedPetAbility]="preparedPetAbility"

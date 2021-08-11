@@ -25,7 +25,7 @@
         padding: 5px;
 
         .attributes {
-          width: 70px;
+          width: 80px;
           display: flex;
           flex-direction: column;
 
@@ -58,7 +58,7 @@
         .bars-wrapper {
           display: flex;
           flex-direction: column;
-          width: calc(100% - 74px);
+          width: calc(100% - 84px);
           justify-content: space-between;
           margin-left: 5px;
 
@@ -192,8 +192,30 @@
                 }
 
                 app-resource-bar {
-                  width: calc(100% - 21px);
+                  width: calc(100% - 54px);
                   margin-left: 5px;
+                  margin-right: 5px;
+                }
+
+                .attribute {
+                  display: flex;
+                  margin-bottom: 5px;
+                  align-items: center;
+
+                  &:last-child {
+                    margin-bottom: 0;
+                  }
+
+                  app-icon {
+                    width: 16px;
+                    height: 16px;
+                  }
+
+                  .value {
+                    margin-left: 5px;
+                    font-size: 12px;
+                    font-weight: bold;
+                  }
                 }
               }
 

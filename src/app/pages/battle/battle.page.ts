@@ -412,7 +412,7 @@ export class BattlePageComponent {
       this.getMovePoints();
     } else {
       this.isLoading = true;
-      this.battleService.findEnemies(this.battle.id, this.activeHero.id, weapon.range).subscribe(
+      this.battleService.findEnemies(this.battle.id, this.activeHero.id, weapon.range, false, '', false).subscribe(
         (enemies: string[]) => {
           this.isLoading = false;
           this.preparedWeapon = weapon;
@@ -447,6 +447,7 @@ export class BattlePageComponent {
               this.battle.id,
               this.activeHero.id,
               ability.range,
+              ability.includeInvisible,
               ability.targetType !== AbilityTargetType.ALLY_NOT_ME,
               ability.ignoreRaytrace
             )
@@ -464,7 +465,36 @@ export class BattlePageComponent {
           break;
         case AbilityTargetType.ALLY_OR_ENEMY:
           this.battleService
-            .findHeroes(this.battle.id, this.activeHero.id, ability.range, ability.ignoreRaytrace)
+            .findHeroes(
+              this.battle.id,
+              this.activeHero.id,
+              ability.range,
+              ability.includeInvisible,
+              true,
+              ability.ignoreRaytrace
+            )
+            .subscribe(
+              (heroes: string[]) => {
+                this.isLoading = false;
+                this.preparedAbility = ability;
+                this.targets = heroes;
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
+          break;
+        case AbilityTargetType.ALLY_OR_ENEMY_NOT_ME:
+          this.battleService
+            .findHeroes(
+              this.battle.id,
+              this.activeHero.id,
+              ability.range,
+              ability.includeInvisible,
+              false,
+              ability.ignoreRaytrace
+            )
             .subscribe(
               (heroes: string[]) => {
                 this.isLoading = false;
@@ -479,7 +509,14 @@ export class BattlePageComponent {
           break;
         case AbilityTargetType.ENEMY:
           this.battleService
-            .findEnemies(this.battle.id, this.activeHero.id, ability.range, ability.ignoreRaytrace)
+            .findEnemies(
+              this.battle.id,
+              this.activeHero.id,
+              ability.range,
+              ability.includeInvisible,
+              ability.id,
+              ability.ignoreRaytrace
+            )
             .subscribe(
               (enemies: string[]) => {
                 this.isLoading = false;
@@ -529,18 +566,27 @@ export class BattlePageComponent {
       this.isLoading = true;
       switch (data.ability.targetType) {
         default:
-          this.battleService.findEnemies(this.battle.id, data.pet.id, data.ability.range).subscribe(
-            (enemies: string[]) => {
-              this.isLoading = false;
-              this.preparedPetAbility = data.ability;
-              this.targets = enemies;
-              this.activePet = data.pet;
-            },
-            (err) => {
-              this.isLoading = false;
-              console.log(err);
-            }
-          );
+          this.battleService
+            .findEnemies(
+              this.battle.id,
+              data.pet.id,
+              data.ability.range,
+              data.ability.includeInvisible,
+              data.ability.id,
+              data.ability.ignoreRaytrace
+            )
+            .subscribe(
+              (enemies: string[]) => {
+                this.isLoading = false;
+                this.preparedPetAbility = data.ability;
+                this.targets = enemies;
+                this.activePet = data.pet;
+              },
+              (err) => {
+                this.isLoading = false;
+                console.log(err);
+              }
+            );
           break;
       }
     }

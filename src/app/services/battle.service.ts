@@ -89,23 +89,54 @@ export class BattleService {
     battleId: string,
     sourceCharId: string,
     radius: number,
-    ignoreRaytrace?: boolean
+    includeInvisible: boolean,
+    abilityId: string,
+    ignoreRaytrace: boolean
   ): Observable<string[]> {
-    return this.battleDataProvider.findEnemies(battleId, sourceCharId, radius, ignoreRaytrace);
+    return this.battleDataProvider.findEnemies(
+      battleId,
+      sourceCharId,
+      radius,
+      includeInvisible,
+      abilityId,
+      ignoreRaytrace
+    );
   }
 
   findAllies(
     battleId: string,
     sourceCharId: string,
     radius: number,
+    includeInvisible: boolean,
     includeSelf: boolean,
-    ignoreRaytrace?: boolean
+    ignoreRaytrace: boolean
   ): Observable<string[]> {
-    return this.battleDataProvider.findAllies(battleId, sourceCharId, radius, includeSelf, ignoreRaytrace);
+    return this.battleDataProvider.findAllies(
+      battleId,
+      sourceCharId,
+      radius,
+      includeInvisible,
+      includeSelf,
+      ignoreRaytrace
+    );
   }
 
-  findHeroes(battleId: string, sourceCharId: string, radius: number, ignoreRaytrace?: boolean): Observable<string[]> {
-    return this.battleDataProvider.findHeroes(battleId, sourceCharId, radius, ignoreRaytrace);
+  findHeroes(
+    battleId: string,
+    sourceCharId: string,
+    radius: number,
+    includeInvisible: boolean,
+    includeSelf: boolean,
+    ignoreRaytrace: boolean
+  ): Observable<string[]> {
+    return this.battleDataProvider.findHeroes(
+      battleId,
+      sourceCharId,
+      radius,
+      includeInvisible,
+      includeSelf,
+      ignoreRaytrace
+    );
   }
 
   getMapAbilityPositions(
@@ -337,7 +368,9 @@ export class BattleService {
     resultTooltip += `
       <div class="block">
         <div class="block-element text-center">${
-          effect.duration < 100 ? (this.i18nService.translateInstant('PARAM.DURATION') + ' ' + effect.duration) : this.i18nService.translateInstant('PARAM.ENDLESS_DURATION')
+          effect.duration < 100
+            ? this.i18nService.translateInstant('PARAM.DURATION') + ' ' + effect.duration
+            : this.i18nService.translateInstant('PARAM.ENDLESS_DURATION')
         }</div>
       </div>`;
 

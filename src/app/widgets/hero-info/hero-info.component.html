@@ -186,6 +186,10 @@
             <div class="bar-group">
               <app-icon [icon]="'hearts'"></app-icon>
               <app-resource-bar [value]="pet.health" [maxValue]="pet.maxHealth" [type]="'health'"></app-resource-bar>
+              <div class="attribute">
+                <app-icon [icon]="'heart-plus'"></app-icon>
+                <div class="value">{{ pet.regeneration }}</div>
+              </div>
             </div>
             <div class="pet-effects" *ngIf="pet.effects.length > 0">
               <div class="group">

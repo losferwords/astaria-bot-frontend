@@ -92,13 +92,15 @@ export class BattleDataProvider extends BaseDataProvider {
     battleId: string,
     sourceCharId: string,
     radius: number,
+    includeInvisible: boolean,
+    abilityId: string,
     ignoreRaytrace?: boolean
   ): Observable<string[]> {
     const headers = new HttpHeaders();
     return this.httpService
       .get(
         this.getApiUrl(Const.apiFindEnemies),
-        { battleId, sourceCharId, radius, ignoreRaytrace: ignoreRaytrace || '' },
+        { battleId, sourceCharId, radius, includeInvisible: includeInvisible || '', abilityId, ignoreRaytrace: ignoreRaytrace || '' },
         headers
       )
       .do(
@@ -114,6 +116,7 @@ export class BattleDataProvider extends BaseDataProvider {
     battleId: string,
     sourceCharId: string,
     radius: number,
+    includeInvisible: boolean,
     includeSelf: boolean,
     ignoreRaytrace?: boolean
   ): Observable<string[]> {
@@ -121,7 +124,7 @@ export class BattleDataProvider extends BaseDataProvider {
     return this.httpService
       .get(
         this.getApiUrl(Const.apiFindAllies),
-        { battleId, sourceCharId, radius, includeSelf, ignoreRaytrace: ignoreRaytrace || '' },
+        { battleId, sourceCharId, radius, includeInvisible: includeInvisible || '', includeSelf, ignoreRaytrace: ignoreRaytrace || '' },
         headers
       )
       .do(
@@ -133,12 +136,19 @@ export class BattleDataProvider extends BaseDataProvider {
       );
   }
 
-  findHeroes(battleId: string, sourceCharId: string, radius: number, ignoreRaytrace?: boolean): Observable<string[]> {
+  findHeroes(
+    battleId: string,
+    sourceCharId: string,
+    radius: number,
+    includeInvisible: boolean,
+    includeSelf: boolean,
+    ignoreRaytrace?: boolean
+  ): Observable<string[]> {
     const headers = new HttpHeaders();
     return this.httpService
       .get(
         this.getApiUrl(Const.apiFindHeroes),
-        { battleId, sourceCharId, radius, ignoreRaytrace: ignoreRaytrace || '' },
+        { battleId, sourceCharId, radius, includeInvisible: includeInvisible || '', includeSelf, ignoreRaytrace: ignoreRaytrace || '' },
         headers
       )
       .do(

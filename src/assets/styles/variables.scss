@@ -104,7 +104,8 @@ $xs-width: 576px;
     }
   }
 
-  &.shadow {
+  &.shadow,
+  &.phantom {
     border-color: $color-shadow;
 
     &.active {
