@@ -29,7 +29,7 @@
           <div
             class="tile"
             *ngFor="let tile of row; index as j"
-            [ngClass]="{'wall': tile.type === TileType.WALL, 'crystal': tileHasCrystal(j, i)}"
+            [ngClass]="{'wall': tile.type === TileType.WALL, 'crystal': tileHasCrystal(j, i), 'room': tile.type === TileType.ROOM }"
             [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px'}"
             (mouseenter)="setArrowTarget(-1, -1)"
           >
@@ -149,7 +149,7 @@
     </div>
     <div
       class="log-wrapper"
-      [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px', 'height' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
+      [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
       ngx-auto-scroll
       lock-y-offset="5"
     >
@@ -240,10 +240,10 @@
       [ngStyle]="{'width' : (battle.scenario.tileSize * battle.scenario.tiles[0].length) + 'px'}"
     >
       <div class="control-btn-wrapper">
-        <div class="control-btn" (click)="botAction()" *ngIf="!isAutoBattle">
+        <div class="control-btn" (click)="autoOneTurn()" *ngIf="!isAutoBattle && !isAutoOneTurn">
           <app-icon [icon]="'next-button'"></app-icon>
         </div>
-        <div class="control-btn" (click)="toggleAutoBattle()">
+        <div class="control-btn" (click)="toggleAutoBattle()" *ngIf="!isAutoOneTurn">
           <app-icon [icon]="isAutoBattle ? 'pause-button' : 'play-button'"></app-icon>
         </div>
       </div>

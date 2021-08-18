@@ -20,9 +20,9 @@ export class TeamSetupPageComponent {
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state.data.teamSetupMatrix;
     this.scenarioId = this.router.getCurrentNavigation().extras.state.data.scenarioId;
-    for (let i = 0; i < this.teamSetupMatrix.length; i++) {
+    for (let i = 0; i < this.teamSetupMatrix[0]; i++) {
       this.teamSetup.push([]);
-      for (let j = 0; j < this.teamSetupMatrix[i]; j++) {
+      for (let j = 0; j < this.teamSetupMatrix[1]; j++) {
         this.teamSetup[i].push({
           gender: 'male',
           hero: 'random'

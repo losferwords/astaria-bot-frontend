@@ -91,34 +91,57 @@ export class HeroInfoComponent {
   }
 
   checkAbilityForUse(ability: IAbility): boolean {
+    if (this.hero.isStunned) {
+      return false;
+    }
+
     if (ability.isPassive) {
       return false;
     }
+
+    if (ability.needWeapon && !this.hero.isImmuneToDisarm && this.hero.isDisarmed) {
+      return false;
+    }
+
+    if (ability.isSpell && this.hero.isSilenced) {
+      return false;
+    }
+
     if (ability.targetType === AbilityTargetType.MOVE && this.hero.isImmobilized) {
       return false;
     }
+
     if (
       ability.targetType === AbilityTargetType.MAP &&
       this.hero.pets.find((pet) => pet.id === ability.id.split('-').splice(1).join('-'))
     ) {
       return false;
     }
-    if (ability.needWeapon && !this.hero.isImmuneToDisarm && this.hero.isDisarmed) {
-      return false;
+
+    if (this.hero.isPet) {
+      return ability.left === 0;
+    } else {
+      switch (ability.id) {
+        case '32-elements-control':
+          if (this.hero.effects.find((e) => e.id === '32-elements-control')) {
+            return false;
+          }
+          break;
+        case '31-assault':
+        case '43-rallying':
+        case '12-flame-dash':
+          if (this.hero.isImmobilized) {
+            return false;
+          }
+          break;
+      }
+      return (
+        ability.level <= this.hero.maxAllowedAbilityLevel &&
+        ability.left === 0 &&
+        this.hero.energy - ability.energyCost >= 0 &&
+        this.hero.mana - ability.manaCost >= 0
+      );
     }
-    if (ability.isSpell && this.hero.isSilenced) {
-      return false;
-    }
-    if (ability.id === '32-elements-control' && this.hero.effects.find((e) => e.id === '32-elements-control')) {
-      return false;
-    }
-    return (
-      ability.level <= this.hero.maxAllowedAbilityLevel &&
-      ability.range <= this.hero.maxAllowedAbilityRange &&
-      ability.left === 0 &&
-      this.hero.energy - ability.energyCost >= 0 &&
-      this.hero.mana - ability.manaCost >= 0
-    );
   }
 
   checkPetAbilityForUse(ability: IAbility, pet: IPet): boolean {
@@ -131,7 +154,7 @@ export class HeroInfoComponent {
     if (ability.isSpell && pet.isSilenced) {
       return false;
     }
-    if (ability.left === 0 && ability.range <= pet.maxAllowedAbilityRange) {
+    if (ability.left === 0) {
       return true;
     } else {
       return false;

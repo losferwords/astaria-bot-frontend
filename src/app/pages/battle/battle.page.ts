@@ -48,6 +48,7 @@ export class BattlePageComponent {
   targets: string[] = [];
   eventsForRender: ILogMessage[];
   isAutoBattle: boolean = false;
+  isAutoOneTurn: boolean = false;
   timer: number = 0;
   botThinkTime: number = 0;
 
@@ -89,7 +90,7 @@ export class BattlePageComponent {
       this.getMovePoints();
     }
 
-    if (this.isAutoBattle) {
+    if (this.isAutoBattle || this.isAutoOneTurn) {
       this.botAction();
     }
   }
@@ -121,11 +122,6 @@ export class BattlePageComponent {
     return new Promise<boolean>((resolve) => {
       const newEvents = newState.log.slice(this.battle.log.length);
 
-      if (newEvents.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
-        this.battleEnd();
-        resolve(true);
-      }
-
       const battleTextEvents = newEvents.filter((event: ILogMessage) => {
         return (
           event.type === LogMessageType.WEAPON_DAMAGE ||
@@ -137,8 +133,20 @@ export class BattlePageComponent {
       if (battleTextEvents.length > 0) {
         this.renderBattleText([...battleTextEvents]);
       }
+      const previousActiveId = this.activeHero.id;
       this.battleService.updateBattleState(this.battle, newState);
-      resolve(false);
+      const nextActiveId = newState.queue[0];
+
+      if (this.isAutoOneTurn && previousActiveId !== nextActiveId) {
+        this.isAutoOneTurn = false;
+      }
+
+      if (newState.log.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
+        this.battleEnd();
+        return resolve(true);
+      }
+      
+      return resolve(false);
     });
   }
 
@@ -151,6 +159,7 @@ export class BattlePageComponent {
 
   private battleEnd() {
     this.isAutoBattle = false;
+    this.isAutoOneTurn = false;
     // delete this.battle;
     // this.router.navigate(['/home']);
   }
@@ -724,8 +733,18 @@ export class BattlePageComponent {
   toggleAutoBattle() {
     if (this.isAutoBattle) {
       this.isAutoBattle = false;
+      this.isAutoOneTurn = false;
     } else {
       this.isAutoBattle = true;
+      this.isAutoOneTurn = false;
+      this.botAction();
+    }
+  }
+
+  autoOneTurn() {
+    if (!this.isAutoOneTurn) {
+      this.isAutoOneTurn = true;
+      this.isAutoBattle = false;
       this.botAction();
     }
   }
@@ -811,6 +830,8 @@ export class BattlePageComponent {
             } else if (upgradeResult.auto) {
               if (upgradeResult.auto.isAutoBattle) {
                 this.isAutoBattle = true;
+              } else {
+                this.isAutoOneTurn = true;
               }
               this.botAction();
             }
