@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import { Const } from '../static/const';
 
 @Injectable({
@@ -25,6 +24,6 @@ export class BaseDataProvider {
     if (hasData && !requestData) {
       message = 'Request object is missing';
     }
-    return message ? throwError(message) : null;
+    return message ? throwError(() => new Error(message)) : null;
   }
 }

@@ -150,4 +150,20 @@
       }
     }
   }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      margin-right: 10px;
+    }
+
+    .setup-index-input {
+      width: 50px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
 }

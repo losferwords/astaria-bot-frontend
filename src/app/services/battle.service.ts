@@ -10,7 +10,6 @@ import { IEquip } from '../interfaces/IEquip';
 import { I18nService } from './i18n.service';
 import { IAbility } from '../interfaces/IAbility';
 import { IEffect } from '../interfaces/IEffect';
-import { Position } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -196,7 +195,7 @@ export class BattleService {
       resultTooltip += `</div>`;
     }
 
-    if (equip.strength + equip.intellect + equip.armor + equip.will + equip.regeneration + equip.mind > 0) {
+    if (equip.strength || equip.intellect || equip.armor || equip.will || equip.regeneration || equip.mind) {
       resultTooltip += `
       <div class="params">
       `;

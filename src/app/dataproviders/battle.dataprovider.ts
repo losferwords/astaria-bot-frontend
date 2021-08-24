@@ -1,8 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
 import { IBattleSetupDto } from '../dto/battle-setup.dto';
 import { IScenarioSetupDto } from '../dto/scenario-setup.dto';
 import { IBattle } from '../interfaces/IBattle';
@@ -22,70 +20,36 @@ export class BattleDataProvider extends BaseDataProvider {
 
   getScenarios(): Observable<IScenarioSetupDto[]> {
     const headers = new HttpHeaders();
-    return this.httpService.get(this.getApiUrl(Const.apiScenarios), {}, headers).do(
-      (res: IScenarioSetupDto[]) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.get(this.getApiUrl(Const.apiScenarios), {}, headers);
   }
 
   startBattle(battleSetup: IBattleSetupDto): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiStartBattle), battleSetup, headers).do(
-      (res: IBattle) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.post(this.getApiUrl(Const.apiStartBattle), battleSetup, headers);
   }
 
   getHeroData(heroId: string): Observable<IHeroData> {
     const headers = new HttpHeaders();
-    return this.httpService.get(this.getApiUrl(Const.apiHeroData), { heroId }, headers).do(
-      (res: IHeroData) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.get(this.getApiUrl(Const.apiHeroData), { heroId }, headers);
   }
 
   getMovePoints(battleId: string, petId?: string): Observable<IPosition[]> {
     const headers = new HttpHeaders();
-    return this.httpService.get(this.getApiUrl(Const.apiMovePoints), { battleId, petId: petId || '' }, headers).do(
-      (res: IPosition[]) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.get(this.getApiUrl(Const.apiMovePoints), { battleId, petId: petId || '' }, headers);
   }
 
   moveChar(battleId: string, position: IPosition, petId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService
-      .post(this.getApiUrl(Const.apiMoveChar), { battleId, position, petId: petId || '' }, headers)
-      .do(
-        (res: IBattle) => {},
-        (err) => {
-          this.handleHttpError(err);
-          throwError(err);
-        }
-      );
+    return this.httpService.post(
+      this.getApiUrl(Const.apiMoveChar),
+      { battleId, position, petId: petId || '' },
+      headers
+    );
   }
 
   endTurn(battleId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiEndTurn), { battleId }, headers).do(
-      (res: IBattle) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.post(this.getApiUrl(Const.apiEndTurn), { battleId }, headers);
   }
 
   findEnemies(
@@ -97,19 +61,18 @@ export class BattleDataProvider extends BaseDataProvider {
     ignoreRaytrace?: boolean
   ): Observable<string[]> {
     const headers = new HttpHeaders();
-    return this.httpService
-      .get(
-        this.getApiUrl(Const.apiFindEnemies),
-        { battleId, sourceCharId, radius, includeInvisible: includeInvisible || '', abilityId, ignoreRaytrace: ignoreRaytrace || '' },
-        headers
-      )
-      .do(
-        (res: string[]) => {},
-        (err) => {
-          this.handleHttpError(err);
-          throwError(err);
-        }
-      );
+    return this.httpService.get(
+      this.getApiUrl(Const.apiFindEnemies),
+      {
+        battleId,
+        sourceCharId,
+        radius,
+        includeInvisible: includeInvisible || '',
+        abilityId,
+        ignoreRaytrace: ignoreRaytrace || ''
+      },
+      headers
+    );
   }
 
   findAllies(
@@ -121,19 +84,18 @@ export class BattleDataProvider extends BaseDataProvider {
     ignoreRaytrace?: boolean
   ): Observable<string[]> {
     const headers = new HttpHeaders();
-    return this.httpService
-      .get(
-        this.getApiUrl(Const.apiFindAllies),
-        { battleId, sourceCharId, radius, includeInvisible: includeInvisible || '', includeSelf, ignoreRaytrace: ignoreRaytrace || '' },
-        headers
-      )
-      .do(
-        (res: string[]) => {},
-        (err) => {
-          this.handleHttpError(err);
-          throwError(err);
-        }
-      );
+    return this.httpService.get(
+      this.getApiUrl(Const.apiFindAllies),
+      {
+        battleId,
+        sourceCharId,
+        radius,
+        includeInvisible: includeInvisible || '',
+        includeSelf,
+        ignoreRaytrace: ignoreRaytrace || ''
+      },
+      headers
+    );
   }
 
   findHeroes(
@@ -145,19 +107,18 @@ export class BattleDataProvider extends BaseDataProvider {
     ignoreRaytrace?: boolean
   ): Observable<string[]> {
     const headers = new HttpHeaders();
-    return this.httpService
-      .get(
-        this.getApiUrl(Const.apiFindHeroes),
-        { battleId, sourceCharId, radius, includeInvisible: includeInvisible || '', includeSelf, ignoreRaytrace: ignoreRaytrace || '' },
-        headers
-      )
-      .do(
-        (res: string[]) => {},
-        (err) => {
-          this.handleHttpError(err);
-          throwError(err);
-        }
-      );
+    return this.httpService.get(
+      this.getApiUrl(Const.apiFindHeroes),
+      {
+        battleId,
+        sourceCharId,
+        radius,
+        includeInvisible: includeInvisible || '',
+        includeSelf,
+        ignoreRaytrace: ignoreRaytrace || ''
+      },
+      headers
+    );
   }
 
   getMapAbilityPositions(
@@ -167,64 +128,34 @@ export class BattleDataProvider extends BaseDataProvider {
     ignoreObstacles?: boolean
   ): Observable<IPosition[]> {
     const headers = new HttpHeaders();
-    return this.httpService
-      .get(
-        this.getApiUrl(Const.apiMapAbilityPositions),
-        { battleId, abilityId, ignoreRaytrace: ignoreRaytrace || '', ignoreObstacles: ignoreObstacles || '' },
-        headers
-      )
-      .do(
-        (res: string[]) => {},
-        (err) => {
-          this.handleHttpError(err);
-          throwError(err);
-        }
-      );
+    return this.httpService.get(
+      this.getApiUrl(Const.apiMapAbilityPositions),
+      { battleId, abilityId, ignoreRaytrace: ignoreRaytrace || '', ignoreObstacles: ignoreObstacles || '' },
+      headers
+    );
   }
 
   useWeapon(battleId: string, targetId: string, weaponId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiUseWeapon), { battleId, targetId, weaponId }, headers).do(
-      (res: IBattle) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.post(this.getApiUrl(Const.apiUseWeapon), { battleId, targetId, weaponId }, headers);
   }
 
   castAbility(battleId: string, abilityId: string, targetId: string, position: IPosition): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService
-      .post(this.getApiUrl(Const.apiCastAbility), { battleId, abilityId, targetId, position }, headers)
-      .do(
-        (res: IBattle) => {},
-        (err) => {
-          this.handleHttpError(err);
-          throwError(err);
-        }
-      );
+    return this.httpService.post(
+      this.getApiUrl(Const.apiCastAbility),
+      { battleId, abilityId, targetId, position },
+      headers
+    );
   }
 
   upgradeEquip(battleId: string, equipId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiUpgradeEquip), { battleId, equipId }, headers).do(
-      (res: IBattle) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.post(this.getApiUrl(Const.apiUpgradeEquip), { battleId, equipId }, headers);
   }
 
   learnAbility(battleId: string, abilityId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiLearnAbility), { battleId, abilityId }, headers).do(
-      (res: IBattle) => {},
-      (err) => {
-        this.handleHttpError(err);
-        throwError(err);
-      }
-    );
+    return this.httpService.post(this.getApiUrl(Const.apiLearnAbility), { battleId, abilityId }, headers);
   }
 }

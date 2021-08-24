@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -51,16 +51,21 @@ export class BattlePageComponent {
   isAutoOneTurn: boolean = false;
   timer: number = 0;
   botThinkTime: number = 0;
+  setupIndex: number = -1;
+  isBattleEnd: boolean = false;
 
   constructor(
     private router: Router,
     private battleService: BattleService,
     private botService: BotService,
-    private dialog: MatDialog,
-    private cd: ChangeDetectorRef
+    private dialog: MatDialog
   ) {
-    this.battle =
-      this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.data;
+    this.battle = this.router.getCurrentNavigation().extras?.state?.data.battle;
+    this.setupIndex = this.router.getCurrentNavigation().extras?.state?.data.setupIndex;
+    if (this.setupIndex > -1) {
+      console.log('Setup ' + this.setupIndex + ' has started');
+      this.isAutoBattle = true;
+    }
     this.turnPrepare();
     this.botThinkTime = Const.botThinkTime;
   }
@@ -83,6 +88,9 @@ export class BattlePageComponent {
   }
 
   private refreshBattle() {
+    if (this.isBattleEnd || this.battle.log.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
+      return;
+    }
     this.activeHero = this.getHeroesfromQueue()[0];
     if (!this.activeHero.abilities.length && !this.isAutoBattle) {
       this.openUpgradeModal(this.activeHero);
@@ -98,18 +106,18 @@ export class BattlePageComponent {
   private getMovePoints() {
     this.isLoading = true;
     if (this.battle) {
-      this.battleService.getMovePoints(this.battle.id).subscribe(
-        (positions: IPosition[]) => {
+      this.battleService.getMovePoints(this.battle.id).subscribe({
+        next: (positions: IPosition[]) => {
           this.isLoading = false;
           this.mapAbilityPositions = [];
           this.movePositions = positions;
           this.petMovePositions = [];
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           console.log(err);
         }
-      );
+      });
     }
   }
 
@@ -141,11 +149,11 @@ export class BattlePageComponent {
         this.isAutoOneTurn = false;
       }
 
-      if (newState.log.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
+      if (this.battle.log.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
         this.battleEnd();
         return resolve(true);
       }
-      
+
       return resolve(false);
     });
   }
@@ -160,8 +168,33 @@ export class BattlePageComponent {
   private battleEnd() {
     this.isAutoBattle = false;
     this.isAutoOneTurn = false;
-    // delete this.battle;
-    // this.router.navigate(['/home']);
+    this.isBattleEnd = true;
+    this.timer = 0;
+    if (this.setupIndex > -1 && Const.setups[this.battle.scenario.id][this.setupIndex + 1]) {
+      const teamSetup = Const.setups[this.battle.scenario.id][this.setupIndex + 1].map((setup: string[]) => {
+        const heroes = [];
+        for (const setupItem of setup) {
+          heroes.push({
+            hero: setupItem,
+            gender: Math.random() > 0.5 ? 'male' : 'female'
+          });
+        }
+        return heroes;
+      });
+      this.isLoading = true;
+      this.battleService.startBattle({ scenarioId: this.battle.scenario.id, teamSetup: teamSetup }).subscribe({
+        next: (res: IBattle) => {
+          this.isLoading = false;
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/battle'], { state: { data: { battle: res, setupIndex: this.setupIndex + 1 } } });
+          });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          console.log(err);
+        }
+      });
+    }
   }
 
   private getTeamByHeroId(heroId: string, teams: ITeam[]): ITeam {
@@ -312,8 +345,8 @@ export class BattlePageComponent {
       this.preparedAbility = undefined;
       this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.moveChar(this.battle.id, { x, y }, this.activePet?.id).subscribe(
-        (battle: IBattle) => {
+      this.battleService.moveChar(this.battle.id, { x, y }, this.activePet?.id).subscribe({
+        next: (battle: IBattle) => {
           this.isLoading = false;
           this.updateBattleState(battle).then((battleIsEnded: boolean) => {
             this.movePositions = [];
@@ -327,11 +360,11 @@ export class BattlePageComponent {
             }
           });
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           console.log(err);
         }
-      );
+      });
     }
   }
 
@@ -342,8 +375,8 @@ export class BattlePageComponent {
       this.preparedAbility = undefined;
       this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.moveChar(this.battle.id, { x, y }).subscribe(
-        (battle: IBattle) => {
+      this.battleService.moveChar(this.battle.id, { x, y }).subscribe({
+        next: (battle: IBattle) => {
           this.isLoading = false;
           this.updateBattleState(battle).then((battleIsEnded: boolean) => {
             this.movePositions = [];
@@ -357,11 +390,11 @@ export class BattlePageComponent {
             }
           });
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           console.log(err);
         }
-      );
+      });
     }
   }
 
@@ -376,26 +409,26 @@ export class BattlePageComponent {
       this.preparedAbility = undefined;
       this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.getMovePoints(this.battle.id, pet.id).subscribe(
-        (positions: IPosition[]) => {
+      this.battleService.getMovePoints(this.battle.id, pet.id).subscribe({
+        next: (positions: IPosition[]) => {
           this.isLoading = false;
           this.mapAbilityPositions = [];
           this.movePositions = [];
           this.petMovePositions = positions;
           this.activePet = pet;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           console.log(err);
         }
-      );
+      });
     }
   }
 
   endTurn() {
     this.isLoading = true;
-    this.battleService.endTurn(this.battle.id).subscribe(
-      (battle: IBattle) => {
+    this.battleService.endTurn(this.battle.id).subscribe({
+      next: (battle: IBattle) => {
         this.isLoading = false;
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
           if (!battleIsEnded) {
@@ -405,11 +438,11 @@ export class BattlePageComponent {
           }
         });
       },
-      (err) => {
+      error: (err) => {
         this.isLoading = false;
         console.log(err);
       }
-    );
+    });
   }
 
   prepareWeapon(weapon: IEquip) {
@@ -421,17 +454,17 @@ export class BattlePageComponent {
       this.getMovePoints();
     } else {
       this.isLoading = true;
-      this.battleService.findEnemies(this.battle.id, this.activeHero.id, weapon.range, false, '', false).subscribe(
-        (enemies: string[]) => {
+      this.battleService.findEnemies(this.battle.id, this.activeHero.id, weapon.range, false, '', false).subscribe({
+        next: (enemies: string[]) => {
           this.isLoading = false;
           this.preparedWeapon = weapon;
           this.targets = enemies;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           console.log(err);
         }
-      );
+      });
     }
   }
 
@@ -460,17 +493,17 @@ export class BattlePageComponent {
               ability.targetType !== AbilityTargetType.ALLY_NOT_ME,
               ability.ignoreRaytrace
             )
-            .subscribe(
-              (allies: string[]) => {
+            .subscribe({
+              next: (allies: string[]) => {
                 this.isLoading = false;
                 this.preparedAbility = ability;
                 this.targets = allies;
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
                 console.log(err);
               }
-            );
+            });
           break;
         case AbilityTargetType.ALLY_OR_ENEMY:
           this.battleService
@@ -482,17 +515,17 @@ export class BattlePageComponent {
               true,
               ability.ignoreRaytrace
             )
-            .subscribe(
-              (heroes: string[]) => {
+            .subscribe({
+              next: (heroes: string[]) => {
                 this.isLoading = false;
                 this.preparedAbility = ability;
                 this.targets = heroes;
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
                 console.log(err);
               }
-            );
+            });
           break;
         case AbilityTargetType.ALLY_OR_ENEMY_NOT_ME:
           this.battleService
@@ -504,17 +537,17 @@ export class BattlePageComponent {
               false,
               ability.ignoreRaytrace
             )
-            .subscribe(
-              (heroes: string[]) => {
+            .subscribe({
+              next: (heroes: string[]) => {
                 this.isLoading = false;
                 this.preparedAbility = ability;
                 this.targets = heroes;
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
                 console.log(err);
               }
-            );
+            });
           break;
         case AbilityTargetType.ENEMY:
           this.battleService
@@ -526,35 +559,35 @@ export class BattlePageComponent {
               ability.id,
               ability.ignoreRaytrace
             )
-            .subscribe(
-              (enemies: string[]) => {
+            .subscribe({
+              next: (enemies: string[]) => {
                 this.isLoading = false;
                 this.preparedAbility = ability;
                 this.targets = enemies;
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
                 console.log(err);
               }
-            );
+            });
           break;
         case AbilityTargetType.MAP:
         case AbilityTargetType.MOVE:
           this.battleService
             .getMapAbilityPositions(this.battle.id, ability.id, ability.ignoreRaytrace, ability.ignoreObstacles)
-            .subscribe(
-              (positions: IPosition[]) => {
+            .subscribe({
+              next: (positions: IPosition[]) => {
                 this.isLoading = false;
                 this.movePositions = [];
                 this.petMovePositions = [];
                 this.mapAbilityPositions = positions;
                 this.preparedAbility = ability;
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
                 console.log(err);
               }
-            );
+            });
           break;
       }
     }
@@ -584,18 +617,18 @@ export class BattlePageComponent {
               data.ability.id,
               data.ability.ignoreRaytrace
             )
-            .subscribe(
-              (enemies: string[]) => {
+            .subscribe({
+              next: (enemies: string[]) => {
                 this.isLoading = false;
                 this.preparedPetAbility = data.ability;
                 this.targets = enemies;
                 this.activePet = data.pet;
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
                 console.log(err);
               }
-            );
+            });
           break;
       }
     }
@@ -611,8 +644,8 @@ export class BattlePageComponent {
     if (this.isTarget(char.id)) {
       if (this.preparedWeapon) {
         this.isLoading = true;
-        this.battleService.useWeapon(this.battle.id, char.id, this.preparedWeapon.id).subscribe(
-          (battle: IBattle) => {
+        this.battleService.useWeapon(this.battle.id, char.id, this.preparedWeapon.id).subscribe({
+          next: (battle: IBattle) => {
             this.isLoading = false;
             this.updateBattleState(battle).then((battleIsEnded: boolean) => {
               this.preparedWeapon = undefined;
@@ -629,11 +662,11 @@ export class BattlePageComponent {
               }
             });
           },
-          (err) => {
+          error: (err) => {
             this.isLoading = false;
             console.log(err);
           }
-        );
+        });
       } else if (this.preparedAbility || this.preparedPetAbility) {
         this.castAbility(char.id);
       }
@@ -649,8 +682,8 @@ export class BattlePageComponent {
         targetId,
         position
       )
-      .subscribe(
-        (battle: IBattle) => {
+      .subscribe({
+        next: (battle: IBattle) => {
           this.isLoading = false;
           this.updateBattleState(battle).then((battleIsEnded: boolean) => {
             this.preparedAbility = undefined;
@@ -668,11 +701,11 @@ export class BattlePageComponent {
             }
           });
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           console.log(err);
         }
-      );
+      });
   }
 
   getCharPositionById(charId: string): IPosition {
@@ -694,15 +727,15 @@ export class BattlePageComponent {
     this.isLoading = true;
     this.timer = Const.botThinkTime;
     const botThinkStartTime = +new Date();
-    var thinkInterval = setInterval(() => {
+    const thinkInterval = setInterval(() => {
       this.timer = Const.botThinkTime - (+new Date() - botThinkStartTime);
       if (this.timer <= 0) {
         clearInterval(thinkInterval);
       }
     }, 100);
 
-    this.botService.botAction(this.battle.id).subscribe(
-      (battle: IBattle) => {
+    this.botService.botAction(this.battle.id).subscribe({
+      next: (battle: IBattle) => {
         this.isLoading = false;
         this.timer = 0;
         clearInterval(thinkInterval);
@@ -723,11 +756,11 @@ export class BattlePageComponent {
           }
         });
       },
-      (err) => {
+      error: (err) => {
         this.isLoading = false;
         console.log(err);
       }
-    );
+    });
   }
 
   toggleAutoBattle() {
@@ -757,8 +790,8 @@ export class BattlePageComponent {
 
   openUpgradeModal(hero: IHero) {
     this.isLoading = true;
-    this.battleService.getHeroData(hero.id).subscribe(
-      (heroData: IHeroData) => {
+    this.battleService.getHeroData(hero.id).subscribe({
+      next: (heroData: IHeroData) => {
         this.isLoading = false;
         const dialogRef = this.dialog.open(UpgradeModalComponent, {
           data: {
@@ -776,8 +809,8 @@ export class BattlePageComponent {
           .subscribe((upgradeResult: { equipId: string; abilityId: string; auto: { isAutoBattle: boolean } }) => {
             if (upgradeResult.equipId) {
               this.isLoading = true;
-              this.battleService.upgradeEquip(this.battle.id, upgradeResult.equipId).subscribe(
-                (battle: IBattle) => {
+              this.battleService.upgradeEquip(this.battle.id, upgradeResult.equipId).subscribe({
+                next: (battle: IBattle) => {
                   this.isLoading = false;
                   this.updateBattleState(battle).then((battleIsEnded: boolean) => {
                     this.preparedWeapon = undefined;
@@ -796,15 +829,15 @@ export class BattlePageComponent {
                     }
                   });
                 },
-                (err) => {
+                error: (err) => {
                   this.isLoading = false;
                   console.log(err);
                 }
-              );
+              });
             } else if (upgradeResult.abilityId) {
               this.isLoading = true;
-              this.battleService.learnAbility(this.battle.id, upgradeResult.abilityId).subscribe(
-                (battle: IBattle) => {
+              this.battleService.learnAbility(this.battle.id, upgradeResult.abilityId).subscribe({
+                next: (battle: IBattle) => {
                   this.isLoading = false;
                   this.updateBattleState(battle).then((battleIsEnded: boolean) => {
                     this.preparedWeapon = undefined;
@@ -822,11 +855,11 @@ export class BattlePageComponent {
                     }
                   });
                 },
-                (err) => {
+                error: (err) => {
                   this.isLoading = false;
                   console.log(err);
                 }
-              );
+              });
             } else if (upgradeResult.auto) {
               if (upgradeResult.auto.isAutoBattle) {
                 this.isAutoBattle = true;
@@ -837,10 +870,10 @@ export class BattlePageComponent {
             }
           });
       },
-      (err) => {
+      error: (err) => {
         this.isLoading = false;
         console.log(err);
       }
-    );
+    });
   }
 }

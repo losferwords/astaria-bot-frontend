@@ -16,6 +16,7 @@ export class TeamSetupPageComponent {
   teamSetup: IHeroSetup[][] = [];
   availableHeroes = [];
   scenarioId: string;
+  setupIndex: number = 0;
 
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state.data.teamSetupMatrix;
@@ -47,18 +48,30 @@ export class TeamSetupPageComponent {
     }
   }
 
-  startBattle(): void {
+  startBattle(setupIndex: number) {
+    if (setupIndex > -1) {
+      this.teamSetup = Const.setups[this.scenarioId][setupIndex].map((setup: string[]) => {
+        const heroes = [];
+        for (const setupItem of setup) {
+          heroes.push({
+            hero: setupItem,
+            gender: Math.random() > 0.5 ? 'male' : 'female'
+          });
+        }
+        return heroes;
+      });
+    }
     this.isLoading = true;
-    this.battleService.startBattle({ scenarioId: this.scenarioId, teamSetup: this.teamSetup }).subscribe(
-      (res: IBattle) => {
+    this.battleService.startBattle({ scenarioId: this.scenarioId, teamSetup: this.teamSetup }).subscribe({
+      next: (res: IBattle) => {
         this.isLoading = false;
         this.cd.detectChanges();
-        this.router.navigate(['/battle'], { state: { data: res } });
+        this.router.navigate(['/battle'], { state: { data: { battle: res, setupIndex: setupIndex } } });
       },
-      (err) => {
+      error: (err) => {
         this.isLoading = false;
         console.log(err);
       }
-    );
+    });
   }
 }

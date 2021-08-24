@@ -1,8 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import 'rxjs/add/operator/catch';
-import { Observable } from 'rxjs/Observable';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 import { Const } from '../static/const';
 
 @Injectable({
@@ -13,26 +11,26 @@ export class HttpService {
 
   get(url: string, params?: any, headers?: HttpHeaders): Observable<any> {
     headers = this.prepareHeaders(headers);
-    return this.http.get(url, { headers, params }).catch((err) => this.handleError(err));
+    return this.http.get(url, { headers, params }).pipe(retry(1), catchError((err) => this.handleError(err)));
   }
 
   post(url: string, data: any, headers?: HttpHeaders): Observable<any> {
     headers = this.prepareHeaders(headers);
     this.prepareHeaders(headers);
     const requestData = data instanceof ArrayBuffer ? data : JSON.stringify(data);
-    return this.http.post(url, requestData, { headers }).catch((err) => this.handleError(err));
+    return this.http.post(url, requestData, { headers }).pipe(retry(1), catchError((err) => this.handleError(err)));
   }
 
   put(url: string, data: any, headers?: HttpHeaders): Observable<any> {
     headers = this.prepareHeaders(headers);
     this.prepareHeaders(headers);
     const requestData = data instanceof ArrayBuffer ? data : JSON.stringify(data);
-    return this.http.put(url, requestData, { headers }).catch((err) => this.handleError(err));
+    return this.http.put(url, requestData, { headers }).pipe(retry(1), catchError((err) => this.handleError(err)));
   }
 
   delete(url: string, params?: any, headers?: HttpHeaders): Observable<any> {
     headers = this.prepareHeaders(headers);
-    return this.http.delete(url, { headers, params }).catch((err) => this.handleError(err));
+    return this.http.delete(url, { headers, params }).pipe(retry(1), catchError((err) => this.handleError(err)));
   }
 
   private prepareHeaders(headers: HttpHeaders): HttpHeaders {
@@ -46,6 +44,6 @@ export class HttpService {
   }
 
   private handleError(error: HttpErrorResponse): Observable<any> {
-    return throwError(error);
+    return throwError(() => new Error(error.message));
   }
 }

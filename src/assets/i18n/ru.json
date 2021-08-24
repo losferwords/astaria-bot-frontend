@@ -5,7 +5,8 @@
     },
     "TEAM_SETUP": {
       "TEAM": "Команда",
-      "START_BATTLE": "Начать битву"
+      "START_BATTLE": "Начать битву",
+      "START_SIMULATION_RUN": "Начать симуляцию"
     }
   },
   "SCENARIO": {
