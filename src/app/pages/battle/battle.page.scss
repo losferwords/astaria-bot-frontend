@@ -80,6 +80,11 @@
               background-repeat: no-repeat;
               background-position: center;
               background-size: cover;
+            }            
+
+            &.blank {
+              background-color: transparent;
+              border-color: transparent;
             }
 
             &.room {

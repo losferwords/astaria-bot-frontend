@@ -29,7 +29,7 @@
           <div
             class="tile"
             *ngFor="let tile of row; index as j"
-            [ngClass]="{'wall': tile.type === TileType.WALL, 'crystal': tileHasCrystal(j, i), 'room': tile.type === TileType.ROOM }"
+            [ngClass]="{'wall': tile.type === TileType.WALL, 'room': tile.type === TileType.ROOM, 'blank': tile.type === TileType.BLANK, 'crystal': tileHasCrystal(j, i) }"
             [ngStyle]="{'width' : battle.scenario.tileSize + 'px', 'height' : battle.scenario.tileSize + 'px'}"
             (mouseenter)="setArrowTarget(-1, -1)"
           >

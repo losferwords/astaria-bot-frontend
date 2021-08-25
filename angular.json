@@ -37,32 +37,35 @@
             "namedChunks": true
           },
           "configurations": {
-            "production": {
+            "scenario-0": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.scenario-0.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
+              "vendorChunk": true,
+              "buildOptimizer": false
+            },
+            "scenario-1": {
+              "fileReplacements": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.scenario-1.ts"
                 }
-              ]
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
           },
           "defaultConfiguration": ""
@@ -73,8 +76,11 @@
             "browserTarget": "astaria-bot-frontend:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "astaria-bot-frontend:build:production"
+            "scenario-0": {
+              "browserTarget": "astaria-bot-frontend:build:scenario-0"
+            },
+            "scenario-1": {
+              "browserTarget": "astaria-bot-frontend:build:scenario-1"
             }
           }
         },

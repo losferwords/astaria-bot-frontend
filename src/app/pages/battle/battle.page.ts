@@ -20,6 +20,7 @@ import { ITeam } from 'src/app/interfaces/ITeam';
 import { BattleService } from 'src/app/services/battle.service';
 import { BotService } from 'src/app/services/bot.service';
 import { Const } from 'src/app/static/const';
+import { Setups } from 'src/app/static/setups';
 import { UpgradeModalComponent } from 'src/app/widgets/upgrade-modal/upgrade.modal';
 
 @Component({
@@ -170,8 +171,8 @@ export class BattlePageComponent {
     this.isAutoOneTurn = false;
     this.isBattleEnd = true;
     this.timer = 0;
-    if (this.setupIndex > -1 && Const.setups[this.battle.scenario.id][this.setupIndex + 1]) {
-      const teamSetup = Const.setups[this.battle.scenario.id][this.setupIndex + 1].map((setup: string[]) => {
+    if (this.setupIndex > -1 && Setups[this.battle.scenario.id][this.setupIndex + 1]) {
+      const teamSetup = Setups[this.battle.scenario.id][this.setupIndex + 1].map((setup: string[]) => {
         const heroes = [];
         for (const setupItem of setup) {
           heroes.push({
@@ -282,7 +283,8 @@ export class BattlePageComponent {
           x < this.battle.scenario.tiles[0].length &&
           y >= 0 &&
           y < this.battle.scenario.tiles.length &&
-          this.battle.scenario.tiles[y][x].type === TileType.FLOOR
+          (this.battle.scenario.tiles[y][x].type === TileType.FLOOR ||
+            this.battle.scenario.tiles[y][x].type === TileType.ROOM)
         ) {
           tiles.push({ x, y });
         }

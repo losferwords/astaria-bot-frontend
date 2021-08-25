@@ -4,6 +4,7 @@ import { IBattle } from 'src/app/interfaces/IBattle';
 import { IHeroSetup } from 'src/app/interfaces/IHeroSetup';
 import { BattleService } from 'src/app/services/battle.service';
 import { Const } from 'src/app/static/const';
+import { Setups } from 'src/app/static/setups';
 
 @Component({
   selector: 'app-team-setup',
@@ -50,7 +51,7 @@ export class TeamSetupPageComponent {
 
   startBattle(setupIndex: number) {
     if (setupIndex > -1) {
-      this.teamSetup = Const.setups[this.scenarioId][setupIndex].map((setup: string[]) => {
+      this.teamSetup = Setups[this.scenarioId][setupIndex].map((setup: string[]) => {
         const heroes = [];
         for (const setupItem of setup) {
           heroes.push({
