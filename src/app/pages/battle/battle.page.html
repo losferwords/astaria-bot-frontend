@@ -43,7 +43,7 @@
         </div>
         <ng-container *ngFor="let mapEffect of battle.mapEffects; index as k">
           <div
-            *ngFor="let mapEffectTile of getMapEffectTiles(mapEffect)"
+            *ngFor="let mapEffectTile of getMapEffectTiles(mapEffect); trackBy:uniqueMapEffectTile"
             class="map-effect"
             [ngClass]="[mapEffect.casterId, battle.mapEffects.length > 1 ? 'animated' : '']"
             [ngStyle]="{'width' : (battle.scenario.tileSize / 2) + 'px', 'height' : (battle.scenario.tileSize / 2) + 'px', 'left': (mapEffectTile.x * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'top': (mapEffectTile.y * battle.scenario.tileSize + battle.scenario.tileSize / 4) + 'px', 'background-image': 'url(./assets/icons/' + mapEffect.casterId + '/' + mapEffect.id + '.png)', 'animation-delay': k + 's'}"
@@ -247,7 +247,7 @@
           <app-icon [icon]="isAutoBattle ? 'pause-button' : 'play-button'"></app-icon>
         </div>
       </div>
-      <app-resource-bar [value]="timer" [maxValue]="botThinkTime" [type]="'energy'"></app-resource-bar>
+      <app-timer [active]="timerActive" [maxValue]="botThinkTime"></app-timer>
     </div>
   </div>
   <div class="team-wrapper">

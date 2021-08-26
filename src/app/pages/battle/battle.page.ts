@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -50,7 +50,7 @@ export class BattlePageComponent {
   eventsForRender: ILogMessage[];
   isAutoBattle: boolean = false;
   isAutoOneTurn: boolean = false;
-  timer: number = 0;
+  timerActive: boolean = false;
   botThinkTime: number = 0;
   setupIndex: number = -1;
   isBattleEnd: boolean = false;
@@ -73,6 +73,9 @@ export class BattlePageComponent {
 
   @HostListener('window:keydown.space')
   onSpacePress() {
+    if (this.isAutoOneTurn || this.isAutoBattle || this.isLoading || this.activeHero.abilities.length === 0) {
+      return;
+    }
     this.endTurn();
   }
 
@@ -170,7 +173,7 @@ export class BattlePageComponent {
     this.isAutoBattle = false;
     this.isAutoOneTurn = false;
     this.isBattleEnd = true;
-    this.timer = 0;
+    this.timerActive = false;
     if (this.setupIndex > -1 && Setups[this.battle.scenario.id][this.setupIndex + 1]) {
       const teamSetup = Setups[this.battle.scenario.id][this.setupIndex + 1].map((setup: string[]) => {
         const heroes = [];
@@ -291,6 +294,10 @@ export class BattlePageComponent {
       }
     }
     return tiles;
+  }
+
+  uniqueMapEffectTile(index: number) {
+    return index;
   }
 
   isCharAllyToActive(charId: string): boolean {
@@ -727,20 +734,12 @@ export class BattlePageComponent {
 
   botAction() {
     this.isLoading = true;
-    this.timer = Const.botThinkTime;
-    const botThinkStartTime = +new Date();
-    const thinkInterval = setInterval(() => {
-      this.timer = Const.botThinkTime - (+new Date() - botThinkStartTime);
-      if (this.timer <= 0) {
-        clearInterval(thinkInterval);
-      }
-    }, 100);
+    this.timerActive = true;
 
     this.botService.botAction(this.battle.id).subscribe({
       next: (battle: IBattle) => {
         this.isLoading = false;
-        this.timer = 0;
-        clearInterval(thinkInterval);
+        this.timerActive = false;
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
           this.preparedWeapon = undefined;
           this.preparedAbility = undefined;

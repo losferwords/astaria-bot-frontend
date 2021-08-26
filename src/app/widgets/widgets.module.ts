@@ -12,6 +12,7 @@ import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { UpgradeModalComponent } from './upgrade-modal/upgrade.modal';
 import { AbilityBtnComponent } from './ability-btn/ability-btn.component';
+import { TimerComponent } from './timer/timer.component';
 
 export const CustomTooltipOptions: TooltipOptions = {
   placement: 'bottom',
@@ -36,7 +37,8 @@ export const CustomTooltipOptions: TooltipOptions = {
     HeroInfoComponent,
     ResourceBarComponent,
     UpgradeModalComponent,
-    AbilityBtnComponent
+    AbilityBtnComponent,
+    TimerComponent
   ],
   exports: [
     ProgressSpinnerComponent,
@@ -45,7 +47,8 @@ export const CustomTooltipOptions: TooltipOptions = {
     MaterialModule,
     ResourceBarComponent,
     UpgradeModalComponent,
-    AbilityBtnComponent
+    AbilityBtnComponent,
+    TimerComponent
   ],
   entryComponents: [OverlayPanelComponent]
 })
