@@ -36,5 +36,5 @@ export class Const {
     'lightbringer',
     'avenger'
   ];
-  public static botThinkTime = 30000;
+  public static botThinkTime = 120000;
 }
