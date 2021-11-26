@@ -10,6 +10,7 @@ import { IEquip } from '../interfaces/IEquip';
 import { I18nService } from './i18n.service';
 import { IAbility } from '../interfaces/IAbility';
 import { IEffect } from '../interfaces/IEffect';
+import { Const } from '../static/const';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class BattleService {
     oldState.scenario = newState.scenario;
     oldState.crystalPositions = newState.crystalPositions;
     oldState.mapEffects = newState.mapEffects;
-    oldState.log = newState.log;
+    oldState.log = newState.log.slice(-Const.maxLogLength);
     for (let i = 0; i < oldState.teams.length; i++) {
       oldState.teams[i].crystals = newState.teams[i].crystals;
       for (let j = 0; j < oldState.teams[i].heroes.length; j++) {

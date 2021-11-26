@@ -37,4 +37,5 @@ export class Const {
     'avenger'
   ];
   public static botThinkTime = 120000;
+  public static maxLogLength = 100;
 }
