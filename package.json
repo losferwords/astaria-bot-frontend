@@ -7,8 +7,8 @@
     "build": "ng build",
     "lint": "ng lint",
     "postinstall": "ngcc",
-    "scenario-0": "ng serve --port 4201 -c scenario-0",
-    "scenario-1": "ng serve --port 4202 -c scenario-1"
+    "sc-0": "ng serve --port 4201 -c scenario-0",
+    "sc-1": "ng serve --port 4202 -c scenario-1"
   },
   "private": true,
   "dependencies": {
