@@ -186,18 +186,20 @@ export class BattlePageComponent {
         return heroes;
       });
       this.isLoading = true;
-      this.battleService.startBattle({ scenarioId: this.battle.scenario.id, teamSetup: teamSetup }).subscribe({
-        next: (res: IBattle) => {
-          this.isLoading = false;
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/battle'], { state: { data: { battle: res, setupIndex: this.setupIndex + 1 } } });
-          });
-        },
-        error: (err) => {
-          this.isLoading = false;
-          console.log(err);
-        }
-      });
+      this.battleService
+        .startBattle({ scenarioId: this.battle.scenario.id, teamSetup: teamSetup, setupIndex: this.setupIndex })
+        .subscribe({
+          next: (res: IBattle) => {
+            this.isLoading = false;
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/battle'], { state: { data: { battle: res, setupIndex: this.setupIndex + 1 } } });
+            });
+          },
+          error: (err) => {
+            this.isLoading = false;
+            console.log(err);
+          }
+        });
     }
   }
 

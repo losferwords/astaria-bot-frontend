@@ -63,7 +63,7 @@ export class TeamSetupPageComponent {
       });
     }
     this.isLoading = true;
-    this.battleService.startBattle({ scenarioId: this.scenarioId, teamSetup: this.teamSetup }).subscribe({
+    this.battleService.startBattle({ scenarioId: this.scenarioId, teamSetup: this.teamSetup, setupIndex }).subscribe({
       next: (res: IBattle) => {
         this.isLoading = false;
         this.cd.detectChanges();
