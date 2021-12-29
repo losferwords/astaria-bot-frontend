@@ -187,7 +187,7 @@ export class BattlePageComponent {
       });
       this.isLoading = true;
       this.battleService
-        .startBattle({ scenarioId: this.battle.scenario.id, teamSetup: teamSetup, setupIndex: this.setupIndex })
+        .startBattle({ scenarioId: this.battle.scenario.id, teamSetup: teamSetup, setupIndex: this.setupIndex + 1 })
         .subscribe({
           next: (res: IBattle) => {
             this.isLoading = false;
