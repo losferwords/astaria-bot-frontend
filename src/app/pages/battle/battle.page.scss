@@ -80,7 +80,7 @@
               background-repeat: no-repeat;
               background-position: center;
               background-size: cover;
-            }            
+            }
 
             &.blank {
               background-color: transparent;
@@ -342,7 +342,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      transition: top 0.5s, left 0.5s;
+      transition: top 600ms, left 600ms;
 
       @include hero-border-colors();
 

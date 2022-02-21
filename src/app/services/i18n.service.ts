@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Const } from '../static/const';
-import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +24,16 @@ export class I18nService {
     }
   }
 
-  translate(key: string | Array<string>, interpolateParams?: any) {
+  translate(key: string | Array<string>, interpolateParams?: unknown) {
     return this.translateService.get(key, interpolateParams);
   }
 
-  translateInstant(key: string | Array<string>, interpolateParams?: any) {
+  translateInstant(key: string | Array<string>, interpolateParams?: unknown) {
     return this.translateService.instant(key, interpolateParams);
   }
 
   changeLanguage(lang: string) {
-    if (_.includes(Const.supportedLanguages, lang)) {
+    if (Const.supportedLanguages.includes(lang)) {
       this.translateService.use(lang);
       localStorage.setItem('selectedLanguage', lang);
     }

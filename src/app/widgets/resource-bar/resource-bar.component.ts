@@ -9,6 +9,4 @@ export class ResourceBarComponent {
   @Input() value = 0;
   @Input() maxValue = 0;
   @Input() type = 'health';
-
-  constructor() {}
 }

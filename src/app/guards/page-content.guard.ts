@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 export class PageContentGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(next: ActivatedRouteSnapshot, { url }: RouterStateSnapshot): true | UrlTree {
+  canActivate(): true | UrlTree {
     const state = this.router.getCurrentNavigation().extras.state;
     if (state && (state.data || state.backState)) {
       return true;

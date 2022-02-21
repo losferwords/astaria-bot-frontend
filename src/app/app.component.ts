@@ -3,8 +3,7 @@ import { I18nService } from './services/i18n.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   title = 'astaria-bot-frontend';

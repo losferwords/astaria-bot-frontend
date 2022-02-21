@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-timer',
-  templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.scss']
+  templateUrl: './timer.component.html'
 })
 export class TimerComponent {
   @Input() maxValue = 0;
@@ -25,9 +24,7 @@ export class TimerComponent {
     }
   }
 
-  timer: number = 0;
-  botThinkStartTime: number = 0;
+  timer = 0;
+  botThinkStartTime = 0;
   thinkInterval;
-
-  constructor() {}
 }

@@ -7,12 +7,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AbilityBtnComponent {
   @Input() classes: string[];
-  @Input() tooltipText: string = '';
+  @Input() tooltipText = '';
   @Input() icon: string;
   @Input() left: number;
   @Output() clicked: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor() {}
 
   btnClicked() {
     this.clicked.next();

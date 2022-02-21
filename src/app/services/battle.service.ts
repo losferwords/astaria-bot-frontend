@@ -28,33 +28,29 @@ export class BattleService {
       oldState.teams[i].crystals = newState.teams[i].crystals;
       for (let j = 0; j < oldState.teams[i].heroes.length; j++) {
         for (const key in oldState.teams[i].heroes[j]) {
-          if (oldState.teams[i].heroes[j].hasOwnProperty(key)) {
-            if (key === 'pets') {
-              if (oldState.teams[i].heroes[j].pets.length < newState.teams[i].heroes[j].pets.length) {
-                // new Pet summoned
-                oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
-              } else {
-                // pets update
-                for (let k = oldState.teams[i].heroes[j].pets.length - 1; k >= 0; k--) {
-                  let petForUpdate = newState.teams[i].heroes[j].pets.find(
-                    (p) => p.id === oldState.teams[i].heroes[j].pets[k].id
-                  );
-                  if (petForUpdate) {
-                    // update existing pet
-                    for (const petKey in oldState.teams[i].heroes[j].pets[k]) {
-                      if (oldState.teams[i].heroes[j].pets[k].hasOwnProperty(petKey)) {
-                        oldState.teams[i].heroes[j].pets[k][petKey] = petForUpdate[petKey];
-                      }
-                    }
-                  } else {
-                    // old Pet is dead
-                    oldState.teams[i].heroes[j].pets.splice(k, 1);
+          if (key === 'pets') {
+            if (oldState.teams[i].heroes[j].pets.length < newState.teams[i].heroes[j].pets.length) {
+              // new Pet summoned
+              oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
+            } else {
+              // pets update
+              for (let k = oldState.teams[i].heroes[j].pets.length - 1; k >= 0; k--) {
+                const petForUpdate = newState.teams[i].heroes[j].pets.find(
+                  (p) => p.id === oldState.teams[i].heroes[j].pets[k].id
+                );
+                if (petForUpdate) {
+                  // update existing pet
+                  for (const petKey in oldState.teams[i].heroes[j].pets[k]) {
+                    oldState.teams[i].heroes[j].pets[k][petKey] = petForUpdate[petKey];
                   }
+                } else {
+                  // old Pet is dead
+                  oldState.teams[i].heroes[j].pets.splice(k, 1);
                 }
               }
-            } else {
-              oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
             }
+          } else {
+            oldState.teams[i].heroes[j][key] = newState.teams[i].heroes[j][key];
           }
         }
       }
@@ -73,95 +69,70 @@ export class BattleService {
     return this.battleDataProvider.getHeroData(heroId);
   }
 
-  getMovePoints(battleId: string, petId?: string): Observable<IPosition[]> {
-    return this.battleDataProvider.getMovePoints(battleId, petId);
+  getMovePoints(petId?: string): Observable<IPosition[]> {
+    return this.battleDataProvider.getMovePoints(petId);
   }
 
-  moveChar(battleId: string, position: IPosition, petId?: string): Observable<IBattle> {
-    return this.battleDataProvider.moveChar(battleId, position, petId);
+  moveChar(position: IPosition, petId?: string): Observable<IBattle> {
+    return this.battleDataProvider.moveChar(position, petId);
   }
 
-  endTurn(battleId: string): Observable<IBattle> {
-    return this.battleDataProvider.endTurn(battleId);
+  endTurn(): Observable<IBattle> {
+    return this.battleDataProvider.endTurn();
   }
 
   findEnemies(
-    battleId: string,
     sourceCharId: string,
     radius: number,
     includeInvisible: boolean,
     abilityId: string,
     ignoreRaytrace: boolean
   ): Observable<string[]> {
-    return this.battleDataProvider.findEnemies(
-      battleId,
-      sourceCharId,
-      radius,
-      includeInvisible,
-      abilityId,
-      ignoreRaytrace
-    );
+    return this.battleDataProvider.findEnemies(sourceCharId, radius, includeInvisible, abilityId, ignoreRaytrace);
   }
 
   findAllies(
-    battleId: string,
     sourceCharId: string,
     radius: number,
     includeInvisible: boolean,
     includeSelf: boolean,
     ignoreRaytrace: boolean
   ): Observable<string[]> {
-    return this.battleDataProvider.findAllies(
-      battleId,
-      sourceCharId,
-      radius,
-      includeInvisible,
-      includeSelf,
-      ignoreRaytrace
-    );
+    return this.battleDataProvider.findAllies(sourceCharId, radius, includeInvisible, includeSelf, ignoreRaytrace);
   }
 
   findHeroes(
-    battleId: string,
     sourceCharId: string,
     radius: number,
     includeInvisible: boolean,
     includeSelf: boolean,
     ignoreRaytrace: boolean
   ): Observable<string[]> {
-    return this.battleDataProvider.findHeroes(
-      battleId,
-      sourceCharId,
-      radius,
-      includeInvisible,
-      includeSelf,
-      ignoreRaytrace
-    );
+    return this.battleDataProvider.findHeroes(sourceCharId, radius, includeInvisible, includeSelf, ignoreRaytrace);
   }
 
   getMapAbilityPositions(
-    battleId: string,
     abilityId: string,
     ignoreRaytrace: boolean,
     ignoreObstacles: boolean
   ): Observable<IPosition[]> {
-    return this.battleDataProvider.getMapAbilityPositions(battleId, abilityId, ignoreRaytrace, ignoreObstacles);
+    return this.battleDataProvider.getMapAbilityPositions(abilityId, ignoreRaytrace, ignoreObstacles);
   }
 
-  useWeapon(battleId: string, targetId: string, weaponId: string): Observable<IBattle> {
-    return this.battleDataProvider.useWeapon(battleId, targetId, weaponId);
+  useWeapon(targetId: string, weaponId: string): Observable<IBattle> {
+    return this.battleDataProvider.useWeapon(targetId, weaponId);
   }
 
-  castAbility(battleId: string, abilityId: string, targetId: string, position: IPosition): Observable<IBattle> {
-    return this.battleDataProvider.castAbility(battleId, abilityId, targetId, position);
+  castAbility(abilityId: string, targetId: string, position: IPosition): Observable<IBattle> {
+    return this.battleDataProvider.castAbility(abilityId, targetId, position);
   }
 
-  upgradeEquip(battleId: string, equipId: string): Observable<IBattle> {
-    return this.battleDataProvider.upgradeEquip(battleId, equipId);
+  upgradeEquip(equipId: string): Observable<IBattle> {
+    return this.battleDataProvider.upgradeEquip(equipId);
   }
 
-  learnAbility(battleId: string, abilityId: string): Observable<IBattle> {
-    return this.battleDataProvider.learnAbility(battleId, abilityId);
+  learnAbility(abilityId: string): Observable<IBattle> {
+    return this.battleDataProvider.learnAbility(abilityId);
   }
 
   getEquipTooltip(equip: IEquip, heroId: string): string {

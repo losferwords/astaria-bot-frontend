@@ -8,7 +8,7 @@ import { OverlayPanelComponent } from './overlay-panel.component';
   template: ''
 })
 export class ProgressSpinnerComponent {
-  pagePortal: ComponentPortal<any>;
+  pagePortal: ComponentPortal<unknown>;
   overlayRef: OverlayRef;
   loadingState = false;
 

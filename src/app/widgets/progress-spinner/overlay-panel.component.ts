@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './overlay-panel.component.html',
   styleUrls: ['./overlay-panel.component.scss']
 })
-export class OverlayPanelComponent {
-  constructor() {}
-}
+export class OverlayPanelComponent {}

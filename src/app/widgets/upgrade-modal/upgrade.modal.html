@@ -93,7 +93,13 @@
   <div class="control-btn" *ngIf="hero.abilities.length === 0" (click)="autoChoose(false)">
     <app-icon [icon]="'next-button'"></app-icon>
   </div>
-  <div mat-raised-button color="primary" class="control-btn" *ngIf="hero.abilities.length === 0" (click)="autoChoose(true)">
+  <div
+    mat-raised-button
+    color="primary"
+    class="control-btn"
+    *ngIf="hero.abilities.length === 0"
+    (click)="autoChoose(true)"
+  >
     <app-icon [icon]="'play-button'"></app-icon>
   </div>
   <button mat-raised-button color="primary" mat-dialog-close [disabled]="hero.abilities.length === 0">

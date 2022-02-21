@@ -1,8 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener, SimpleChanges } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import * as _ from 'lodash';
 import { AbilityTargetType } from 'src/app/enums/ability-target-type.enum';
 import { LogMessageType } from 'src/app/enums/log-message-type.enum';
 import { TileType } from 'src/app/enums/tile-type.enum';
@@ -30,7 +29,7 @@ import { UpgradeModalComponent } from 'src/app/widgets/upgrade-modal/upgrade.mod
   animations: [
     trigger('battleText', [
       state('fly', style({ left: '{{left}}', top: '{{top}}' }), { params: { left: '*', top: '*' } }),
-      transition('* => fly', [animate('3s')])
+      transition('* => fly', [animate(Const.botActionThrottleTime + 'ms')])
     ])
   ]
 })
@@ -48,12 +47,12 @@ export class BattlePageComponent {
   preparedPetAbility: IAbility;
   targets: string[] = [];
   eventsForRender: ILogMessage[];
-  isAutoBattle: boolean = false;
-  isAutoOneTurn: boolean = false;
-  timerActive: boolean = false;
-  botThinkTime: number = 0;
-  setupIndex: number = -1;
-  isBattleEnd: boolean = false;
+  isAutoBattle = false;
+  isAutoOneTurn = false;
+  timerActive = false;
+  botThinkTime = 0;
+  setupIndex = -1;
+  isBattleEnd = false;
 
   constructor(
     private router: Router,
@@ -110,7 +109,7 @@ export class BattlePageComponent {
   private getMovePoints() {
     this.isLoading = true;
     if (this.battle) {
-      this.battleService.getMovePoints(this.battle.id).subscribe({
+      this.battleService.getMovePoints().subscribe({
         next: (positions: IPosition[]) => {
           this.isLoading = false;
           this.mapAbilityPositions = [];
@@ -166,7 +165,7 @@ export class BattlePageComponent {
     this.eventsForRender = events;
     setTimeout(() => {
       this.eventsForRender = [];
-    }, 3000);
+    }, Const.botActionThrottleTime);
   }
 
   private battleEnd() {
@@ -356,7 +355,7 @@ export class BattlePageComponent {
       this.preparedAbility = undefined;
       this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.moveChar(this.battle.id, { x, y }, this.activePet?.id).subscribe({
+      this.battleService.moveChar({ x, y }, this.activePet?.id).subscribe({
         next: (battle: IBattle) => {
           this.isLoading = false;
           this.updateBattleState(battle).then((battleIsEnded: boolean) => {
@@ -367,7 +366,7 @@ export class BattlePageComponent {
             if (!battleIsEnded) {
               setTimeout(() => {
                 this.refreshBattle();
-              }, 500);
+              }, Const.botActionThrottleTime);
             }
           });
         },
@@ -386,7 +385,7 @@ export class BattlePageComponent {
       this.preparedAbility = undefined;
       this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.moveChar(this.battle.id, { x, y }).subscribe({
+      this.battleService.moveChar({ x, y }).subscribe({
         next: (battle: IBattle) => {
           this.isLoading = false;
           this.updateBattleState(battle).then((battleIsEnded: boolean) => {
@@ -397,7 +396,7 @@ export class BattlePageComponent {
             if (!battleIsEnded) {
               setTimeout(() => {
                 this.refreshBattle();
-              }, 500);
+              }, Const.botActionThrottleTime);
             }
           });
         },
@@ -420,7 +419,7 @@ export class BattlePageComponent {
       this.preparedAbility = undefined;
       this.preparedPetAbility = undefined;
       this.targets = [];
-      this.battleService.getMovePoints(this.battle.id, pet.id).subscribe({
+      this.battleService.getMovePoints(pet.id).subscribe({
         next: (positions: IPosition[]) => {
           this.isLoading = false;
           this.mapAbilityPositions = [];
@@ -438,14 +437,14 @@ export class BattlePageComponent {
 
   endTurn() {
     this.isLoading = true;
-    this.battleService.endTurn(this.battle.id).subscribe({
+    this.battleService.endTurn().subscribe({
       next: (battle: IBattle) => {
         this.isLoading = false;
         this.updateBattleState(battle).then((battleIsEnded: boolean) => {
           if (!battleIsEnded) {
             setTimeout(() => {
               this.refreshBattle();
-            }, 500);
+            }, Const.botActionThrottleTime);
           }
         });
       },
@@ -465,7 +464,7 @@ export class BattlePageComponent {
       this.getMovePoints();
     } else {
       this.isLoading = true;
-      this.battleService.findEnemies(this.battle.id, this.activeHero.id, weapon.range, false, '', false).subscribe({
+      this.battleService.findEnemies(this.activeHero.id, weapon.range, false, '', false).subscribe({
         next: (enemies: string[]) => {
           this.isLoading = false;
           this.preparedWeapon = weapon;
@@ -497,7 +496,6 @@ export class BattlePageComponent {
         case AbilityTargetType.ALLY_NOT_ME:
           this.battleService
             .findAllies(
-              this.battle.id,
               this.activeHero.id,
               ability.range,
               ability.includeInvisible,
@@ -518,14 +516,7 @@ export class BattlePageComponent {
           break;
         case AbilityTargetType.ALLY_OR_ENEMY:
           this.battleService
-            .findHeroes(
-              this.battle.id,
-              this.activeHero.id,
-              ability.range,
-              ability.includeInvisible,
-              true,
-              ability.ignoreRaytrace
-            )
+            .findHeroes(this.activeHero.id, ability.range, ability.includeInvisible, true, ability.ignoreRaytrace)
             .subscribe({
               next: (heroes: string[]) => {
                 this.isLoading = false;
@@ -540,14 +531,7 @@ export class BattlePageComponent {
           break;
         case AbilityTargetType.ALLY_OR_ENEMY_NOT_ME:
           this.battleService
-            .findHeroes(
-              this.battle.id,
-              this.activeHero.id,
-              ability.range,
-              ability.includeInvisible,
-              false,
-              ability.ignoreRaytrace
-            )
+            .findHeroes(this.activeHero.id, ability.range, ability.includeInvisible, false, ability.ignoreRaytrace)
             .subscribe({
               next: (heroes: string[]) => {
                 this.isLoading = false;
@@ -563,7 +547,6 @@ export class BattlePageComponent {
         case AbilityTargetType.ENEMY:
           this.battleService
             .findEnemies(
-              this.battle.id,
               this.activeHero.id,
               ability.range,
               ability.includeInvisible,
@@ -585,7 +568,7 @@ export class BattlePageComponent {
         case AbilityTargetType.MAP:
         case AbilityTargetType.MOVE:
           this.battleService
-            .getMapAbilityPositions(this.battle.id, ability.id, ability.ignoreRaytrace, ability.ignoreObstacles)
+            .getMapAbilityPositions(ability.id, ability.ignoreRaytrace, ability.ignoreObstacles)
             .subscribe({
               next: (positions: IPosition[]) => {
                 this.isLoading = false;
@@ -621,7 +604,6 @@ export class BattlePageComponent {
         default:
           this.battleService
             .findEnemies(
-              this.battle.id,
               data.pet.id,
               data.ability.range,
               data.ability.includeInvisible,
@@ -655,7 +637,7 @@ export class BattlePageComponent {
     if (this.isTarget(char.id)) {
       if (this.preparedWeapon) {
         this.isLoading = true;
-        this.battleService.useWeapon(this.battle.id, char.id, this.preparedWeapon.id).subscribe({
+        this.battleService.useWeapon(char.id, this.preparedWeapon.id).subscribe({
           next: (battle: IBattle) => {
             this.isLoading = false;
             this.updateBattleState(battle).then((battleIsEnded: boolean) => {
@@ -669,7 +651,7 @@ export class BattlePageComponent {
               if (!battleIsEnded) {
                 setTimeout(() => {
                   this.refreshBattle();
-                }, 500);
+                }, Const.botActionThrottleTime);
               }
             });
           },
@@ -687,12 +669,7 @@ export class BattlePageComponent {
   castAbility(targetId?: string, position?: IPosition) {
     this.isLoading = true;
     this.battleService
-      .castAbility(
-        this.battle.id,
-        this.preparedAbility ? this.preparedAbility.id : this.preparedPetAbility.id,
-        targetId,
-        position
-      )
+      .castAbility(this.preparedAbility ? this.preparedAbility.id : this.preparedPetAbility.id, targetId, position)
       .subscribe({
         next: (battle: IBattle) => {
           this.isLoading = false;
@@ -708,7 +685,7 @@ export class BattlePageComponent {
             if (!battleIsEnded) {
               setTimeout(() => {
                 this.refreshBattle();
-              }, 500);
+              }, Const.botActionThrottleTime);
             }
           });
         },
@@ -738,7 +715,7 @@ export class BattlePageComponent {
     this.isLoading = true;
     this.timerActive = true;
 
-    this.botService.botAction(this.battle.id).subscribe({
+    this.botService.botAction().subscribe({
       next: (battle: IBattle) => {
         this.isLoading = false;
         this.timerActive = false;
@@ -755,7 +732,7 @@ export class BattlePageComponent {
           if (!battleIsEnded) {
             setTimeout(() => {
               this.refreshBattle();
-            }, 500);
+            }, Const.botActionThrottleTime);
           }
         });
       },
@@ -812,7 +789,7 @@ export class BattlePageComponent {
           .subscribe((upgradeResult: { equipId: string; abilityId: string; auto: { isAutoBattle: boolean } }) => {
             if (upgradeResult.equipId) {
               this.isLoading = true;
-              this.battleService.upgradeEquip(this.battle.id, upgradeResult.equipId).subscribe({
+              this.battleService.upgradeEquip(upgradeResult.equipId).subscribe({
                 next: (battle: IBattle) => {
                   this.isLoading = false;
                   this.updateBattleState(battle).then((battleIsEnded: boolean) => {
@@ -828,7 +805,7 @@ export class BattlePageComponent {
                     if (!battleIsEnded) {
                       setTimeout(() => {
                         this.refreshBattle();
-                      }, 500);
+                      }, Const.botActionThrottleTime);
                     }
                   });
                 },
@@ -839,7 +816,7 @@ export class BattlePageComponent {
               });
             } else if (upgradeResult.abilityId) {
               this.isLoading = true;
-              this.battleService.learnAbility(this.battle.id, upgradeResult.abilityId).subscribe({
+              this.battleService.learnAbility(upgradeResult.abilityId).subscribe({
                 next: (battle: IBattle) => {
                   this.isLoading = false;
                   this.updateBattleState(battle).then((battleIsEnded: boolean) => {
@@ -854,7 +831,7 @@ export class BattlePageComponent {
                     if (!battleIsEnded) {
                       setTimeout(() => {
                         this.refreshBattle();
-                      }, 500);
+                      }, Const.botActionThrottleTime);
                     }
                   });
                 },

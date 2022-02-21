@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IBattle } from '../interfaces/IBattle';
 import { HttpService } from '../services/http.service';
 import { Const } from '../static/const';
@@ -14,8 +14,8 @@ export class BotDataProvider extends BaseDataProvider {
     super();
   }
 
-  botAction(battleId: string): Observable<IBattle> {
+  botAction(): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiBotAction), { battleId }, headers);
+    return this.httpService.post(this.getApiUrl(Const.apiBotAction), {}, headers) as Observable<IBattle>;
   }
 }

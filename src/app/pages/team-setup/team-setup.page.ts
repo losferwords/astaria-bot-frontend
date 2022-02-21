@@ -6,6 +6,11 @@ import { BattleService } from 'src/app/services/battle.service';
 import { Const } from 'src/app/static/const';
 import { Setups } from 'src/app/static/setups';
 
+interface AvailableHero {
+  name: string;
+  isAvailable: boolean;
+}
+
 @Component({
   selector: 'app-team-setup',
   templateUrl: './team-setup.page.html',
@@ -15,9 +20,9 @@ export class TeamSetupPageComponent {
   isLoading = false;
   teamSetupMatrix: number[];
   teamSetup: IHeroSetup[][] = [];
-  availableHeroes = [];
+  availableHeroes: AvailableHero[] = [];
   scenarioId: string;
-  setupIndex: number = 0;
+  setupIndex = 0;
 
   constructor(private router: Router, private battleService: BattleService, private cd: ChangeDetectorRef) {
     this.teamSetupMatrix = this.router.getCurrentNavigation().extras.state.data.teamSetupMatrix;
@@ -36,15 +41,15 @@ export class TeamSetupPageComponent {
     }
   }
 
-  selectHero(heroSetup: IHeroSetup, availableHero: any | string): void {
+  selectHero(heroSetup: IHeroSetup, availableHero: AvailableHero): void {
     if (heroSetup.hero !== 'random') {
       const previousHero = this.availableHeroes.find((h) => {
         return h.name === heroSetup.hero;
       });
       previousHero.isAvailable = true;
     }
-    heroSetup.hero = availableHero.name ? availableHero.name : availableHero;
-    if (availableHero !== 'random') {
+    heroSetup.hero = availableHero.name;
+    if (availableHero.name !== 'random') {
       availableHero.isAvailable = false;
     }
   }

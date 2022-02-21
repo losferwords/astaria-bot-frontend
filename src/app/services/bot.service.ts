@@ -9,7 +9,7 @@ import { BotDataProvider } from '../dataproviders/bot.dataprovider';
 export class BotService {
   constructor(private botDataProvider: BotDataProvider) {}
 
-  botAction(battleId: string): Observable<IBattle> {
-    return this.botDataProvider.botAction(battleId);
+  botAction(): Observable<IBattle> {
+    return this.botDataProvider.botAction();
   }
 }
