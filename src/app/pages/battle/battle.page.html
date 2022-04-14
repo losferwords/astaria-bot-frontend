@@ -153,7 +153,7 @@
       ngx-auto-scroll
       lock-y-offset="5"
     >
-      <div class="log-message" *ngFor="let message of battle.log">
+      <div class="log-message" *ngFor="let message of logsForRender">
         <ng-container [ngSwitch]="message.type">
           <div class="text" *ngSwitchCase="LogMessageType.MOVE">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.MOVE' | translate: {"x":

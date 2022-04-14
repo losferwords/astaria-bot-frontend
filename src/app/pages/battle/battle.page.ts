@@ -29,7 +29,7 @@ import { UpgradeModalComponent } from 'src/app/widgets/upgrade-modal/upgrade.mod
   animations: [
     trigger('battleText', [
       state('fly', style({ left: '{{left}}', top: '{{top}}' }), { params: { left: '*', top: '*' } }),
-      transition('* => fly', [animate(Const.botActionThrottleTime + 'ms')])
+      transition('* => fly', [animate(Const.battleTextFlyTime + 'ms')])
     ])
   ]
 })
@@ -47,6 +47,7 @@ export class BattlePageComponent {
   preparedPetAbility: IAbility;
   targets: string[] = [];
   eventsForRender: ILogMessage[];
+  logsForRender: ILogMessage[] = [];
   isAutoBattle = false;
   isAutoOneTurn = false;
   timerActive = false;
@@ -144,6 +145,9 @@ export class BattlePageComponent {
       if (battleTextEvents.length > 0) {
         this.renderBattleText([...battleTextEvents]);
       }
+
+      this.logsForRender = newState.log.slice(-Const.maxLogLength);
+
       const previousActiveId = this.activeHero.id;
       this.battleService.updateBattleState(this.battle, newState);
       const nextActiveId = newState.queue[0];
@@ -165,7 +169,7 @@ export class BattlePageComponent {
     this.eventsForRender = events;
     setTimeout(() => {
       this.eventsForRender = [];
-    }, Const.botActionThrottleTime);
+    }, Const.battleTextFlyTime);
   }
 
   private battleEnd() {

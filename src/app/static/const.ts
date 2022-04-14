@@ -36,7 +36,8 @@ export class Const {
     'lightbringer',
     'avenger'
   ];
-  public static botThinkTime = 300000;
+  public static botThinkTime = 120000;
   public static maxLogLength = 50;
-  public static botActionThrottleTime = 600;
+  public static botActionThrottleTime = 700;
+  public static battleTextFlyTime = 1400;
 }

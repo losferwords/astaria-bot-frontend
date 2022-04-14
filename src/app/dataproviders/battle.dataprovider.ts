@@ -161,11 +161,11 @@ export class BattleDataProvider extends BaseDataProvider {
 
   upgradeEquip(equipId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiUpgradeEquip), equipId, headers) as Observable<IBattle>;
+    return this.httpService.post(this.getApiUrl(Const.apiUpgradeEquip), { equipId }, headers) as Observable<IBattle>;
   }
 
   learnAbility(abilityId: string): Observable<IBattle> {
     const headers = new HttpHeaders();
-    return this.httpService.post(this.getApiUrl(Const.apiLearnAbility), abilityId, headers) as Observable<IBattle>;
+    return this.httpService.post(this.getApiUrl(Const.apiLearnAbility), { abilityId }, headers) as Observable<IBattle>;
   }
 }
