@@ -17,15 +17,19 @@ export class UpgradeModalComponent {
   crystals: number;
   heroData: IHeroData;
   battle: IBattle;
+  isActiveHero: boolean;
+
   constructor(
     public dialogRef: MatDialogRef<UpgradeModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { hero: IHero; crystals: number; heroData: IHeroData; battle: IBattle },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { hero: IHero; crystals: number; heroData: IHeroData; battle: IBattle; isActiveHero: boolean },
     private battleService: BattleService
   ) {
     this.hero = data.hero;
     this.crystals = data.crystals;
     this.heroData = data.heroData;
     this.battle = data.battle;
+    this.isActiveHero = data.isActiveHero;
   }
 
   getEquipTooltip(equip: IEquip, heroId: string): string {
@@ -38,6 +42,7 @@ export class UpgradeModalComponent {
 
   equipUpgradeIsAvailable(equipType: string, equip: IEquip): boolean {
     return (
+      this.isActiveHero &&
       equip.level > this.hero[equipType].level &&
       equip.level - this.hero[equipType].level === 1 &&
       this.crystals >= equip.cost
@@ -51,7 +56,11 @@ export class UpgradeModalComponent {
   }
 
   abilityUpgradeIsAvailable(ability: IAbility): boolean {
-    return ability.level - this.hero.abilities.length === 1 && (ability.level === 1 || this.crystals > 0);
+    return (
+      this.isActiveHero &&
+      ability.level - this.hero.abilities.length === 1 &&
+      (ability.level === 1 || this.crystals > 0)
+    );
   }
 
   upgradeAbility(ability: IAbility) {

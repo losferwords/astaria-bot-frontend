@@ -782,7 +782,8 @@ export class BattlePageComponent {
             hero: hero,
             heroData: heroData,
             crystals: this.getTeamByHeroId(hero.id, this.battle.teams).crystals,
-            battle: this.battle
+            battle: this.battle,
+            isActiveHero: this.activeHero.id === hero.id
           },
           panelClass: 'hero-upgrade-modal',
           disableClose: true

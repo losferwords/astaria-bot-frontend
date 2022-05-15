@@ -8,11 +8,11 @@
           *ngFor="let chestpiece of heroData.chestpieces"
           [icon]="hero.id + '/' + chestpiece.id"
           [classes]="[
-            hero.id, 
-            'active-hero', 
+            hero.id,
+            'active-hero',
             'passive',
             chestpiece.level - hero.chestpiece.level === 1 ? 'always-clickable' : 'always-not-clickable',
-            chestpiece.id === hero.chestpiece.id ? 'selected' : '', 
+            chestpiece.id === hero.chestpiece.id ? 'selected' : '',
             equipUpgradeIsAvailable('chestpiece', chestpiece) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(chestpiece, hero.id)"
@@ -24,11 +24,11 @@
           *ngFor="let weapon of heroData.secondaryWeapons"
           [icon]="hero.id + '/' + weapon.id"
           [classes]="[
-            hero.id, 
-            'active-hero', 
+            hero.id,
+            'active-hero',
             weapon.isPassive ? 'passive' : '',
             weapon.level - hero.secondaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
-            weapon.id === hero.secondaryWeapon.id ? 'selected' : '', 
+            weapon.id === hero.secondaryWeapon.id ? 'selected' : '',
             equipUpgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(weapon, hero.id)"
@@ -40,11 +40,11 @@
           *ngFor="let weapon of heroData.primaryWeapons"
           [icon]="hero.id + '/' + weapon.id"
           [classes]="[
-            hero.id, 
-            'active-hero', 
+            hero.id,
+            'active-hero',
             weapon.isPassive ? 'passive' : '',
             weapon.level - hero.primaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
-            weapon.id === hero.primaryWeapon.id ? 'selected' : '', 
+            weapon.id === hero.primaryWeapon.id ? 'selected' : '',
             equipUpgradeIsAvailable('primaryWeapon', weapon) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(weapon, hero.id)"
@@ -56,11 +56,11 @@
           *ngFor="let weapon of heroData.secondaryWeapons"
           [icon]="hero.id + '/' + weapon.id"
           [classes]="[
-            hero.id, 
-            'active-hero', 
+            hero.id,
+            'active-hero',
             weapon.isPassive ? 'passive' : '',
             weapon.level - hero.secondaryWeapon.level === 1 ? 'always-clickable' : 'always-not-clickable',
-            weapon.id === hero.secondaryWeapon.id ? 'selected' : '', 
+            weapon.id === hero.secondaryWeapon.id ? 'selected' : '',
             equipUpgradeIsAvailable('secondaryWeapon', weapon) ? '' : 'disabled'
           ]"
           [tooltipText]="getEquipTooltip(weapon, hero.id)"
@@ -77,10 +77,10 @@
         [icon]="hero.id + '/' + ability.id"
         [classes]="[
             hero.id,
-            'active-hero', 
+            'active-hero',
             ability.isPassive ? 'passive' : '',
             ability.level - hero.abilities.length === 1 ? 'always-clickable' : 'always-not-clickable',
-            heroHasAbility(ability.id) ? 'selected' : '', 
+            heroHasAbility(ability.id) ? 'selected' : '',
             abilityUpgradeIsAvailable(ability) ? '' : 'disabled'
           ]"
         [tooltipText]="getAbilityTooltip(ability, hero.id)"
@@ -90,19 +90,19 @@
   </div>
 </div>
 <mat-dialog-actions align="center">
-  <div class="control-btn" *ngIf="hero.abilities.length === 0" (click)="autoChoose(false)">
+  <div class="control-btn" *ngIf="hero.abilities.length === 0 && isActiveHero" (click)="autoChoose(false)">
     <app-icon [icon]="'next-button'"></app-icon>
   </div>
   <div
     mat-raised-button
     color="primary"
     class="control-btn"
-    *ngIf="hero.abilities.length === 0"
+    *ngIf="hero.abilities.length === 0 && isActiveHero"
     (click)="autoChoose(true)"
   >
     <app-icon [icon]="'play-button'"></app-icon>
   </div>
-  <button mat-raised-button color="primary" mat-dialog-close [disabled]="hero.abilities.length === 0">
+  <button mat-raised-button color="primary" mat-dialog-close [disabled]="hero.abilities.length === 0 && isActiveHero">
     {{'MODAL.CLOSE' | translate}}
   </button>
 </mat-dialog-actions>

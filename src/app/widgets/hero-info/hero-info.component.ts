@@ -166,8 +166,6 @@ export class HeroInfoComponent {
   }
 
   showUpgradePopup() {
-    if (this.isActive) {
-      this.openUpgradeModal.next(this.hero);
-    }
+    this.openUpgradeModal.next(this.hero);
   }
 }
