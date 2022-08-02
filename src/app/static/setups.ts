@@ -843,1124 +843,874 @@ export class Setups {
   ];
   public static '1' = [
     [
-      ['paragon', 'highlander', 'druid'],
-      ['oracle', 'avatar', 'shadow']
+      ['paragon', 'highlander'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['oracle', 'avatar', 'lightbringer']
+      ['paragon', 'highlander'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['oracle', 'avatar', 'avenger']
+      ['paragon', 'highlander'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['oracle', 'shadow', 'lightbringer']
+      ['paragon', 'highlander'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['oracle', 'shadow', 'avenger']
+      ['paragon', 'highlander'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['oracle', 'lightbringer', 'avenger']
+      ['paragon', 'highlander'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['avatar', 'shadow', 'lightbringer']
+      ['paragon', 'highlander'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['avatar', 'shadow', 'avenger']
+      ['paragon', 'highlander'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['avatar', 'lightbringer', 'avenger']
+      ['paragon', 'highlander'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'druid'],
-      ['shadow', 'lightbringer', 'avenger']
+      ['paragon', 'highlander'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['druid', 'avatar', 'shadow']
+      ['paragon', 'highlander'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['druid', 'avatar', 'lightbringer']
+      ['paragon', 'highlander'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['druid', 'avatar', 'avenger']
+      ['paragon', 'highlander'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['druid', 'shadow', 'lightbringer']
+      ['paragon', 'highlander'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['druid', 'shadow', 'avenger']
+      ['paragon', 'highlander'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['druid', 'lightbringer', 'avenger']
+      ['paragon', 'druid'],
+      ['highlander', 'oracle']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['avatar', 'shadow', 'lightbringer']
+      ['paragon', 'druid'],
+      ['highlander', 'avatar']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['avatar', 'shadow', 'avenger']
+      ['paragon', 'druid'],
+      ['highlander', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['avatar', 'lightbringer', 'avenger']
+      ['paragon', 'druid'],
+      ['highlander', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'oracle'],
-      ['shadow', 'lightbringer', 'avenger']
+      ['paragon', 'druid'],
+      ['highlander', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['druid', 'oracle', 'shadow']
+      ['paragon', 'druid'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['druid', 'oracle', 'lightbringer']
+      ['paragon', 'druid'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['druid', 'oracle', 'avenger']
+      ['paragon', 'druid'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['druid', 'shadow', 'lightbringer']
+      ['paragon', 'druid'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['druid', 'shadow', 'avenger']
+      ['paragon', 'druid'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['druid', 'lightbringer', 'avenger']
+      ['paragon', 'druid'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['oracle', 'shadow', 'lightbringer']
+      ['paragon', 'druid'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['oracle', 'shadow', 'avenger']
+      ['paragon', 'druid'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['oracle', 'lightbringer', 'avenger']
+      ['paragon', 'druid'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avatar'],
-      ['shadow', 'lightbringer', 'avenger']
+      ['paragon', 'druid'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['druid', 'oracle', 'avatar']
+      ['paragon', 'oracle'],
+      ['highlander', 'druid']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['druid', 'oracle', 'lightbringer']
+      ['paragon', 'oracle'],
+      ['highlander', 'avatar']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['druid', 'oracle', 'avenger']
+      ['paragon', 'oracle'],
+      ['highlander', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['druid', 'avatar', 'lightbringer']
+      ['paragon', 'oracle'],
+      ['highlander', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['druid', 'avatar', 'avenger']
+      ['paragon', 'oracle'],
+      ['highlander', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['druid', 'lightbringer', 'avenger']
+      ['paragon', 'oracle'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['oracle', 'avatar', 'lightbringer']
+      ['paragon', 'oracle'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['oracle', 'avatar', 'avenger']
+      ['paragon', 'oracle'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['oracle', 'lightbringer', 'avenger']
+      ['paragon', 'oracle'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'shadow'],
-      ['avatar', 'lightbringer', 'avenger']
+      ['paragon', 'oracle'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['druid', 'oracle', 'avatar']
+      ['paragon', 'oracle'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['druid', 'oracle', 'shadow']
+      ['paragon', 'oracle'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['druid', 'oracle', 'avenger']
+      ['paragon', 'oracle'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['druid', 'avatar', 'shadow']
+      ['paragon', 'oracle'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['druid', 'avatar', 'avenger']
+      ['paragon', 'oracle'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['druid', 'shadow', 'avenger']
+      ['paragon', 'avatar'],
+      ['highlander', 'druid']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['oracle', 'avatar', 'shadow']
+      ['paragon', 'avatar'],
+      ['highlander', 'oracle']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['oracle', 'avatar', 'avenger']
+      ['paragon', 'avatar'],
+      ['highlander', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['oracle', 'shadow', 'avenger']
+      ['paragon', 'avatar'],
+      ['highlander', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'lightbringer'],
-      ['avatar', 'shadow', 'avenger']
+      ['paragon', 'avatar'],
+      ['highlander', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['druid', 'oracle', 'avatar']
+      ['paragon', 'avatar'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['druid', 'oracle', 'shadow']
+      ['paragon', 'avatar'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['druid', 'oracle', 'lightbringer']
+      ['paragon', 'avatar'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['druid', 'avatar', 'shadow']
+      ['paragon', 'avatar'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['druid', 'avatar', 'lightbringer']
+      ['paragon', 'avatar'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['druid', 'shadow', 'lightbringer']
+      ['paragon', 'avatar'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['oracle', 'avatar', 'shadow']
+      ['paragon', 'avatar'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['oracle', 'avatar', 'lightbringer']
+      ['paragon', 'avatar'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['oracle', 'shadow', 'lightbringer']
+      ['paragon', 'avatar'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'highlander', 'avenger'],
-      ['avatar', 'shadow', 'lightbringer']
+      ['paragon', 'avatar'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['highlander', 'avatar', 'shadow']
+      ['paragon', 'shadow'],
+      ['highlander', 'druid']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['highlander', 'avatar', 'lightbringer']
+      ['paragon', 'shadow'],
+      ['highlander', 'oracle']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['highlander', 'avatar', 'avenger']
+      ['paragon', 'shadow'],
+      ['highlander', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['highlander', 'shadow', 'lightbringer']
+      ['paragon', 'shadow'],
+      ['highlander', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['highlander', 'shadow', 'avenger']
+      ['paragon', 'shadow'],
+      ['highlander', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['highlander', 'lightbringer', 'avenger']
+      ['paragon', 'shadow'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['avatar', 'shadow', 'lightbringer']
+      ['paragon', 'shadow'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['avatar', 'shadow', 'avenger']
+      ['paragon', 'shadow'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['avatar', 'lightbringer', 'avenger']
+      ['paragon', 'shadow'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'oracle'],
-      ['shadow', 'lightbringer', 'avenger']
+      ['paragon', 'shadow'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['highlander', 'oracle', 'shadow']
+      ['paragon', 'shadow'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['highlander', 'oracle', 'lightbringer']
+      ['paragon', 'shadow'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['highlander', 'oracle', 'avenger']
+      ['paragon', 'shadow'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['highlander', 'shadow', 'lightbringer']
+      ['paragon', 'shadow'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['highlander', 'shadow', 'avenger']
+      ['paragon', 'shadow'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['highlander', 'lightbringer', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['highlander', 'druid']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['oracle', 'shadow', 'lightbringer']
+      ['paragon', 'lightbringer'],
+      ['highlander', 'oracle']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['oracle', 'shadow', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['highlander', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['oracle', 'lightbringer', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['highlander', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'avatar'],
-      ['shadow', 'lightbringer', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['highlander', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['highlander', 'oracle', 'avatar']
+      ['paragon', 'lightbringer'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['highlander', 'oracle', 'lightbringer']
+      ['paragon', 'lightbringer'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['highlander', 'oracle', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['highlander', 'avatar', 'lightbringer']
+      ['paragon', 'lightbringer'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['highlander', 'avatar', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['highlander', 'lightbringer', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['oracle', 'avatar', 'lightbringer']
+      ['paragon', 'lightbringer'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['oracle', 'avatar', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['oracle', 'lightbringer', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'shadow'],
-      ['avatar', 'lightbringer', 'avenger']
+      ['paragon', 'lightbringer'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['highlander', 'oracle', 'avatar']
+      ['paragon', 'avenger'],
+      ['highlander', 'druid']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['highlander', 'oracle', 'shadow']
+      ['paragon', 'avenger'],
+      ['highlander', 'oracle']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['highlander', 'oracle', 'avenger']
+      ['paragon', 'avenger'],
+      ['highlander', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['highlander', 'avatar', 'shadow']
+      ['paragon', 'avenger'],
+      ['highlander', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['highlander', 'avatar', 'avenger']
+      ['paragon', 'avenger'],
+      ['highlander', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['highlander', 'shadow', 'avenger']
+      ['paragon', 'avenger'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['oracle', 'avatar', 'shadow']
+      ['paragon', 'avenger'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['oracle', 'avatar', 'avenger']
+      ['paragon', 'avenger'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['oracle', 'shadow', 'avenger']
+      ['paragon', 'avenger'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'lightbringer'],
-      ['avatar', 'shadow', 'avenger']
+      ['paragon', 'avenger'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['highlander', 'oracle', 'avatar']
+      ['paragon', 'avenger'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['highlander', 'oracle', 'shadow']
+      ['paragon', 'avenger'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['highlander', 'oracle', 'lightbringer']
+      ['paragon', 'avenger'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['highlander', 'avatar', 'shadow']
+      ['paragon', 'avenger'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['highlander', 'avatar', 'lightbringer']
+      ['paragon', 'avenger'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['highlander', 'shadow', 'lightbringer']
+      ['highlander', 'druid'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['oracle', 'avatar', 'shadow']
+      ['highlander', 'druid'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['oracle', 'avatar', 'lightbringer']
+      ['highlander', 'druid'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['oracle', 'shadow', 'lightbringer']
+      ['highlander', 'druid'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'druid', 'avenger'],
-      ['avatar', 'shadow', 'lightbringer']
+      ['highlander', 'druid'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['highlander', 'druid', 'shadow']
+      ['highlander', 'druid'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['highlander', 'druid', 'lightbringer']
+      ['highlander', 'druid'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['highlander', 'druid', 'avenger']
+      ['highlander', 'druid'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['highlander', 'shadow', 'lightbringer']
+      ['highlander', 'druid'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['highlander', 'shadow', 'avenger']
+      ['highlander', 'druid'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['highlander', 'lightbringer', 'avenger']
+      ['highlander', 'oracle'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['druid', 'shadow', 'lightbringer']
+      ['highlander', 'oracle'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['druid', 'shadow', 'avenger']
+      ['highlander', 'oracle'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['druid', 'lightbringer', 'avenger']
+      ['highlander', 'oracle'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avatar'],
-      ['shadow', 'lightbringer', 'avenger']
+      ['highlander', 'oracle'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['highlander', 'druid', 'avatar']
+      ['highlander', 'oracle'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['highlander', 'druid', 'lightbringer']
+      ['highlander', 'oracle'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['highlander', 'druid', 'avenger']
+      ['highlander', 'oracle'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['highlander', 'avatar', 'lightbringer']
+      ['highlander', 'oracle'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['highlander', 'avatar', 'avenger']
+      ['highlander', 'oracle'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['highlander', 'lightbringer', 'avenger']
+      ['highlander', 'avatar'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['druid', 'avatar', 'lightbringer']
+      ['highlander', 'avatar'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['druid', 'avatar', 'avenger']
+      ['highlander', 'avatar'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['druid', 'lightbringer', 'avenger']
+      ['highlander', 'avatar'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'shadow'],
-      ['avatar', 'lightbringer', 'avenger']
+      ['highlander', 'avatar'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['highlander', 'druid', 'avatar']
+      ['highlander', 'avatar'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['highlander', 'druid', 'shadow']
+      ['highlander', 'avatar'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['highlander', 'druid', 'avenger']
+      ['highlander', 'avatar'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['highlander', 'avatar', 'shadow']
+      ['highlander', 'avatar'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['highlander', 'avatar', 'avenger']
+      ['highlander', 'avatar'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['highlander', 'shadow', 'avenger']
+      ['highlander', 'shadow'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['druid', 'avatar', 'shadow']
+      ['highlander', 'shadow'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['druid', 'avatar', 'avenger']
+      ['highlander', 'shadow'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['druid', 'shadow', 'avenger']
+      ['highlander', 'shadow'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'lightbringer'],
-      ['avatar', 'shadow', 'avenger']
+      ['highlander', 'shadow'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['highlander', 'druid', 'avatar']
+      ['highlander', 'shadow'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['highlander', 'druid', 'shadow']
+      ['highlander', 'shadow'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['highlander', 'druid', 'lightbringer']
+      ['highlander', 'shadow'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['highlander', 'avatar', 'shadow']
+      ['highlander', 'shadow'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['highlander', 'avatar', 'lightbringer']
+      ['highlander', 'shadow'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['highlander', 'shadow', 'lightbringer']
+      ['highlander', 'lightbringer'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['druid', 'avatar', 'shadow']
+      ['highlander', 'lightbringer'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['druid', 'avatar', 'lightbringer']
+      ['highlander', 'lightbringer'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['druid', 'shadow', 'lightbringer']
+      ['highlander', 'lightbringer'],
+      ['druid', 'avenger']
     ],
     [
-      ['paragon', 'oracle', 'avenger'],
-      ['avatar', 'shadow', 'lightbringer']
+      ['highlander', 'lightbringer'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['highlander', 'druid', 'oracle']
+      ['highlander', 'lightbringer'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['highlander', 'druid', 'lightbringer']
+      ['highlander', 'lightbringer'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['highlander', 'druid', 'avenger']
+      ['highlander', 'lightbringer'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['highlander', 'oracle', 'lightbringer']
+      ['highlander', 'lightbringer'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['highlander', 'oracle', 'avenger']
+      ['highlander', 'lightbringer'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['highlander', 'lightbringer', 'avenger']
+      ['highlander', 'avenger'],
+      ['druid', 'oracle']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['druid', 'oracle', 'lightbringer']
+      ['highlander', 'avenger'],
+      ['druid', 'avatar']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['druid', 'oracle', 'avenger']
+      ['highlander', 'avenger'],
+      ['druid', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['druid', 'lightbringer', 'avenger']
+      ['highlander', 'avenger'],
+      ['druid', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'shadow'],
-      ['oracle', 'lightbringer', 'avenger']
+      ['highlander', 'avenger'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['highlander', 'druid', 'oracle']
+      ['highlander', 'avenger'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['highlander', 'druid', 'shadow']
+      ['highlander', 'avenger'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['highlander', 'druid', 'avenger']
+      ['highlander', 'avenger'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['highlander', 'oracle', 'shadow']
+      ['highlander', 'avenger'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['highlander', 'oracle', 'avenger']
+      ['highlander', 'avenger'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['highlander', 'shadow', 'avenger']
+      ['druid', 'oracle'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['druid', 'oracle', 'shadow']
+      ['druid', 'oracle'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['druid', 'oracle', 'avenger']
+      ['druid', 'oracle'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['druid', 'shadow', 'avenger']
+      ['druid', 'oracle'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'lightbringer'],
-      ['oracle', 'shadow', 'avenger']
+      ['druid', 'oracle'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['highlander', 'druid', 'oracle']
+      ['druid', 'oracle'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['highlander', 'druid', 'shadow']
+      ['druid', 'avatar'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['highlander', 'druid', 'lightbringer']
+      ['druid', 'avatar'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['highlander', 'oracle', 'shadow']
+      ['druid', 'avatar'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['highlander', 'oracle', 'lightbringer']
+      ['druid', 'avatar'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['highlander', 'shadow', 'lightbringer']
+      ['druid', 'avatar'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['druid', 'oracle', 'shadow']
+      ['druid', 'avatar'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['druid', 'oracle', 'lightbringer']
+      ['druid', 'shadow'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['druid', 'shadow', 'lightbringer']
+      ['druid', 'shadow'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'avatar', 'avenger'],
-      ['oracle', 'shadow', 'lightbringer']
+      ['druid', 'shadow'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['highlander', 'druid', 'oracle']
+      ['druid', 'shadow'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['highlander', 'druid', 'avatar']
+      ['druid', 'shadow'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['highlander', 'druid', 'avenger']
+      ['druid', 'shadow'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['highlander', 'oracle', 'avatar']
+      ['druid', 'lightbringer'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['highlander', 'oracle', 'avenger']
+      ['druid', 'lightbringer'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['highlander', 'avatar', 'avenger']
+      ['druid', 'lightbringer'],
+      ['oracle', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['druid', 'oracle', 'avatar']
+      ['druid', 'lightbringer'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['druid', 'oracle', 'avenger']
+      ['druid', 'lightbringer'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['druid', 'avatar', 'avenger']
+      ['druid', 'lightbringer'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'lightbringer'],
-      ['oracle', 'avatar', 'avenger']
+      ['druid', 'avenger'],
+      ['oracle', 'avatar']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['highlander', 'druid', 'oracle']
+      ['druid', 'avenger'],
+      ['oracle', 'shadow']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['highlander', 'druid', 'avatar']
+      ['druid', 'avenger'],
+      ['oracle', 'lightbringer']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['highlander', 'druid', 'lightbringer']
+      ['druid', 'avenger'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['highlander', 'oracle', 'avatar']
+      ['druid', 'avenger'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['highlander', 'oracle', 'lightbringer']
+      ['druid', 'avenger'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['highlander', 'avatar', 'lightbringer']
+      ['oracle', 'avatar'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['druid', 'oracle', 'avatar']
+      ['oracle', 'avatar'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['druid', 'oracle', 'lightbringer']
+      ['oracle', 'avatar'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['druid', 'avatar', 'lightbringer']
+      ['oracle', 'shadow'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'shadow', 'avenger'],
-      ['oracle', 'avatar', 'lightbringer']
+      ['oracle', 'shadow'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['highlander', 'druid', 'oracle']
+      ['oracle', 'shadow'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['highlander', 'druid', 'avatar']
+      ['oracle', 'lightbringer'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['highlander', 'druid', 'shadow']
+      ['oracle', 'lightbringer'],
+      ['avatar', 'avenger']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['highlander', 'oracle', 'avatar']
+      ['oracle', 'lightbringer'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['highlander', 'oracle', 'shadow']
+      ['oracle', 'avenger'],
+      ['avatar', 'shadow']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['highlander', 'avatar', 'shadow']
+      ['oracle', 'avenger'],
+      ['avatar', 'lightbringer']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['druid', 'oracle', 'avatar']
+      ['oracle', 'avenger'],
+      ['shadow', 'lightbringer']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['druid', 'oracle', 'shadow']
+      ['avatar', 'shadow'],
+      ['lightbringer', 'avenger']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['druid', 'avatar', 'shadow']
+      ['avatar', 'lightbringer'],
+      ['shadow', 'avenger']
     ],
     [
-      ['paragon', 'lightbringer', 'avenger'],
-      ['oracle', 'avatar', 'shadow']
-    ],
-    [
-      ['highlander', 'druid', 'oracle'],
-      ['avatar', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'druid', 'oracle'],
-      ['avatar', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'oracle'],
-      ['avatar', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'oracle'],
-      ['shadow', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'avatar'],
-      ['oracle', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'druid', 'avatar'],
-      ['oracle', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'avatar'],
-      ['oracle', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'avatar'],
-      ['shadow', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'shadow'],
-      ['oracle', 'avatar', 'lightbringer']
-    ],
-    [
-      ['highlander', 'druid', 'shadow'],
-      ['oracle', 'avatar', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'shadow'],
-      ['oracle', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'shadow'],
-      ['avatar', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'lightbringer'],
-      ['oracle', 'avatar', 'shadow']
-    ],
-    [
-      ['highlander', 'druid', 'lightbringer'],
-      ['oracle', 'avatar', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'lightbringer'],
-      ['oracle', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'lightbringer'],
-      ['avatar', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'druid', 'avenger'],
-      ['oracle', 'avatar', 'shadow']
-    ],
-    [
-      ['highlander', 'druid', 'avenger'],
-      ['oracle', 'avatar', 'lightbringer']
-    ],
-    [
-      ['highlander', 'druid', 'avenger'],
-      ['oracle', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'druid', 'avenger'],
-      ['avatar', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'oracle', 'avatar'],
-      ['druid', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'oracle', 'avatar'],
-      ['druid', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'avatar'],
-      ['druid', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'avatar'],
-      ['shadow', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'shadow'],
-      ['druid', 'avatar', 'lightbringer']
-    ],
-    [
-      ['highlander', 'oracle', 'shadow'],
-      ['druid', 'avatar', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'shadow'],
-      ['druid', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'shadow'],
-      ['avatar', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'lightbringer'],
-      ['druid', 'avatar', 'shadow']
-    ],
-    [
-      ['highlander', 'oracle', 'lightbringer'],
-      ['druid', 'avatar', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'lightbringer'],
-      ['druid', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'lightbringer'],
-      ['avatar', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'oracle', 'avenger'],
-      ['druid', 'avatar', 'shadow']
-    ],
-    [
-      ['highlander', 'oracle', 'avenger'],
-      ['druid', 'avatar', 'lightbringer']
-    ],
-    [
-      ['highlander', 'oracle', 'avenger'],
-      ['druid', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'oracle', 'avenger'],
-      ['avatar', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'avatar', 'shadow'],
-      ['druid', 'oracle', 'lightbringer']
-    ],
-    [
-      ['highlander', 'avatar', 'shadow'],
-      ['druid', 'oracle', 'avenger']
-    ],
-    [
-      ['highlander', 'avatar', 'shadow'],
-      ['druid', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'avatar', 'shadow'],
-      ['oracle', 'lightbringer', 'avenger']
-    ],
-    [
-      ['highlander', 'avatar', 'lightbringer'],
-      ['druid', 'oracle', 'shadow']
-    ],
-    [
-      ['highlander', 'avatar', 'lightbringer'],
-      ['druid', 'oracle', 'avenger']
-    ],
-    [
-      ['highlander', 'avatar', 'lightbringer'],
-      ['druid', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'avatar', 'lightbringer'],
-      ['oracle', 'shadow', 'avenger']
-    ],
-    [
-      ['highlander', 'avatar', 'avenger'],
-      ['druid', 'oracle', 'shadow']
-    ],
-    [
-      ['highlander', 'avatar', 'avenger'],
-      ['druid', 'oracle', 'lightbringer']
-    ],
-    [
-      ['highlander', 'avatar', 'avenger'],
-      ['druid', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'avatar', 'avenger'],
-      ['oracle', 'shadow', 'lightbringer']
-    ],
-    [
-      ['highlander', 'shadow', 'lightbringer'],
-      ['druid', 'oracle', 'avatar']
-    ],
-    [
-      ['highlander', 'shadow', 'lightbringer'],
-      ['druid', 'oracle', 'avenger']
-    ],
-    [
-      ['highlander', 'shadow', 'lightbringer'],
-      ['druid', 'avatar', 'avenger']
-    ],
-    [
-      ['highlander', 'shadow', 'lightbringer'],
-      ['oracle', 'avatar', 'avenger']
-    ],
-    [
-      ['highlander', 'shadow', 'avenger'],
-      ['druid', 'oracle', 'avatar']
-    ],
-    [
-      ['highlander', 'shadow', 'avenger'],
-      ['druid', 'oracle', 'lightbringer']
-    ],
-    [
-      ['highlander', 'shadow', 'avenger'],
-      ['druid', 'avatar', 'lightbringer']
-    ],
-    [
-      ['highlander', 'shadow', 'avenger'],
-      ['oracle', 'avatar', 'lightbringer']
-    ],
-    [
-      ['highlander', 'lightbringer', 'avenger'],
-      ['druid', 'oracle', 'avatar']
-    ],
-    [
-      ['highlander', 'lightbringer', 'avenger'],
-      ['druid', 'oracle', 'shadow']
-    ],
-    [
-      ['highlander', 'lightbringer', 'avenger'],
-      ['druid', 'avatar', 'shadow']
-    ],
-    [
-      ['highlander', 'lightbringer', 'avenger'],
-      ['oracle', 'avatar', 'shadow']
-    ],
-    [
-      ['druid', 'oracle', 'avatar'],
-      ['shadow', 'lightbringer', 'avenger']
-    ],
-    [
-      ['druid', 'oracle', 'shadow'],
-      ['avatar', 'lightbringer', 'avenger']
-    ],
-    [
-      ['druid', 'oracle', 'lightbringer'],
-      ['avatar', 'shadow', 'avenger']
-    ],
-    [
-      ['druid', 'oracle', 'avenger'],
-      ['avatar', 'shadow', 'lightbringer']
-    ],
-    [
-      ['druid', 'avatar', 'shadow'],
-      ['oracle', 'lightbringer', 'avenger']
-    ],
-    [
-      ['druid', 'avatar', 'lightbringer'],
-      ['oracle', 'shadow', 'avenger']
-    ],
-    [
-      ['druid', 'avatar', 'avenger'],
-      ['oracle', 'shadow', 'lightbringer']
-    ],
-    [
-      ['druid', 'shadow', 'lightbringer'],
-      ['oracle', 'avatar', 'avenger']
-    ],
-    [
-      ['druid', 'shadow', 'avenger'],
-      ['oracle', 'avatar', 'lightbringer']
-    ],
-    [
-      ['druid', 'lightbringer', 'avenger'],
-      ['oracle', 'avatar', 'shadow']
+      ['avatar', 'avenger'],
+      ['shadow', 'lightbringer']
     ]
+  ];
+  public static '2' = [
+    [['paragon'], ['highlander']],
+    [['paragon'], ['druid']],
+    [['paragon'], ['oracle']],
+    [['paragon'], ['avatar']],
+    [['paragon'], ['shadow']],
+    [['paragon'], ['lightbringer']],
+    [['paragon'], ['avenger']],
+    [['highlander'], ['druid']],
+    [['highlander'], ['oracle']],
+    [['highlander'], ['avatar']],
+    [['highlander'], ['shadow']],
+    [['highlander'], ['lightbringer']],
+    [['highlander'], ['avenger']],
+    [['druid'], ['oracle']],
+    [['druid'], ['avatar']],
+    [['druid'], ['shadow']],
+    [['druid'], ['lightbringer']],
+    [['druid'], ['avenger']],
+    [['oracle'], ['avatar']],
+    [['oracle'], ['shadow']],
+    [['oracle'], ['lightbringer']],
+    [['oracle'], ['avenger']],
+    [['avatar'], ['shadow']],
+    [['avatar'], ['lightbringer']],
+    [['avatar'], ['avenger']],
+    [['shadow'], ['lightbringer']],
+    [['shadow'], ['avenger']],
+    [['lightbringer'], ['avenger']]
   ];
 }

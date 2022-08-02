@@ -35,6 +35,10 @@
         <div class="bar-group">
           <app-icon [icon]="'wingfoot'"></app-icon>
           <app-resource-bar [value]="hero.energy" [maxValue]="hero.maxEnergy" [type]="'energy'"></app-resource-bar>
+          <div class="attribute" *ngIf="hero.crystals > 0">
+            <app-icon [icon]="'cut-diamond-transparent'"></app-icon>
+            <div class="value">{{ hero.crystals }}</div>
+          </div>
         </div>
         <div class="bar-group">
           <app-icon [icon]="'hearts'"></app-icon>

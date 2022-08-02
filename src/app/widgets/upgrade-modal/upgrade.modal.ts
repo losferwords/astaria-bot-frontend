@@ -26,7 +26,7 @@ export class UpgradeModalComponent {
     private battleService: BattleService
   ) {
     this.hero = data.hero;
-    this.crystals = data.crystals;
+    this.crystals = data.crystals || data.hero.crystals;
     this.heroData = data.heroData;
     this.battle = data.battle;
     this.isActiveHero = data.isActiveHero;
