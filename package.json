@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4201 -c scenario-0",
     "build": "ng build",
     "lint": "ng lint",
     "postinstall": "ngcc",

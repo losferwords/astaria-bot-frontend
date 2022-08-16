@@ -92,7 +92,7 @@ export class BattlePageComponent {
   }
 
   private refreshBattle() {
-    if (this.isBattleEnd || this.battle.log.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
+    if (this.isBattleEnd || this.battle.log.find((event: ILogMessage) => event.t === LogMessageType.WIN)) {
       return;
     }
     this.activeHero = this.getHeroesfromQueue()[0];
@@ -136,10 +136,10 @@ export class BattlePageComponent {
 
       const battleTextEvents = newEvents.filter((event: ILogMessage) => {
         return (
-          event.type === LogMessageType.WEAPON_DAMAGE ||
-          event.type === LogMessageType.ABILITY_DAMAGE ||
-          event.type === LogMessageType.EFFECT_DAMAGE ||
-          event.type === LogMessageType.ABILITY_HEAL
+          event.t === LogMessageType.WEAPON_DAMAGE ||
+          event.t === LogMessageType.ABILITY_DAMAGE ||
+          event.t === LogMessageType.EFFECT_DAMAGE ||
+          event.t === LogMessageType.ABILITY_HEAL
         );
       });
       if (battleTextEvents.length > 0) {
@@ -156,7 +156,7 @@ export class BattlePageComponent {
         this.isAutoOneTurn = false;
       }
 
-      if (this.battle.log.find((event: ILogMessage) => event.type === LogMessageType.WIN)) {
+      if (this.battle.log.find((event: ILogMessage) => event.t === LogMessageType.WIN)) {
         this.battleEnd();
         return resolve(true);
       }
@@ -470,6 +470,7 @@ export class BattlePageComponent {
       this.isLoading = true;
       this.battleService.findEnemies(this.activeHero.id, weapon.range, false, '', false).subscribe({
         next: (enemies: string[]) => {
+          console.log(enemies);
           this.isLoading = false;
           this.preparedWeapon = weapon;
           this.targets = enemies;

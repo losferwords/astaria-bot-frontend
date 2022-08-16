@@ -1,27 +1,37 @@
 <div class="page-content" *ngIf="battle">
   <div class="team-wrapper">
-    <div class="crystals">
-      <app-icon [icon]="'cut-diamond-transparent'"></app-icon>
-      <div class="value">{{battle.teams[0].crystals}}</div>
-    </div>
-    <ng-container *ngFor="let hero of battle.teams[0].heroes">
-      <app-hero-info
-        [hero]="hero"
-        [isActive]="hero.id === battle.queue[0]"
-        [preparedWeapon]="preparedWeapon"
-        [preparedAbility]="preparedAbility"
-        [preparedPetAbility]="preparedPetAbility"
-        [activePet]="activePet"
-        [teamCrystals]="battle.teams[0].crystals"
-        (endTurn)="endTurn()"
-        (prepareWeapon)="prepareWeapon($event)"
-        (prepareAbility)="prepareAbility($event)"
-        (preparePetMove)="preparePetMove($event)"
-        (preparePetAbility)="preparePetAbility($event)"
-        (openUpgradeModal)="openUpgradeModal($event)"
-      ></app-hero-info>
-    </ng-container>
+    <app-team-info
+      *ngIf="battle.teams[0]"
+      [team]="battle.teams[0]"
+      [activeHero]="activeHero"
+      [preparedWeapon]="preparedWeapon"
+      [preparedAbility]="preparedAbility"
+      [preparedPetAbility]="preparedPetAbility"
+      [activePet]="activePet"
+      (endTurn)="endTurn()"
+      (prepareWeapon)="prepareWeapon($event)"
+      (prepareAbility)="prepareAbility($event)"
+      (preparePetMove)="preparePetMove($event)"
+      (preparePetAbility)="preparePetAbility($event)"
+      (openUpgradeModal)="openUpgradeModal($event)"
+    ></app-team-info>
+    <app-team-info
+      *ngIf="battle.teams[2]"
+      [team]="battle.teams[2]"
+      [activeHero]="activeHero"
+      [preparedWeapon]="preparedWeapon"
+      [preparedAbility]="preparedAbility"
+      [preparedPetAbility]="preparedPetAbility"
+      [activePet]="activePet"
+      (endTurn)="endTurn()"
+      (prepareWeapon)="prepareWeapon($event)"
+      (prepareAbility)="prepareAbility($event)"
+      (preparePetMove)="preparePetMove($event)"
+      (preparePetAbility)="preparePetAbility($event)"
+      (openUpgradeModal)="openUpgradeModal($event)"
+    ></app-team-info>
   </div>
+
   <div class="center-wrapper">
     <div class="map-wrapper">
       <div class="map-container" (mouseleave)="setArrowTarget(-1, -1)">
@@ -98,42 +108,42 @@
           />
         </svg>
         <ng-container *ngFor="let event of eventsForRender; index as i">
-          <ng-container [ngSwitch]="event.type" *ngIf="getCharPositionById(event.targetId)">
+          <ng-container [ngSwitch]="event.t" *ngIf="getCharPositionById(event.tr)">
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.WEAPON_DAMAGE"
-              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.tr).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.tr).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.tr).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.tr).y * battle.scenario.tileSize + 12) + 'px'}"
             >
-              <app-icon [icon]="event.casterId + '/' + event.equipId" [ngClass]="event.casterId"></app-icon>
-              <div class="value damage">{{event.value}}</div>
+              <app-icon [icon]="event.c + '/' + event.e" [ngClass]="event.c"></app-icon>
+              <div class="value damage">{{event.v}}</div>
             </div>
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.ABILITY_DAMAGE"
-              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.tr).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.tr).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.tr).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.tr).y * battle.scenario.tileSize + 12) + 'px'}"
             >
-              <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
-              <div class="value damage">{{event.value}}</div>
+              <app-icon [icon]="event.c + '/' + event.a" [ngClass]="event.c"></app-icon>
+              <div class="value damage">{{event.v}}</div>
             </div>
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.EFFECT_DAMAGE"
-              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.tr).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.tr).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.tr).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.tr).y * battle.scenario.tileSize + 12) + 'px'}"
             >
-              <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
-              <div class="value damage">{{event.value}}</div>
+              <app-icon [icon]="event.c + '/' + event.a" [ngClass]="event.c"></app-icon>
+              <div class="value damage">{{event.v}}</div>
             </div>
             <div
               class="battle-text-event"
               *ngSwitchCase="LogMessageType.ABILITY_HEAL"
-              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.targetId).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.targetId).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
-              [ngStyle]="{'left': (getCharPositionById(event.targetId).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.targetId).y * battle.scenario.tileSize + 12) + 'px'}"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.tr).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.tr).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.tr).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.tr).y * battle.scenario.tileSize + 12) + 'px'}"
             >
-              <app-icon [icon]="event.casterId + '/' + event.abilityId" [ngClass]="event.casterId"></app-icon>
-              <div class="value heal">{{event.value}}</div>
+              <app-icon [icon]="event.c + '/' + event.a" [ngClass]="event.c"></app-icon>
+              <div class="value heal">{{event.v}}</div>
             </div>
           </ng-container>
         </ng-container>
@@ -154,76 +164,72 @@
       lock-y-offset="5"
     >
       <div class="log-message" *ngFor="let message of logsForRender">
-        <ng-container [ngSwitch]="message.type">
+        <ng-container [ngSwitch]="message.t">
           <div class="text" *ngSwitchCase="LogMessageType.MOVE">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.MOVE' | translate: {"x":
-            message.positionX, "y": message.positionY} }}
+            message.x, "y": message.y} }}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TURN_END">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_END' | translate}}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.WEAPON_DAMAGE">
-            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.WEAPON_DAMAGE' |
-            translate: {"value": message.value} }}
-            <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
-            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.casterId + '.' + message.equipId) |
-            translate}}'
+            <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.WEAPON_DAMAGE' | translate:
+            {"value": message.v} }}
+            <span [ngClass]="message.tr">{{"HERO.TO." + message.tr | translate}}</span>
+            {{'LOG.WEAPON_DAMAGE_TYPE' | translate}} '{{('EQUIP.' + message.c + '.' + message.e) | translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.ABILITY_DAMAGE">
-            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_DAMAGE'
-            | translate: {"value": message.value} }}
-            <span [ngClass]="message.targetId">{{"HERO.TO." + message.targetId | translate}}</span>
-            {{'LOG.WITH_ABILITY' | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') |
-            translate}}'
+            <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.ABILITY_DAMAGE' | translate:
+            {"value": message.v} }}
+            <span [ngClass]="message.tr">{{"HERO.TO." + message.tr | translate}}</span>
+            {{'LOG.WITH_ABILITY' | translate}} '{{('ABILITY.' + message.c + '.' + message.a + '.NAME') | translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.EFFECT_DAMAGE">
-            <span [ngClass]="message.targetId">{{"HERO." + message.targetId | translate}}</span>
-            {{'LOG.EFFECT_DAMAGE' | translate: {"value": message.value} }} '{{('ABILITY.' + message.casterId + '.' +
-            message.abilityId + '.NAME') | translate}}' {{'LOG.EFFECT_OF' | translate}}
-            <span [ngClass]="message.casterId">{{"HERO.BY." + message.casterId | translate}}</span>
+            <span [ngClass]="message.tr">{{"HERO." + message.tr | translate}}</span>
+            {{'LOG.EFFECT_DAMAGE' | translate: {"value": message.v} }} '{{('ABILITY.' + message.c + '.' + message.a +
+            '.NAME') | translate}}' {{'LOG.EFFECT_OF' | translate}}
+            <span [ngClass]="message.c">{{"HERO.BY." + message.c | translate}}</span>
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.ABILITY_HEAL">
-            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_HEAL' |
-            translate: {"value": message.value} }}
-            <span [ngClass]="message.targetId">{{"HERO.OF." + message.targetId | translate}}</span>
-            {{'LOG.WITH_ABILITY' | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') |
-            translate}}'
+            <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.ABILITY_HEAL' | translate:
+            {"value": message.v} }}
+            <span [ngClass]="message.tr">{{"HERO.OF." + message.tr | translate}}</span>
+            {{'LOG.WITH_ABILITY' | translate}} '{{('ABILITY.' + message.c + '.' + message.a + '.NAME') | translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.ABILITY_CAST">
-            <ng-container *ngIf="message.positionX">
-              <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_CAST'
-              | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') | translate}}'
-              {{'LOG.ABILITY_MOVE' | translate}} {{message.positionX}} {{message.positionY}}
+            <ng-container *ngIf="message.x">
+              <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.ABILITY_CAST' | translate}}
+              '{{('ABILITY.' + message.c + '.' + message.a + '.NAME') | translate}}' {{'LOG.ABILITY_MOVE' | translate}}
+              {{message.x}} {{message.y}}
             </ng-container>
-            <ng-container *ngIf="message.targetId">
-              <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.ABILITY_CAST'
-              | translate}} '{{('ABILITY.' + message.casterId + '.' + message.abilityId + '.NAME') | translate}}'
-              {{'LOG.ABILITY_ON' | translate}}
-              <span [ngClass]="message.targetId">{{"HERO.OF." + message.targetId | translate}}</span>
+            <ng-container *ngIf="message.tr">
+              <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.ABILITY_CAST' | translate}}
+              '{{('ABILITY.' + message.c + '.' + message.a + '.NAME') | translate}}' {{'LOG.ABILITY_ON' | translate}}
+              <span [ngClass]="message.tr">{{"HERO.OF." + message.tr | translate}}</span>
             </ng-container>
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.UPGRADE_EQUIP">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.UPGRADE_EQUIP' | translate}}
-            '{{('EQUIP.' + message.id + '.' + message.equipId) | translate}}' ({{message.equipId.split('-').pop()}})
+            '{{('EQUIP.' + message.id + '.' + message.e) | translate}}' ({{message.e.split('-').pop()}})
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.LEARN_ABILITY">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.LEARN_ABILITY' | translate}}
-            '{{('ABILITY.' + message.id + '.' + message.abilityId + '.NAME') | translate}}'
+            '{{('ABILITY.' + message.id + '.' + message.a + '.NAME') | translate}}'
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TAKE_CRYSTAL">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_CRYSTAL' | translate}}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TAKE_MANA">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_MANA' | translate:
-            {"value": message.value} }}
+            {"value": message.v} }}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TAKE_ENERGY">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TAKE_ENERGY' | translate:
-            {"value": message.value} }}
+            {"value": message.v} }}
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.PET_SUMMON">
-            <span [ngClass]="message.casterId">{{"HERO." + message.casterId | translate}}</span> {{'LOG.PET_SUMMON' |
-            translate}} <span [ngClass]="message.casterId">{{"HERO.WHO." + message.abilityId | translate}}</span>
+            <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.PET_SUMMON' | translate}}
+            <span [ngClass]="message.c">{{"HERO.WHO." + message.a | translate}}</span>
           </div>
           <div class="text" *ngSwitchCase="LogMessageType.TURN_SKIP">
             <span [ngClass]="message.id">{{"HERO." + message.id | translate}}</span> {{'LOG.TURN_SKIP' | translate}}
@@ -251,26 +257,35 @@
     </div>
   </div>
   <div class="team-wrapper">
-    <div class="crystals">
-      <app-icon [icon]="'cut-diamond-transparent'"></app-icon>
-      <div class="value">{{battle.teams[1].crystals}}</div>
-    </div>
-    <ng-container *ngFor="let hero of battle.teams[1].heroes">
-      <app-hero-info
-        [hero]="hero"
-        [isActive]="hero.id === battle.queue[0]"
-        [preparedWeapon]="preparedWeapon"
-        [preparedAbility]="preparedAbility"
-        [preparedPetAbility]="preparedPetAbility"
-        [activePet]="activePet"
-        [teamCrystals]="battle.teams[1].crystals"
-        (endTurn)="endTurn()"
-        (prepareWeapon)="prepareWeapon($event)"
-        (prepareAbility)="prepareAbility($event)"
-        (preparePetMove)="preparePetMove($event)"
-        (preparePetAbility)="preparePetAbility($event)"
-        (openUpgradeModal)="openUpgradeModal($event)"
-      ></app-hero-info>
-    </ng-container>
+    <app-team-info
+      *ngIf="battle.teams[1]"
+      [team]="battle.teams[1]"
+      [activeHero]="activeHero"
+      [preparedWeapon]="preparedWeapon"
+      [preparedAbility]="preparedAbility"
+      [preparedPetAbility]="preparedPetAbility"
+      [activePet]="activePet"
+      (endTurn)="endTurn()"
+      (prepareWeapon)="prepareWeapon($event)"
+      (prepareAbility)="prepareAbility($event)"
+      (preparePetMove)="preparePetMove($event)"
+      (preparePetAbility)="preparePetAbility($event)"
+      (openUpgradeModal)="openUpgradeModal($event)"
+    ></app-team-info>
+    <app-team-info
+      *ngIf="battle.teams[3]"
+      [team]="battle.teams[3]"
+      [activeHero]="activeHero"
+      [preparedWeapon]="preparedWeapon"
+      [preparedAbility]="preparedAbility"
+      [preparedPetAbility]="preparedPetAbility"
+      [activePet]="activePet"
+      (endTurn)="endTurn()"
+      (prepareWeapon)="prepareWeapon($event)"
+      (prepareAbility)="prepareAbility($event)"
+      (preparePetMove)="preparePetMove($event)"
+      (preparePetAbility)="preparePetAbility($event)"
+      (openUpgradeModal)="openUpgradeModal($event)"
+    ></app-team-info>
   </div>
 </div>

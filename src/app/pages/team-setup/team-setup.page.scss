@@ -8,14 +8,16 @@
   padding: 20px 10px;
 
   .team-setup-wrapper {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 10px;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px);
 
     .team-wrapper {
-      width: calc(50% - 5px);
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,10 +25,6 @@
       border: 2px solid $color-dark;
       padding: 10px;
       margin-bottom: 10px;
-
-      &:nth-child(2n + 1) {
-        margin-right: 10px;
-      }
 
       .title {
         font-size: 24px;

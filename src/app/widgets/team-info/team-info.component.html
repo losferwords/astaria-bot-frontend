@@ -1,0 +1,21 @@
+<div class="crystals">
+  <app-icon [icon]="'cut-diamond-transparent'"></app-icon>
+  <div class="value">{{ team.crystals }}</div>
+</div>
+<ng-container *ngFor="let hero of team.heroes">
+  <app-hero-info
+    [hero]="hero"
+    [isActive]="hero.id === activeHero.id"
+    [preparedWeapon]="preparedWeapon"
+    [preparedAbility]="preparedAbility"
+    [preparedPetAbility]="preparedPetAbility"
+    [activePet]="activePet"
+    [teamCrystals]="team.crystals"
+    (endTurn)="onEndTurn()"
+    (prepareWeapon)="onPrepareWeapon($event)"
+    (prepareAbility)="onPrepareAbility($event)"
+    (preparePetMove)="onPreparePetMove($event)"
+    (preparePetAbility)="onPreparePetAbility($event)"
+    (openUpgradeModal)="onOpenUpgradeModal($event)"
+  ></app-hero-info>
+</ng-container>

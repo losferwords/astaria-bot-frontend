@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UpgradeModalComponent } from './upgrade-modal/upgrade.modal';
 import { AbilityBtnComponent } from './ability-btn/ability-btn.component';
 import { TimerComponent } from './timer/timer.component';
+import { TeamInfoComponent } from './team-info/team-info.component';
 
 export const CustomTooltipOptions: TooltipOptions = {
   placement: 'bottom',
@@ -34,6 +35,7 @@ export const CustomTooltipOptions: TooltipOptions = {
     ProgressSpinnerComponent,
     OverlayPanelComponent,
     IconComponent,
+    TeamInfoComponent,
     HeroInfoComponent,
     ResourceBarComponent,
     UpgradeModalComponent,
@@ -43,6 +45,7 @@ export const CustomTooltipOptions: TooltipOptions = {
   exports: [
     ProgressSpinnerComponent,
     IconComponent,
+    TeamInfoComponent,
     HeroInfoComponent,
     MaterialModule,
     ResourceBarComponent,

@@ -6,8 +6,7 @@
 
 html,
 body {
-  height: 100%;
-  min-height: $page-content-min-height;
+  height: 100vh;
 }
 
 body {
@@ -26,7 +25,6 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  min-height: $page-content-min-height;
 }
 
 .hero-upgrade-modal .mat-dialog-container {

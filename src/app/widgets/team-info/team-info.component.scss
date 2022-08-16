@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+.crystals {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+
+  app-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .value {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+}
+
+app-hero-info {
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
