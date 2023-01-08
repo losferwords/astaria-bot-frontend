@@ -52,7 +52,6 @@ export const CustomTooltipOptions: TooltipOptions = {
     UpgradeModalComponent,
     AbilityBtnComponent,
     TimerComponent
-  ],
-  entryComponents: [OverlayPanelComponent]
+  ]
 })
 export class WidgetsModule {}
