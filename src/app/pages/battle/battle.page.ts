@@ -61,6 +61,7 @@ export class BattlePageComponent {
     private botService: BotService,
     private dialog: MatDialog
   ) {
+    router.canceledNavigationResolution = 'computed';
     this.battle = this.router.getCurrentNavigation().extras?.state?.data.battle;
     this.setupIndex = this.router.getCurrentNavigation().extras?.state?.data.setupIndex;
     if (this.setupIndex > -1) {
