@@ -138,6 +138,15 @@
             </div>
             <div
               class="battle-text-event"
+              *ngSwitchCase="LogMessageType.OVERLOAD_DAMAGE"
+              [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.tr).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.tr).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
+              [ngStyle]="{'left': (getCharPositionById(event.tr).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.tr).y * battle.scenario.tileSize + 12) + 'px'}"
+            >
+              <app-icon [icon]="'brain'" [ngClass]="event.c"></app-icon>
+              <div class="value damage">{{event.v}}</div>
+            </div>
+            <div
+              class="battle-text-event"
               *ngSwitchCase="LogMessageType.ABILITY_HEAL"
               [@battleText]="{value: 'fly', params: { left: getCharPositionById(event.tr).x * battle.scenario.tileSize + (i % 2 ? -1 : 1) * battle.scenario.tileSize + 'px', top: getCharPositionById(event.tr).y * battle.scenario.tileSize + (i > 1 ? 1 : -1) * battle.scenario.tileSize  + 'px'}}"
               [ngStyle]="{'left': (getCharPositionById(event.tr).x * battle.scenario.tileSize + 12) + 'px', 'top': (getCharPositionById(event.tr).y * battle.scenario.tileSize + 12) + 'px'}"

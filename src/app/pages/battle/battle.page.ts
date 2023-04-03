@@ -140,6 +140,7 @@ export class BattlePageComponent {
           event.t === LogMessageType.WEAPON_DAMAGE ||
           event.t === LogMessageType.ABILITY_DAMAGE ||
           event.t === LogMessageType.EFFECT_DAMAGE ||
+          event.t === LogMessageType.OVERLOAD_DAMAGE ||
           event.t === LogMessageType.ABILITY_HEAL
         );
       });
