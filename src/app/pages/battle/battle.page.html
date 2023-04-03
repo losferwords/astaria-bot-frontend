@@ -199,6 +199,10 @@
             '.NAME') | translate}}' {{'LOG.EFFECT_OF' | translate}}
             <span [ngClass]="message.c">{{"HERO.BY." + message.c | translate}}</span>
           </div>
+          <div class="text" *ngSwitchCase="LogMessageType.OVERLOAD_DAMAGE">
+            <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span>
+            {{'LOG.OVERLOAD_DAMAGE' | translate: {"value": message.v} }}
+          </div>
           <div class="text" *ngSwitchCase="LogMessageType.ABILITY_HEAL">
             <span [ngClass]="message.c">{{"HERO." + message.c | translate}}</span> {{'LOG.ABILITY_HEAL' | translate:
             {"value": message.v} }}
