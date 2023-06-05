@@ -34,7 +34,8 @@ export class Const {
     'avatar',
     'shadow',
     'lightbringer',
-    'avenger'
+    'avenger',
+    'navarch'
   ];
   public static botThinkTime = 120000;
   public static maxLogLength = 50;

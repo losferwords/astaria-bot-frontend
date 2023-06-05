@@ -163,6 +163,12 @@ export class BattleService {
         }</div>`;
       }
 
+      if (equip.directDamage) {
+        resultTooltip += `<div>${
+          this.i18nService.translateInstant('PARAM.DIRECT_DAMAGE') + ' ' + equip.directDamage
+        }</div>`;
+      }
+
       resultTooltip += `</div>`;
     }
 
@@ -340,7 +346,9 @@ export class BattleService {
         <div class="block-element text-center">${
           effect.duration < 100
             ? this.i18nService.translateInstant('PARAM.DURATION') + ' ' + effect.duration
-            : this.i18nService.translateInstant('PARAM.ENDLESS_DURATION')
+            : effect.duration === 100
+            ? this.i18nService.translateInstant('PARAM.ENDLESS_DURATION_CAST')
+            : this.i18nService.translateInstant('PARAM.ENDLESS_DURATION_DAMAGE')
         }</div>
       </div>`;
 

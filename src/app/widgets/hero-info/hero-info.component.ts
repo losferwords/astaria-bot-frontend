@@ -130,7 +130,13 @@ export class HeroInfoComponent {
         case '31-assault':
         case '43-rallying':
         case '12-flame-dash':
+        case '21-boarding':
           if (this.hero.isImmobilized) {
+            return false;
+          }
+          break;
+        case '41-fortune':
+          if (this.hero.effects.find((e) => e.id === '41-fortune')) {
             return false;
           }
           break;

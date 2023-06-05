@@ -173,6 +173,10 @@
             &.avenger {
               border-color: $color-avenger;
             }
+
+            &.navarch {
+              border-color: $color-navarch;
+            }
           }
 
           .value {
@@ -260,6 +264,11 @@
 
             &.avenger {
               color: $color-avenger;
+              text-shadow: 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark;
+            }
+
+            &.navarch {
+              color: $color-navarch;
               text-shadow: 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark, 0 0 1px $color-dark;
             }
           }

@@ -6,5 +6,5 @@
   (click)="btnClicked()"
 >
   <app-icon [icon]="icon"></app-icon>
-  <div class="overlay" *ngIf="left !== 100">{{ left }}</div>
+  <div class="overlay" *ngIf="left < 100">{{ left }}</div>
 </div>

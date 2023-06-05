@@ -54,7 +54,7 @@
       {{'PAGE.TEAM_SETUP.START_SIMULATION_RUN' | translate}}
     </button>
     <mat-form-field appearance="standard" class="setup-index-input">
-      <input matInput type="number" min="0" [max]="scenarioId === '0' ? 210 : 100" [(ngModel)]="setupIndex" />
+      <input matInput type="number" min="0" [max]="9999" [(ngModel)]="setupIndex" />
     </mat-form-field>
   </div>
 </div>

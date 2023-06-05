@@ -16,6 +16,7 @@ $color-avatar: #00bd71;
 $color-shadow: #000000;
 $color-lightbringer: #ffd700;
 $color-avenger: #f4a460;
+$color-navarch: #57daf4;
 
 $color-energy: #00bd71;
 $color-health: #eb3434;
@@ -58,6 +59,10 @@ $xs-width: 576px;
 
   &.avenger {
     box-shadow: 0 0 15px 2px $color-avenger;
+  }
+
+  &.navarch {
+    box-shadow: 0 0 15px 2px $color-navarch;
   }
 }
 
@@ -127,6 +132,14 @@ $xs-width: 576px;
 
     &.active {
       box-shadow: 0 0 15px 2px $color-avenger;
+    }
+  }
+
+  &.navarch {
+    border-color: $color-navarch;
+
+    &.active {
+      box-shadow: 0 0 15px 2px $color-navarch;
     }
   }
 }
