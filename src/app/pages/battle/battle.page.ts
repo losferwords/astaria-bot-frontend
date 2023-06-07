@@ -472,7 +472,6 @@ export class BattlePageComponent {
       this.isLoading = true;
       this.battleService.findEnemies(this.activeHero.id, weapon.range, false, '', false).subscribe({
         next: (enemies: string[]) => {
-          console.log(enemies);
           this.isLoading = false;
           this.preparedWeapon = weapon;
           this.targets = enemies;
